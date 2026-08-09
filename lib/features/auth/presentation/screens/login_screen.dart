@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/signup_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custom_rich_text.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
@@ -57,12 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             labelText: 'email_address'.tr(),
                             hintText: 'student@example.com',
                             controller: emailController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your email address';
-                              }
-                              return null;
-                            },
+                            validator: AppValidators.validateEmailInLogin,
                             prefixIcon: Icons.mail_outline,
                           ),
                           SizedBox(height: 25.h),
@@ -70,12 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             labelText: 'password'.tr(),
                             hintText: '••••••••',
                             controller: passwordController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
-                              }
-                              return null;
-                            },
+                            validator: AppValidators.validatePassword,
                             prefixIcon: Icons.lock_outline,
                           ),
                           Row(
