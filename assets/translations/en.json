@@ -1,0 +1,28 @@
+{
+  "app_name": "Ma3refa App",
+  "get_started": "Get Started ",
+  "app_name_subtitle": "Learn, Challenge, Succeed",
+  "onboarding_title": "Challenge Your Mind",
+  "onboarding_subtitle1": "With Ma3refa 🧠",
+  "onboarding_subtitle2": "Test your skills with AI-poweredquizzes tailored just for you.",
+  "welcome": "Welcome Back!",
+  "welcome_subtitle": "Sign in to continue your learning journey",
+  "email_address": "Email Address",
+  "password": "Password",
+  "forgot_password": "Forgot Password?",
+  "login": "Login",
+  "dont_have_account": "Don't have an account?",
+  "sign_up": "Sign Up",
+  "sign_up_title": "Create Account",
+  "sign_up_subtitle": "Join us and start challenging yourself!",
+  "confirm_password": "Confirm Password",
+  "already_have_account": "Already have an account?",
+  "first_name": "First Name",
+  "last_name": "Last Name",
+  "age": "Age",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "register": "Register"
+
+}

@@ -7,6 +7,7 @@ import 'package:ma3refa_mobile/core/settings/cubit/app_cubit.dart';
 import 'package:ma3refa_mobile/core/settings/cubit/app_states.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/on_boarding_screen.dart';
+import 'package:ma3refa_mobile/features/auth/presentation/screens/splash_screen.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
 
 void main() async {
@@ -68,7 +69,7 @@ class MyApp extends StatelessWidget {
                 themeMode: cubit.isDarkMode ? ThemeMode.dark : ThemeMode.light,
                 theme: ThemeData.light(),
                 darkTheme: ThemeData.dark(),
-                home: startWidget,
+                home: SplashScreen(),
               );
             },
           );
