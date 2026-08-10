@@ -3,46 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/settings/cubit/app_cubit.dart';
 import 'package:ma3refa_mobile/core/settings/cubit/app_states.dart';
-import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.dart';
-import 'package:ma3refa_mobile/features/auth/presentation/screens/on_boarding_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/splash_screen.dart';
-import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await setupGetIt();
   await EasyLocalization.ensureInitialized();
   await CacheHelper.init();
-  CacheHelper cacheHelper = CacheHelper();
-  String? token = await cacheHelper.getToken();
-  bool? isOnBoardingVisited =
-      CacheHelper.sharedPreferences?.getBool('onBoarding') ?? false;
 
-  Widget widget;
-  if (isOnBoardingVisited == true) {
-    if (token != null) {
-      widget = const HomeScreen();
-    } else {
-      widget = const LoginScreen();
-    }
-  } else {
-    widget = const OnBoardingScreen();
-  }
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ar')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
-      child: MyApp(startWidget: widget),
+      child: MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final Widget startWidget;
-
-  const MyApp({super.key, required this.startWidget});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

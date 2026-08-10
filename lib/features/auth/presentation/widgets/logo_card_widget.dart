@@ -1,5 +1,5 @@
 // ignore_for_file: deprecated_member_use
-
+import 'dart:ui'; // 👈 ضروري عشان الـ ImageFilter
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
@@ -11,19 +11,34 @@ class LogoCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.r)),
-      elevation: 8,
-      shadowColor: AppColors.primary.withOpacity(0.5),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(25.r),
-        child: Image.asset(
-          'assets/images/OnBoardingLogo.jpeg',
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Transform.translate(
+          offset: const Offset(0, 6),
+          child: ImageFiltered(
+            imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                AppColors.primary.withOpacity(0.4),
+                BlendMode.srcIn,
+              ),
+              child: Image.asset(
+                'assets/images/appIcon.png',
+                width: width,
+                height: height,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ),
+        Image.asset(
+          'assets/images/appIcon.png',
           width: width,
           height: height,
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
         ),
-      ),
+      ],
     );
   }
 }

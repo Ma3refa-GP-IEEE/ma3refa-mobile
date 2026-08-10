@@ -1,4 +1,4 @@
-import 'package:ma3refa_mobile/features/auth/data/user_model.dart';
+import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
@@ -8,29 +8,31 @@ class CacheHelper {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  Future<void> saveToken(String token) async {
+  static Future<void> saveToken(String token) async {
     await sharedPreferences!.setString('token', token);
   }
 
-  Future<void> saveOnBoarding() async {
+  static Future<void> saveOnBoarding() async {
     await sharedPreferences!.setBool('onBoarding', true);
   }
 
-  Future<bool?> getOnBoarding() async {
+  static Future<bool?> getOnBoarding() async {
     return sharedPreferences!.getBool('onBoarding');
   }
 
-  Future<String?> getToken() async {
+  static Future<String?> getToken() async {
     return sharedPreferences!.getString('token');
   }
 
-  Future<void> saveUserData({
+  static Future<void> saveUserData({
+    int? id,
     required String firstName,
     required String lastName,
     required String email,
     required int userAge,
     required String gender,
   }) async {
+    await sharedPreferences!.setInt('id', id ?? 0);
     await sharedPreferences!.setString('firstName', firstName);
     await sharedPreferences!.setString('lastName', lastName);
     await sharedPreferences!.setString('email', email);
@@ -38,32 +40,40 @@ class CacheHelper {
     await sharedPreferences!.setString('gender', gender);
   }
 
-  Future<UserModel> getUserData() async {
+  static Future<UserModel> getUserData() async {
+    int? id = sharedPreferences!.getInt('id');
     String? firstName = sharedPreferences!.getString('firstName');
     String? lastName = sharedPreferences!.getString('lastName');
     String? email = sharedPreferences!.getString('email');
     int? userAge = sharedPreferences!.getInt('userAge');
     String? gender = sharedPreferences!.getString('gender');
-    return UserModel();
+    return UserModel.fromJson({
+      'id': id,
+      'name': '$firstName $lastName',
+      'email': email,
+      'password': '',
+      'age': userAge,
+      'gender': gender,
+    });
   }
 
-  Future<void> setLanguage(String language) async {
+  static Future<void> setLanguage(String language) async {
     await sharedPreferences!.setString('language', language);
   }
 
-  Future<String?> getLanguage() async {
+  static Future<String?> getLanguage() async {
     return sharedPreferences!.getString('language');
   }
 
-  Future<void> setThemeMode(bool isDarkMode) async {
+  static Future<void> setThemeMode(bool isDarkMode) async {
     await sharedPreferences!.setBool('isDarkMode', isDarkMode);
   }
 
-  Future<bool?> getThemeMode() async {
+  static Future<bool?> getThemeMode() async {
     return sharedPreferences!.getBool('isDarkMode');
   }
 
-  Future<void> clearData() async {
+  static Future<void> clearData() async {
     await sharedPreferences!.clear();
     await sharedPreferences!.setBool('onBoarding', true);
   }
