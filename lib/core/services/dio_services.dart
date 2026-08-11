@@ -12,6 +12,8 @@ class DioServices implements ApiConsumer {
   }
   void _initDio() {
     dio.options.baseUrl = ApiConsts.baseUrl;
+    dio.options.connectTimeout = const Duration(seconds: 15);
+    dio.options.receiveTimeout = const Duration(seconds: 15);
     dio.interceptors.add(
       PrettyDioLogger(
         requestHeader: true,

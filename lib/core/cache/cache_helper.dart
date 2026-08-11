@@ -1,27 +1,20 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
   static SharedPreferences? sharedPreferences;
-
+  static const FlutterSecureStorage secureStorage = FlutterSecureStorage();
   static Future<void> init() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
   static Future<void> saveToken(String token) async {
-    await sharedPreferences!.setString('token', token);
-  }
-
-  static Future<void> saveOnBoarding() async {
-    await sharedPreferences!.setBool('onBoarding', true);
-  }
-
-  static Future<bool?> getOnBoarding() async {
-    return sharedPreferences!.getBool('onBoarding');
+    await secureStorage.write(key: 'token', value: token);
   }
 
   static Future<String?> getToken() async {
-    return sharedPreferences!.getString('token');
+    return await secureStorage.read(key: 'token');
   }
 
   static Future<void> saveUserData({
@@ -32,29 +25,38 @@ class CacheHelper {
     required int userAge,
     required String gender,
   }) async {
-    await sharedPreferences!.setInt('id', id ?? 0);
-    await sharedPreferences!.setString('firstName', firstName);
-    await sharedPreferences!.setString('lastName', lastName);
-    await sharedPreferences!.setString('email', email);
-    await sharedPreferences!.setInt('userAge', userAge);
-    await sharedPreferences!.setString('gender', gender);
+    await secureStorage.write(key: 'id', value: (id ?? 0).toString());
+    await secureStorage.write(key: 'firstName', value: firstName);
+    await secureStorage.write(key: 'lastName', value: lastName);
+    await secureStorage.write(key: 'email', value: email);
+    await secureStorage.write(key: 'userAge', value: userAge.toString());
+    await secureStorage.write(key: 'gender', value: gender);
   }
 
   static Future<UserModel> getUserData() async {
-    int? id = sharedPreferences!.getInt('id');
-    String? firstName = sharedPreferences!.getString('firstName');
-    String? lastName = sharedPreferences!.getString('lastName');
-    String? email = sharedPreferences!.getString('email');
-    int? userAge = sharedPreferences!.getInt('userAge');
-    String? gender = sharedPreferences!.getString('gender');
+    String? idStr = await secureStorage.read(key: 'id');
+    String? firstName = await secureStorage.read(key: 'firstName');
+    String? lastName = await secureStorage.read(key: 'lastName');
+    String? email = await secureStorage.read(key: 'email');
+    String? ageStr = await secureStorage.read(key: 'userAge');
+    String? gender = await secureStorage.read(key: 'gender');
+
     return UserModel.fromJson({
-      'id': id,
+      'id': idStr != null ? int.parse(idStr) : 0,
       'name': '$firstName $lastName',
       'email': email,
       'password': '',
-      'age': userAge,
+      'age': ageStr != null ? int.parse(ageStr) : 0,
       'gender': gender,
     });
+  }
+
+  static Future<void> saveOnBoarding() async {
+    await sharedPreferences!.setBool('onBoarding', true);
+  }
+
+  static Future<bool?> getOnBoarding() async {
+    return sharedPreferences!.getBool('onBoarding');
   }
 
   static Future<void> setLanguage(String language) async {
@@ -75,6 +77,7 @@ class CacheHelper {
 
   static Future<void> clearData() async {
     await sharedPreferences!.clear();
+    await secureStorage.deleteAll();
     await sharedPreferences!.setBool('onBoarding', true);
   }
 }
