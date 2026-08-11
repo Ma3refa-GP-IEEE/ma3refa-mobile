@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
+// import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
 import 'package:ma3refa_mobile/core/errors/server_errors.dart';
 import 'package:ma3refa_mobile/core/services/api_consumer.dart';
 import 'package:ma3refa_mobile/core/utils/api_consts.dart';
@@ -14,6 +16,21 @@ class DioServices implements ApiConsumer {
     dio.options.baseUrl = ApiConsts.baseUrl;
     dio.options.connectTimeout = const Duration(seconds: 15);
     dio.options.receiveTimeout = const Duration(seconds: 15);
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          String? token = await CacheHelper.getToken();
+
+          if (token != null && token.isNotEmpty) {
+            options.headers['Authorization'] = token;
+          }
+          handler.next(options);
+        },
+        onError: (DioException e, handler) {
+          handler.next(e);
+        },
+      ),
+    );
     dio.interceptors.add(
       PrettyDioLogger(
         requestHeader: true,
