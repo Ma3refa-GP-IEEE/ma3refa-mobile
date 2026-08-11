@@ -1,15 +1,16 @@
-// ignore_for_file: non_const_argument_for_const_parameter
-
 import 'package:flutter/material.dart';
 import 'package:ma3refa_mobile/features/home/data/models/sub_category_model.dart';
+import 'package:ma3refa_mobile/core/utils/quiz_data.dart';
 
 class CategoryModel {
+  final int? id;
   final String name;
   final IconData icon;
   final Color color;
   final List<SubCategoryModel> subCategories;
 
   const CategoryModel({
+    this.id,
     required this.name,
     required this.icon,
     required this.color,
@@ -17,16 +18,24 @@ class CategoryModel {
   });
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
+    final String categoryName = json['name'] ?? '';
+    final int? categoryId = json['id'];
+
+    CategoryModel? localData;
+    try {
+      localData = QuizData.categories.firstWhere(
+        (cat) =>
+            cat.name.trim().toLowerCase() == categoryName.trim().toLowerCase(),
+      );
+    } catch (_) {
+      localData = null;
+    }
     return CategoryModel(
-      name: json['name'] ?? '',
-      icon: IconData(
-        json['icon'] ?? Icons.category.codePoint,
-        fontFamily: json['icon'] ?? Icons.category.fontFamily,
-      ), // You can customize this based on your needs
-      subCategories: List<SubCategoryModel>.from(
-        (json['subCategories'] ?? []).map((e) => SubCategoryModel.fromJson(e)),
-      ),
-      color: Color(json['color'] ?? 0xFF000000),
+      id: categoryId,
+      name: categoryName,
+      icon: localData?.icon ?? Icons.category,
+      color: localData?.color ?? const Color(0xFF000000),
+      subCategories: localData?.subCategories ?? [],
     );
   }
 }
