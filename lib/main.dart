@@ -6,7 +6,9 @@ import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/settings/cubit/app_cubit.dart';
 import 'package:ma3refa_mobile/core/settings/cubit/app_states.dart';
-import 'package:ma3refa_mobile/features/auth/presentation/screens/splash_screen.dart';
+import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
+import 'package:ma3refa_mobile/features/home/presentation/screens/quiz_setup_screen.dart';
+import 'package:ma3refa_mobile/features/home/presentation/screens/sub_category_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +54,7 @@ class MyApp extends StatelessWidget {
                 themeMode: cubit.isDarkMode ? ThemeMode.dark : ThemeMode.light,
                 theme: ThemeData.light(),
                 darkTheme: ThemeData.dark(),
-                home: SplashScreen(),
+                home: QuizSetupScreen(),
               );
             },
           );

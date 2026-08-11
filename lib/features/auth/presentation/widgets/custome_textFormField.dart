@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 
 class CustomTextFormField extends StatefulWidget {
+  final bool isLabelNeded;
   final String labelText;
   final String hintText;
   final TextEditingController controller;
@@ -17,6 +18,7 @@ class CustomTextFormField extends StatefulWidget {
     required this.hintText,
     required this.validator,
     required this.prefixIcon,
+    this.isLabelNeded = true,
   });
 
   @override
@@ -28,17 +30,19 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Align(
-          alignment: AlignmentDirectional.centerStart,
-          child: Text(
-            widget.labelText,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textDark,
-            ),
-          ),
-        ),
+        widget.isLabelNeded
+            ? Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(
+                  widget.labelText,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textDark,
+                  ),
+                ),
+              )
+            : SizedBox.shrink(),
         SizedBox(height: 8.h),
         TextFormField(
           controller: widget.controller,

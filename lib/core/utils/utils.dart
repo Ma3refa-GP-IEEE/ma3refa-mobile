@@ -1,4 +1,19 @@
-class Utils {}
+class Utils {
+  static String getAvatarUrl({
+    required String userName,
+    required String gender,
+  }) {
+    final cleanSeed = Uri.encodeComponent(userName);
+    switch (gender.toLowerCase()) {
+      case 'male':
+        return 'https://api.dicebear.com/7.x/avataaars/svg?seed=$cleanSeed';
+      case 'female':
+        return 'https://api.dicebear.com/7.x/lorelei/svg?seed=$cleanSeed';
+      default:
+        return 'https://api.dicebear.com/7.x/bottts/svg?seed=$cleanSeed';
+    }
+  }
+}
 
 class AppValidators {
   static String? validateFirstName(String? firstName) {

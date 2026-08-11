@@ -33,7 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Padding(
-        padding: const EdgeInsets.all(10).r,
+        padding: EdgeInsets.all(10.r),
         child: Form(
           key: formKey,
           child: Center(
@@ -42,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(15).r,
+                    padding: EdgeInsets.all(15.r),
                     width: MediaQuery.of(context).size.width * 0.83.w,
                     //height: 200.h,
                     decoration: BoxDecoration(

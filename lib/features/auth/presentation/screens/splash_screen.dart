@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Padding(
-        padding: const EdgeInsets.all(15).r,
+        padding: EdgeInsets.all(15.r),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

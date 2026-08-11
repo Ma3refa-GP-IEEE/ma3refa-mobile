@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use
-import 'dart:ui'; // 👈 ضروري عشان الـ ImageFilter
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 
 class LogoCardWidget extends StatelessWidget {
