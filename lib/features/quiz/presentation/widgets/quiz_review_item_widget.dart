@@ -26,20 +26,26 @@ class QuizReviewItemWidget extends StatefulWidget {
 class _QuizReviewItemWidgetState extends State<QuizReviewItemWidget> {
   late bool _isExpanded;
   late bool _isCorrect;
+  late bool _isSkipped;
 
   @override
   void initState() {
     super.initState();
     _isExpanded = !_isCorrect;
+    _isSkipped = widget.userAnswer == 'Skipped';
   }
 
   @override
   Widget build(BuildContext context) {
     final cardBgColor = widget.isCorrect
         ? const Color(0xFFE8F5E9)
+        : _isSkipped
+        ? const Color(0xFFFFEBEE)
         : const Color(0xFFFFEBEE);
     final themeColor = widget.isCorrect
         ? const Color(0xFF2E7D32)
+        : _isSkipped
+        ? const Color(0xFFC62828)
         : const Color(0xFFC62828);
     final iconData = widget.isCorrect ? Icons.check_circle : Icons.cancel;
     return Container(
@@ -49,7 +55,11 @@ class _QuizReviewItemWidgetState extends State<QuizReviewItemWidget> {
         color: cardBgColor,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: _isCorrect ? const Color(0xFFC8E6C9) : const Color(0xFFFFCDD2),
+          color: _isCorrect
+              ? const Color(0xFFC8E6C9)
+              : _isSkipped
+              ? const Color(0xFFFFCDD2)
+              : const Color(0xFFFFCDD2),
           width: 1,
         ),
       ),
@@ -100,7 +110,9 @@ class _QuizReviewItemWidgetState extends State<QuizReviewItemWidget> {
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Text(
-                      'Your Answer: ${widget.userAnswer}',
+                      !_isSkipped
+                          ? 'Your Answer: ${widget.userAnswer}'
+                          : 'You skipped this question.',
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,

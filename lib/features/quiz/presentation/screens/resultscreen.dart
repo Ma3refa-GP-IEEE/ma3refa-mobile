@@ -44,7 +44,7 @@ class _ResultScreenState extends State<ResultScreen> {
       case 'd':
         return question.optionD;
       case 'skipped':
-        return 'Skipped (No Answer)';
+        return 'Skipped';
       default:
         return answerLetter;
     }

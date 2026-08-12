@@ -1,23 +1,5 @@
 import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
 
-/*
-  {
-  "id": 3,
-  "name": "Ahmed Ali",
-  "email": "ahmed@example.com",
-  "age": 16,
-  "gender": "male",
-  "photo": "https://...",
-  "current_streak": 4,
-  "subcategory_points": [
-    {
-      "subcategory_id": 8,
-      "subcategory": "Python",
-      "total_points": 152
-    }
-  ]
-}
- */
 class ProfileModel {
   final UserModel user;
   final int currentStreak;

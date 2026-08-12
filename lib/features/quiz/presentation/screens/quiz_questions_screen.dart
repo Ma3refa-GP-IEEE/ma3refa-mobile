@@ -1,19 +1,15 @@
 // ignore_for_file: deprecated_member_use
-
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
-import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/quiz_model.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/result_params.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/quiz_onboardig_screen.dart';
-import 'package:ma3refa_mobile/features/quiz/presentation/screens/resultscreen.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/answer_options_widget.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/quiz_progress_widget.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/quiz_timer_widget.dart';
+import 'package:ma3refa_mobile/features/quiz/presentation/widgets/submit_dialog_widget.dart';
 
 class QuizQuestionsScreen extends StatefulWidget {
   final int subCategoryId;
@@ -94,125 +90,20 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
       barrierColor: Colors.transparent,
       useRootNavigator: true,
       builder: (context) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24.r),
-            ),
-            backgroundColor: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 28.h),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(16.r),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFF0F7FC),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.check_circle_outline_rounded,
-                      color: const Color(0xFF1B4D6A),
-                      size: 36.sp,
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-
-                  Text(
-                    'Submit Your Quiz?',
-                    style: TextStyle(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF1B4D6A),
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-
-                  Text(
-                    'Are you sure you want to finish and submit your answers now? You won\'t be able to change them.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      color: Colors.grey[600],
-                      height: 1.4,
-                    ),
-                  ),
-                  SizedBox(height: 28.h),
-
-                  Row(
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          height: 48.h,
-                          child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                color: Color(0xFF1B4D6A),
-                                width: 1.5,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24.r),
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              'Review Answers',
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF1B4D6A),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: SizedBox(
-                          height: 48.h,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF1B4D6A),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24.r),
-                              ),
-                              elevation: 0,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-
-                              final result = _finishAndSubmitQuiz();
-                              //BlocProvider.of<QuizCubit>(context).getQuizDetails(quizId: widget.quizId);
-                              // Navigator.pushReplacement(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => ResultScreen(
-                              //       quizDetailsModel: quizDetails,
-                              //     ),
-                              //   ),
-                              // );
-                            },
-                            child: Text(
-                              'Yes, Submit',
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+        return SubmitDialogWidget(
+          onSubmit: () {
+            Navigator.of(context).pop();
+            final result = _finishAndSubmitQuiz();
+            //BlocProvider.of<QuizCubit>(context).getQuizDetails(quizId: widget.quizId);
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => ResultScreen(
+            //       quizDetailsModel: quizDetails,
+            //     ),
+            //   ),
+            // );
+          },
         );
       },
     );

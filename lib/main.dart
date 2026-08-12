@@ -6,9 +6,16 @@ import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/settings/cubit/app_cubit.dart';
 import 'package:ma3refa_mobile/core/settings/cubit/app_states.dart';
+import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/quiz_setup_screen.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/sub_category_screen.dart';
+import 'package:ma3refa_mobile/features/profile/data/models/history_quiz_model.dart';
+import 'package:ma3refa_mobile/features/profile/data/models/pagination_model.dart';
+import 'package:ma3refa_mobile/features/profile/data/models/profile_model.dart';
+import 'package:ma3refa_mobile/features/profile/data/models/subcategory_quizzes_model.dart';
+import 'package:ma3refa_mobile/features/profile/presentation/screens/attempt_history.dart';
+import 'package:ma3refa_mobile/features/profile/presentation/screens/profile_screen.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/question_model.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/quiz_details_model.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/quiz_model.dart';
@@ -60,71 +67,69 @@ class MyApp extends StatelessWidget {
                 themeMode: cubit.isDarkMode ? ThemeMode.dark : ThemeMode.light,
                 theme: ThemeData.light(),
                 darkTheme: ThemeData.dark(),
-                home: QuizOnBoardingScreen(
-                  quizModel: QuizModel(
-                    quizId: 1,
-                    questions: [
-                      QuestionModel(
-                        id: 1,
-                        description: 'What is the capital of France?',
-                        optionA: 'Paris',
-                        optionB: 'London',
-                        optionC: 'Berlin',
-                        optionD: 'Madrid',
-                        correctAnswer: 'a',
-                        explanation:
-                            'Paris is the capital and most populous city of France.',
+                home: AttemptHistoryScreen(
+                  subcategoryQuizzesModel: SubcategoryQuizzesModel(
+                    subcategoryId: 1,
+                    subcategory: "Python",
+                    totalPoints: 329,
+                    pagination: PaginationModel(
+                      currentPage: 1,
+                      totalPages: 1,
+                      perPage: 10,
+                      totalQuizzes: 10,
+                    ),
+                    quizzes: [
+                      HistoryQuizModel(
+                        quizId: 1,
+                        difficulty: 1,
+                        score: 7,
+                        totalQuestions: 10,
+                        createdAt: '2026-08-04T14:30:00Z',
                       ),
-                      QuestionModel(
-                        id: 1,
-                        description: 'What is the capital of France?',
-                        optionA: 'Paris',
-                        optionB: 'London',
-                        optionC: 'Berlin',
-                        optionD: 'Madrid',
-                        correctAnswer: 'a',
-                        explanation:
-                            'Paris is the capital and most populous city of France.',
+                      HistoryQuizModel(
+                        quizId: 1,
+                        difficulty: 2,
+                        score: 10,
+                        totalQuestions: 20,
+                        createdAt: '2026-08-04T14:30:00Z',
                       ),
-                      QuestionModel(
-                        id: 1,
-                        description: 'What is the capital of France?',
-                        optionA: 'Paris',
-                        optionB: 'London',
-                        optionC: 'Berlin',
-                        optionD: 'Madrid',
-                        correctAnswer: 'a',
-                        explanation:
-                            'Paris is the capital and most populous city of France.',
+                      HistoryQuizModel(
+                        quizId: 1,
+                        difficulty: 3,
+                        score: 15,
+                        totalQuestions: 15,
+                        createdAt: '2026-08-04T14:30:00Z',
                       ),
-                      QuestionModel(
-                        id: 1,
-                        description: 'What is the capital of France?',
-                        optionA: 'Paris',
-                        optionB: 'London',
-                        optionC: 'Berlin',
-                        optionD: 'Madrid',
-                        correctAnswer: 'a',
-                        explanation:
-                            'Paris is the capital and most populous city of France.',
+                      HistoryQuizModel(
+                        quizId: 1,
+                        difficulty: 2,
+                        score: 10,
+                        totalQuestions: 15,
+                        createdAt: '2026-08-04T14:30:00Z',
                       ),
-                      QuestionModel(
-                        id: 1,
-                        description: 'What is the capital of France?',
-                        optionA: 'Paris',
-                        optionB: 'London',
-                        optionC: 'Berlin',
-                        optionD: 'Madrid',
-                        correctAnswer: 'a',
-                        explanation:
-                            'Paris is the capital and most populous city of France.',
+                      HistoryQuizModel(
+                        quizId: 1,
+                        difficulty: 2,
+                        score: 10,
+                        totalQuestions: 15,
+                        createdAt: '2026-08-04T14:30:00Z',
+                      ),
+                      HistoryQuizModel(
+                        quizId: 1,
+                        difficulty: 2,
+                        score: 10,
+                        totalQuestions: 15,
+                        createdAt: '2026-08-04T14:30:00Z',
+                      ),
+                      HistoryQuizModel(
+                        quizId: 1,
+                        difficulty: 2,
+                        score: 10,
+                        totalQuestions: 15,
+                        createdAt: '2026-08-04T14:30:00Z',
                       ),
                     ],
                   ),
-                  numberOfQuestions: 5,
-                  quizTitle: "History",
-                  quizTime: 60,
-                  subCategoryId: 60,
                 ),
               );
             },
@@ -134,85 +139,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-/*
- ResultScreen(
-                  comingFromQuizScreen: true,
-                  quizDetailsModel: QuizDetailsModel(
-                    quizId: 0,
-                    subcategory: 'Python Fundamentals',
-                    difficulty: 2,
-                    score: 2,
-                    totalQuestions: 4,
-                    createdAt: '2026-08-04T14:30:00Z',
-                    results: [
-                      QuizResultsModel(
-                        question: QuestionModel(
-                          id: 12,
-                          description: 'What does len() return in Python',
-                          optionA: 'int',
-                          optionB: 'string',
-                          optionC: 'list',
-                          optionD: 'float',
-                          correctAnswer: 'a',
-                          explanation:
-                              'len() returns an integer representing the number of items in the object.',
-                        ),
-                        selectedAnswer: 'b',
-                        isCorrect: false,
-                        explanation:
-                            'len() returns an integer representing the number of items in the object.',
-                      ),
-                      QuizResultsModel(
-                        question: QuestionModel(
-                          id: 12,
-                          description: 'What does len() return in Python',
-                          optionA: 'int',
-                          optionB: 'string',
-                          optionC: 'list',
-                          optionD: 'float',
-                          correctAnswer: 'a',
-                          explanation:
-                              'len() returns an integer representing the number of items in the object.',
-                        ),
-                        selectedAnswer: 'a',
-                        isCorrect: true,
-                        explanation:
-                            'len() returns an integer representing the number of items in the object.',
-                      ),
-                      QuizResultsModel(
-                        question: QuestionModel(
-                          id: 12,
-                          description: 'What does len() return in Python',
-                          optionA: 'int',
-                          optionB: 'string',
-                          optionC: 'list',
-                          optionD: 'float',
-                          correctAnswer: 'a',
-                          explanation:
-                              'len() returns an integer representing the number of items in the object.',
-                        ),
-                        selectedAnswer: 'b',
-                        isCorrect: false,
-                        explanation:
-                            'len() returns an integer representing the number of items in the object.',
-                      ),
-                      QuizResultsModel(
-                        question: QuestionModel(
-                          id: 12,
-                          description: 'What does len() return in Python',
-                          optionA: 'int',
-                          optionB: 'string',
-                          optionC: 'list',
-                          optionD: 'float',
-                          correctAnswer: 'a',
-                          explanation:
-                              'len() returns an integer representing the number of items in the object.',
-                        ),
-                        selectedAnswer: 'a',
-                        isCorrect: true,
-                        explanation:
-                            'len() returns an integer representing the number of items in the object.',
-                      ),
-                    ],
-                  ),
-                ) */

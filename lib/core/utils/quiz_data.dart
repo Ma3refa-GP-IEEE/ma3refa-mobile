@@ -207,4 +207,15 @@ class QuizData {
       return [];
     }
   }
+
+  static IconData getIconForSubcategory(String subcategoryName) {
+    for (var category in categories) {
+      for (var subCategory in category.subCategories) {
+        if (subCategory.name.contains(subcategoryName)) {
+          return subCategory.icon;
+        }
+      }
+    }
+    return Icons.category;
+  }
 }
