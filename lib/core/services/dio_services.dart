@@ -22,7 +22,7 @@ class DioServices implements ApiConsumer {
           String? token = await CacheHelper.getToken();
 
           if (token != null && token.isNotEmpty) {
-            options.headers['Authorization'] = token;
+            options.headers['Authorization'] = 'Bearer $token';
           }
           handler.next(options);
         },
