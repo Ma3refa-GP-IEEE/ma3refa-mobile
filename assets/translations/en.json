@@ -103,5 +103,9 @@
   "first_name_hint": "Mahmoud",
   "last_name_hint": "Abdelghani",
   "email_hint": "student@example.com",
-  "age_hint": "15"
+  "age_hint": "15",
+  "esay": "Easy",
+  "medium": "Medium",
+  "hard": "Hard",
+  "unknown": "Unknown"
 }

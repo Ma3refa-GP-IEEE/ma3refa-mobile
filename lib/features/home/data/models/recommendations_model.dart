@@ -5,7 +5,7 @@ class RecommendationModel {
   final int subcategoryId;
   final String subcategory;
   final String topic;
-  final int difficulty;
+  final String difficulty;
   final String description;
   final IconData icon;
 
@@ -36,7 +36,7 @@ class RecommendationModel {
       subcategoryId: json['subcategory_id'] ?? 0,
       subcategory: subName,
       topic: json['topic'] ?? '',
-      difficulty: json['difficulty'] ?? 1,
+      difficulty: json['difficulty'] ?? 'Easy',
       description: localSubCategory?.description ?? '',
       icon: localSubCategory?.icon ?? Icons.star_border,
     );

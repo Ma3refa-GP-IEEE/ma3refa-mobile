@@ -1,10 +1,11 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QuizHistoryCard extends StatelessWidget {
-  final int difficulty;
+  final String difficulty;
   final int score;
   final int totalQuestions;
   final String createdAt;
@@ -22,29 +23,29 @@ class QuizHistoryCard extends StatelessWidget {
     required this.createdAt,
   });
 
-  Map<String, dynamic> _getDifficultyDetails(int difficulty) {
+  Map<String, dynamic> _getDifficultyDetails(String difficulty) {
     switch (difficulty) {
-      case 1:
+      case 'easy':
         return {
-          'text': 'Easy',
+          'text': 'easy'.tr(),
           'color': const Color(0xFFE8F5E9),
           'textColor': const Color(0xFF2E7D32),
         };
-      case 2:
+      case 'medium':
         return {
-          'text': 'Medium',
+          'text': 'medium'.tr(),
           'color': const Color(0xFFD0F0FD),
           'textColor': const Color(0xFF133F53),
         };
-      case 3:
+      case 'hard':
         return {
-          'text': 'Hard',
+          'text': 'hard'.tr(),
           'color': const Color(0xFFFFEBEE),
           'textColor': const Color(0xFFC62828),
         };
       default:
         return {
-          'text': 'Unknown',
+          'text': 'unknown'.tr(),
           'color': Colors.grey.shade200,
           'textColor': Colors.grey,
         };

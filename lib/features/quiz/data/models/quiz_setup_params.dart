@@ -1,6 +1,6 @@
 class QuizSetupParams {
   final int subcategoryId;
-  final int difficulty;
+  final String difficulty;
   final int numberOfQuestions;
 
   QuizSetupParams({
