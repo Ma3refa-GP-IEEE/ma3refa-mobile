@@ -97,18 +97,18 @@ class QuizHistoryCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         elevation: 0,
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: Colors.grey.shade200, width: 1),
-          borderRadius: BorderRadius.circular(24),
+          side: BorderSide(color: Colors.grey.shade200, width: 1.w),
+          borderRadius: BorderRadius.circular(24.r),
         ),
         color: Colors.white,
         child: InkWell(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           onTap: onTap,
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.r),
             child: Row(
               children: [
                 Expanded(
@@ -119,31 +119,31 @@ class QuizHistoryCard extends StatelessWidget {
                       Text(
                         quizTitle,
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
                           color: mainTextColor,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12.h),
                       Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 6,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 14.w,
+                              vertical: 6.h,
                             ),
                             decoration: BoxDecoration(
                               color: scoreColor.withOpacity(0.12),
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16.r),
                             ),
                             child: Text(
                               '$score/$totalQuestions',
                               style: TextStyle(
                                 color: scoreColor,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15,
+                                fontSize: 15.sp,
                               ),
                             ),
                           ),
@@ -176,7 +176,7 @@ class QuizHistoryCard extends StatelessWidget {
                   height: 50.h,
                   width: 1.w,
                   color: Colors.grey.shade300,
-                  margin: EdgeInsets.symmetric(horizontal: 16.r),
+                  margin: EdgeInsets.symmetric(horizontal: 16.w),
                 ),
 
                 Column(

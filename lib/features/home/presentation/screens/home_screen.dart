@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               HomeHeaderWidget(userName: 'Mahmoud Abdelghani', gender: 'male'),
               Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: Text(
                   'home.homeScreen.exploreCategories'.tr(),
                   style: TextStyle(fontSize: 18.sp, color: AppColors.primary),
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 20.h),
               Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: Text(
                   'home.homeScreen.recommendedForYou'.tr(),
                   style: TextStyle(fontSize: 18.sp, color: AppColors.textDark),
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 5.h),
               Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: Text(
                   'home.homeScreen.recommendedSubtitle'.tr(),
                   style: TextStyle(fontSize: 14.sp, color: AppColors.textLight),
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: QuizData.categories.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: EdgeInsets.only(right: 12.w),
+                      padding: EdgeInsetsDirectional.only(end: 12.w),
                       child: SizedBox(
                         width: 280.w,
                         child: RecommendationWidget(),

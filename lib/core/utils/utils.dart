@@ -58,6 +58,17 @@ class AppValidators {
     };
   }
 
+  static String? validateAge(String? age) {
+    if (age == null || age.isEmpty) {
+      return 'Please enter your age';
+    }
+    final ageValue = int.tryParse(age);
+    if (ageValue == null || ageValue < 0 || ageValue > 100) {
+      return 'Please enter a valid age';
+    }
+    return null;
+  }
+
   static String? validateEmailInSignUp(String? email) {
     if (email == null || email.isEmpty) {
       return 'Please enter your email';

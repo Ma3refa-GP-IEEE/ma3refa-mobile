@@ -27,7 +27,7 @@ class UserCardWidget extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 6.r, vertical: 10.r),
         child: ListTile(
           leading: Container(
-            padding: EdgeInsets.only(right: 10.r),
+            padding: EdgeInsetsDirectional.only(end: 10.r),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(

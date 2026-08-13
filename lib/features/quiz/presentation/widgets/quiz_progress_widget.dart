@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +17,7 @@ class QuizProgressWidget extends StatelessWidget {
     double targetProgress = (currentQuestion / totalQuestions).clamp(0.0, 1.0);
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 20.r),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
       color: const Color(0xFFD4EAFC),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -26,7 +27,12 @@ class QuizProgressWidget extends StatelessWidget {
             children: [
               const Spacer(),
               Text(
-                'Question $currentQuestion of $totalQuestions',
+                'question_count'.tr(
+                  namedArgs: {
+                    'current': currentQuestion.toString(),
+                    'total': totalQuestions.toString(),
+                  },
+                ),
                 style: TextStyle(
                   color: Color(0xFF1B4D6A),
                   fontSize: 16.sp,
@@ -38,7 +44,7 @@ class QuizProgressWidget extends StatelessWidget {
           SizedBox(height: 12.h),
 
           ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
             child: TweenAnimationBuilder<double>(
               tween: Tween<double>(begin: 0.0, end: targetProgress),
               duration: const Duration(milliseconds: 400),

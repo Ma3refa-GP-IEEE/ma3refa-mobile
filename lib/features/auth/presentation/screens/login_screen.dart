@@ -1,15 +1,21 @@
 // ignore_for_file: deprecated_member_use
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:ma3refa_mobile/features/auth/cubit/auth_cubit.dart';
+import 'package:ma3refa_mobile/features/auth/cubit/auth_states.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/signup_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custom_rich_text.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_textFormField.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/logo_card_widget.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/welcom_massege_widget.dart';
+import 'package:ma3refa_mobile/features/home/cubit/home_cubit.dart';
+import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
+import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -87,14 +93,50 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                           SizedBox(height: 15.h),
-                          CustomButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                //TODO: Implement logic here
+                          BlocConsumer<AuthCubit, AuthStates>(
+                            listener: (context, state) {
+                              if (state is AuthErrorState) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(state.message),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              } else if (state is AuthSuccessState) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Login successful!'),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                                // BlocProvider.of<HomeCubit>(
+                                //   context,
+                                // ).getAllHomeCategories();
+                                // BlocProvider.of<ProfileCubit>(
+                                //   context,
+                                // ).fetchProfileHistory();
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => HomeScreen(),
+                                //   ),
+                                // );
                               }
                             },
-                            text: 'login'.tr(),
-                            icon: Icons.arrow_forward,
+                            builder: (context, state) {
+                              return CustomButton(
+                                onPressed: () {
+                                  // if (formKey.currentState!.validate()) {
+                                  //   BlocProvider.of<AuthCubit>(context).login(
+                                  //     email: emailController.text,
+                                  //     password: passwordController.text,
+                                  //   );
+                                  // }
+                                },
+                                text: 'login'.tr(),
+                                icon: Icons.arrow_forward,
+                              );
+                            },
                           ),
                           SizedBox(height: 15.h),
                           CustomRichText(
@@ -102,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen(),
+                                  builder: (context) => SignUpScreen(),
                                 ),
                                 (route) => false,
                               );

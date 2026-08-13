@@ -20,7 +20,7 @@ class RecommendationWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             child: Text(
               'home.recommendation.title'.tr(),
               style: TextStyle(fontSize: 18.sp, color: AppColors.primary),
@@ -28,7 +28,7 @@ class RecommendationWidget extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             child: Text(
               'home.recommendation.description'.tr(),
               style: TextStyle(fontSize: 14.sp, color: AppColors.textLight),
@@ -36,7 +36,7 @@ class RecommendationWidget extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             child: Text(
               'home.recommendation.difficulty'.tr(),
               style: TextStyle(fontSize: 14.sp, color: AppColors.textLight),

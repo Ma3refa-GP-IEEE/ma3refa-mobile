@@ -3,18 +3,21 @@ import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
 class ProfileModel {
   final UserModel user;
   final int currentStreak;
+  final String lastActivity;
   final List<SubcategoryPoints> subcategoryPoints;
 
   ProfileModel({
     required this.user,
     required this.currentStreak,
+    required this.lastActivity,
     required this.subcategoryPoints,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
-      user: UserModel.fromJson(json),
-      currentStreak: json['current_streak'] ?? 0,
+      user: UserModel.fromJson(json['user']),
+      currentStreak: json['streak']['current'] ?? 0,
+      lastActivity: json['streak']['last_activity'] ?? '',
       subcategoryPoints: (json['subcategory_points'] as List? ?? [])
           .map((e) => SubcategoryPoints.fromJson(e))
           .toList(),
@@ -36,7 +39,7 @@ class SubcategoryPoints {
   factory SubcategoryPoints.fromJson(Map<String, dynamic> json) {
     return SubcategoryPoints(
       subcategoryId: json['subcategory_id'],
-      subcategory: json['subcategory'],
+      subcategory: json['subcategory_name'],
       totalPoints: json['total_points'],
     );
   }

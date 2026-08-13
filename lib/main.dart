@@ -6,22 +6,14 @@ import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/settings/cubit/app_cubit.dart';
 import 'package:ma3refa_mobile/core/settings/cubit/app_states.dart';
-import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
-import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
-import 'package:ma3refa_mobile/features/home/presentation/screens/quiz_setup_screen.dart';
-import 'package:ma3refa_mobile/features/home/presentation/screens/sub_category_screen.dart';
-import 'package:ma3refa_mobile/features/profile/data/models/history_quiz_model.dart';
-import 'package:ma3refa_mobile/features/profile/data/models/pagination_model.dart';
-import 'package:ma3refa_mobile/features/profile/data/models/profile_model.dart';
-import 'package:ma3refa_mobile/features/profile/data/models/subcategory_quizzes_model.dart';
-import 'package:ma3refa_mobile/features/profile/presentation/screens/attempt_history.dart';
-import 'package:ma3refa_mobile/features/profile/presentation/screens/profile_screen.dart';
-import 'package:ma3refa_mobile/features/quiz/data/models/question_model.dart';
-import 'package:ma3refa_mobile/features/quiz/data/models/quiz_details_model.dart';
-import 'package:ma3refa_mobile/features/quiz/data/models/quiz_model.dart';
-import 'package:ma3refa_mobile/features/quiz/data/models/quiz_results_model.dart';
-import 'package:ma3refa_mobile/features/quiz/presentation/screens/quiz_onboardig_screen.dart';
-import 'package:ma3refa_mobile/features/quiz/presentation/screens/resultscreen.dart';
+import 'package:ma3refa_mobile/features/auth/cubit/auth_cubit.dart';
+import 'package:ma3refa_mobile/features/auth/presentation/screens/splash_screen.dart';
+import 'package:ma3refa_mobile/features/home/cubit/home_cubit.dart';
+import 'package:ma3refa_mobile/features/home/data/repo/home_repo.dart';
+import 'package:ma3refa_mobile/features/profile/cubit/history/sub_category_cubit.dart';
+import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
+import 'package:ma3refa_mobile/features/quiz/cubit/quiz_cubit.dart';
+import 'package:ma3refa_mobile/features/quiz/data/repo/quiz_repo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +41,15 @@ class MyApp extends StatelessWidget {
         BlocProvider<AppCubit>(
           create: (context) => AppCubit(AppInitialState())..loadSettings(),
         ),
+        BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
+        BlocProvider<HomeCubit>(
+          create: (context) => HomeCubit(getIt<HomeRepo>()),
+        ),
+        BlocProvider<ProfileCubit>(create: (context) => ProfileCubit()),
+        BlocProvider<SubcategoryCubit>(create: (context) => SubcategoryCubit()),
+        BlocProvider<QuizCubit>(
+          create: (context) => QuizCubit(getIt<QuizRepo>()),
+        ),
       ],
       child: BlocBuilder<AppCubit, AppState>(
         builder: (context, state) {
@@ -67,70 +68,7 @@ class MyApp extends StatelessWidget {
                 themeMode: cubit.isDarkMode ? ThemeMode.dark : ThemeMode.light,
                 theme: ThemeData.light(),
                 darkTheme: ThemeData.dark(),
-                home: AttemptHistoryScreen(
-                  subcategoryQuizzesModel: SubcategoryQuizzesModel(
-                    subcategoryId: 1,
-                    subcategory: "Python",
-                    totalPoints: 329,
-                    pagination: PaginationModel(
-                      currentPage: 1,
-                      totalPages: 1,
-                      perPage: 10,
-                      totalQuizzes: 10,
-                    ),
-                    quizzes: [
-                      HistoryQuizModel(
-                        quizId: 1,
-                        difficulty: 1,
-                        score: 7,
-                        totalQuestions: 10,
-                        createdAt: '2026-08-04T14:30:00Z',
-                      ),
-                      HistoryQuizModel(
-                        quizId: 1,
-                        difficulty: 2,
-                        score: 10,
-                        totalQuestions: 20,
-                        createdAt: '2026-08-04T14:30:00Z',
-                      ),
-                      HistoryQuizModel(
-                        quizId: 1,
-                        difficulty: 3,
-                        score: 15,
-                        totalQuestions: 15,
-                        createdAt: '2026-08-04T14:30:00Z',
-                      ),
-                      HistoryQuizModel(
-                        quizId: 1,
-                        difficulty: 2,
-                        score: 10,
-                        totalQuestions: 15,
-                        createdAt: '2026-08-04T14:30:00Z',
-                      ),
-                      HistoryQuizModel(
-                        quizId: 1,
-                        difficulty: 2,
-                        score: 10,
-                        totalQuestions: 15,
-                        createdAt: '2026-08-04T14:30:00Z',
-                      ),
-                      HistoryQuizModel(
-                        quizId: 1,
-                        difficulty: 2,
-                        score: 10,
-                        totalQuestions: 15,
-                        createdAt: '2026-08-04T14:30:00Z',
-                      ),
-                      HistoryQuizModel(
-                        quizId: 1,
-                        difficulty: 2,
-                        score: 10,
-                        totalQuestions: 15,
-                        createdAt: '2026-08-04T14:30:00Z',
-                      ),
-                    ],
-                  ),
-                ),
+                home: SplashScreen(),
               );
             },
           );

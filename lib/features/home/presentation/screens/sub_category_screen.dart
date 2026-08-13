@@ -33,7 +33,11 @@ class SubCategoryScreen extends StatelessWidget {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: EdgeInsets.only(left: 8.r, right: 8.r, bottom: 16.r),
+          padding: EdgeInsetsDirectional.only(
+            start: 8.r,
+            end: 8.r,
+            bottom: 16.r,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,

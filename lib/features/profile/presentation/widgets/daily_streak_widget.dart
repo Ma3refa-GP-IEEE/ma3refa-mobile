@@ -2,6 +2,7 @@
 
 import 'dart:math' as math;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
@@ -93,7 +94,7 @@ class _DailyStreakWidgetState extends State<DailyStreakWidget>
               ),
               SizedBox(height: 12.h),
               Text(
-                '${widget.streakCount} Days',
+                'days'.tr(namedArgs: {'count': widget.streakCount.toString()}),
                 style: TextStyle(
                   fontSize: 32.sp,
                   fontWeight: FontWeight.bold,
@@ -102,7 +103,7 @@ class _DailyStreakWidgetState extends State<DailyStreakWidget>
               ),
               SizedBox(height: 4.h),
               Text(
-                'DAILY STREAK',
+                'daily_streak'.tr(),
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,

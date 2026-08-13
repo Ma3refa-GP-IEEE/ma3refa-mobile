@@ -29,15 +29,15 @@ class _NumberOfQuestionWidgetState extends State<NumberOfQuestionWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: EdgeInsets.only(
-            bottom: 10.r,
-            left: 10.r,
-            right: 16.r,
-            top: 16.r,
+          padding: EdgeInsetsDirectional.only(
+            bottom: 10.h,
+            start: 10.w,
+            end: 16.w,
+            top: 16.h,
           ),
           decoration: BoxDecoration(
             color: cardColor,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.05),
@@ -58,10 +58,10 @@ class _NumberOfQuestionWidgetState extends State<NumberOfQuestionWidget> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 8.r),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 decoration: BoxDecoration(
                   color: inactiveSliderColor,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Text(
                   _currentValue.toInt() > 10
@@ -78,11 +78,11 @@ class _NumberOfQuestionWidgetState extends State<NumberOfQuestionWidget> {
           ),
         ),
 
-        SizedBox(height: 15.r),
+        SizedBox(height: 15.h),
 
         SliderTheme(
           data: SliderThemeData(
-            trackHeight: 6.0,
+            trackHeight: 6.0.h,
             activeTrackColor: activeSliderColor,
             inactiveTrackColor: inactiveSliderColor,
             thumbColor: darkBlueText,
@@ -106,7 +106,7 @@ class _NumberOfQuestionWidgetState extends State<NumberOfQuestionWidget> {
         ),
 
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.r),
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -125,7 +125,7 @@ class _NumberOfQuestionWidgetState extends State<NumberOfQuestionWidget> {
     return Text(
       text,
       style: TextStyle(
-        fontSize: 14,
+        fontSize: 14.sp,
         fontWeight: FontWeight.w600,
         color: darkBlueText.withOpacity(0.8),
       ),

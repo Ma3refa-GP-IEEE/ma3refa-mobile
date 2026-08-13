@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
@@ -44,7 +45,7 @@ class _ResultScreenState extends State<ResultScreen> {
       case 'd':
         return question.optionD;
       case 'skipped':
-        return 'Skipped';
+        return 'skipped'.tr();
       default:
         return answerLetter;
     }
@@ -55,7 +56,7 @@ class _ResultScreenState extends State<ResultScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Quiz Results'),
+        title: Text('quiz_results'.tr()),
         centerTitle: true,
         backgroundColor: AppColors.background,
         leading: widget.comingFromQuizScreen
@@ -78,9 +79,9 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
             SizedBox(height: 20.h),
             Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               child: Text(
-                'Review Answers',
+                'review_answers'.tr(),
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.normal,
@@ -124,7 +125,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         (Route<dynamic> route) => false,
                       );
                     },
-                    text: "Back to Home",
+                    text: 'back_to_home'.tr(),
                     icon: Icons.home,
                   )
                 : SizedBox.shrink(),

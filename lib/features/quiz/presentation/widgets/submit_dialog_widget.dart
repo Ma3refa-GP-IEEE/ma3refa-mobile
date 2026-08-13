@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -41,7 +42,7 @@ class _SubmitDialogWidgetState extends State<SubmitDialogWidget> {
               SizedBox(height: 20.h),
 
               Text(
-                'Submit Your Quiz?',
+                'submit_quiz'.tr(),
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.bold,
@@ -51,7 +52,7 @@ class _SubmitDialogWidgetState extends State<SubmitDialogWidget> {
               SizedBox(height: 12.h),
 
               Text(
-                'Are you sure you want to finish and submit your answers now? You won\'t be able to change them.',
+                'submit_quiz_confirm'.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15.sp,
@@ -80,7 +81,7 @@ class _SubmitDialogWidgetState extends State<SubmitDialogWidget> {
                           Navigator.of(context).pop();
                         },
                         child: Text(
-                          'Review Answers',
+                          'review_answers'.tr(),
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.bold,
@@ -104,7 +105,7 @@ class _SubmitDialogWidgetState extends State<SubmitDialogWidget> {
                         ),
                         onPressed: widget.onSubmit,
                         child: Text(
-                          'Yes, Submit',
+                          'yes_submit'.tr(),
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.bold,

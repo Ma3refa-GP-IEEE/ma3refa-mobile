@@ -22,7 +22,7 @@ class _TimeSelectionCardState extends State<TimeSelectionCard> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
       elevation: 0,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.r, vertical: 4.r),
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
         child: ListTile(
           title: Text(
             '$selectedMinutes ${'home.quizSetup.minutes'.tr()}',
@@ -68,7 +68,7 @@ class _TimeSelectionCardState extends State<TimeSelectionCard> {
                 height: 4.h,
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
               ),
               SizedBox(height: 20.h),

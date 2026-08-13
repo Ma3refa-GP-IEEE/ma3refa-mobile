@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
@@ -51,7 +52,7 @@ class AttemptHistoryScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Attempt History',
+                    'attempt_history'.tr(),
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
@@ -59,7 +60,12 @@ class AttemptHistoryScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Total Attempts: ${subcategoryQuizzesModel.quizzes.length}',
+                    'total_attempts'.tr(
+                      namedArgs: {
+                        'count': subcategoryQuizzesModel.quizzes.length
+                            .toString(),
+                      },
+                    ),
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.normal,

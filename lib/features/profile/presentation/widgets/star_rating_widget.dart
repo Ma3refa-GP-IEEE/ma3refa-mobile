@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
@@ -40,7 +41,7 @@ class StarRatingWidget extends StatelessWidget {
       elevation: 8,
       shadowColor: Colors.black45,
       color: cardBackground,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
       child: Padding(
         padding: EdgeInsets.all(20.r),
         child: Column(
@@ -52,7 +53,9 @@ class StarRatingWidget extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: '${pointsNeeded.toStringAsFixed(0)} more points ',
+                      text: 'points_needed'.tr(
+                        namedArgs: {'points': pointsNeeded.toStringAsFixed(0)},
+                      ),
                       style: TextStyle(
                         color: orangeText,
                         fontSize: 18.sp,
@@ -60,7 +63,7 @@ class StarRatingWidget extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: 'to get your next star!',
+                      text: 'next_star'.tr(),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18.sp,
@@ -72,7 +75,7 @@ class StarRatingWidget extends StatelessWidget {
               )
             else
               Text(
-                'Legendary! You got all stars!',
+                'legendary_stars'.tr(),
                 style: TextStyle(
                   color: orangeText,
                   fontSize: 18.sp,
@@ -80,7 +83,7 @@ class StarRatingWidget extends StatelessWidget {
                 ),
               ),
 
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
 
             Stack(
               children: [
@@ -108,9 +111,14 @@ class StarRatingWidget extends StatelessWidget {
             SizedBox(height: 10.h),
 
             Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               child: Text(
-                'Points: ${currentPoints.toStringAsFixed(0)}/${nextStarTarget.toInt()}',
+                'points_summary'.tr(
+                  namedArgs: {
+                    'current': currentPoints.toStringAsFixed(0),
+                    'total': nextStarTarget.toInt().toString(),
+                  },
+                ),
                 style: TextStyle(
                   color: Colors.white70,
                   fontSize: 14.sp,
@@ -127,7 +135,7 @@ class StarRatingWidget extends StatelessWidget {
                 children: List.generate(5, (index) {
                   double fillAmount = (rating - index).clamp(0.0, 1.0);
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4.0),
+                    padding: EdgeInsets.symmetric(horizontal: 4.w),
                     child: Stack(
                       children: [
                         Icon(

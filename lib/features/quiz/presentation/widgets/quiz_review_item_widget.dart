@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -76,7 +77,7 @@ class _QuizReviewItemWidgetState extends State<QuizReviewItemWidget> {
                     Icon(iconData, color: themeColor, size: 22.sp),
                     SizedBox(width: 8.w),
                     Text(
-                      'Question ${widget.questionNumber}',
+                      '${'question_label'.tr()} ${widget.questionNumber}',
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
@@ -111,8 +112,10 @@ class _QuizReviewItemWidgetState extends State<QuizReviewItemWidget> {
                     ),
                     child: Text(
                       !_isSkipped
-                          ? 'Your Answer: ${widget.userAnswer}'
-                          : 'You skipped this question.',
+                          ? 'your_answer'.tr(
+                              namedArgs: {'answer': widget.userAnswer},
+                            )
+                          : 'you_skipped_question'.tr(),
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
@@ -133,7 +136,9 @@ class _QuizReviewItemWidgetState extends State<QuizReviewItemWidget> {
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Text(
-                    'Correct Answer: ${widget.correctAnswer}',
+                    'correct_answer'.tr(
+                      namedArgs: {'answer': widget.correctAnswer},
+                    ),
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
@@ -165,7 +170,7 @@ class _QuizReviewItemWidgetState extends State<QuizReviewItemWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'View Explanation',
+                    'view_explanation'.tr(),
                     style: TextStyle(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.bold,
@@ -210,7 +215,7 @@ class _QuizReviewItemWidgetState extends State<QuizReviewItemWidget> {
                       ),
                       SizedBox(width: 6.w),
                       Text(
-                        'Explanation',
+                        'explanation_label'.tr(),
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.bold,

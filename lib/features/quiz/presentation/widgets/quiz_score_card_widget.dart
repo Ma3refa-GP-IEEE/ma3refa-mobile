@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -40,7 +41,7 @@ class QuizScoreCardWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.all(10.r),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24.r),
@@ -60,7 +61,7 @@ class QuizScoreCardWidget extends StatelessWidget {
             width: 140.w,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: getCirculeColor(), width: 4.r),
+              border: Border.all(color: getCirculeColor(), width: 4.w),
             ),
             child: Center(
               child: Column(
@@ -76,7 +77,7 @@ class QuizScoreCardWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    'Score',
+                    'score_label'.tr(),
                     style: TextStyle(
                       fontSize: 16.sp,
                       color: Colors.grey[600],
@@ -92,13 +93,13 @@ class QuizScoreCardWidget extends StatelessWidget {
             children: [
               _buildAnsContainer(
                 numOfAnswers: correctAnswers,
-                label: 'Correct',
+                label: 'correct_label'.tr(),
                 color: const Color(0xFF2E7D32),
               ),
               SizedBox(width: 16.w),
               _buildAnsContainer(
                 numOfAnswers: wrongAnswers,
-                label: 'Wrong',
+                label: 'wrong_label'.tr(),
                 color: const Color(0xFFC62828),
               ),
             ],

@@ -1,10 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:ui';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/quiz_data.dart';
 import 'package:ma3refa_mobile/features/profile/data/models/profile_model.dart';
@@ -43,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('My Profile'),
+        title: Text('my_profile'.tr()),
         titleTextStyle: TextStyle(
           color: AppColors.textDark,
           fontSize: 22.sp,
@@ -86,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Quiz History',
+                    'quiz_history'.tr(),
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,

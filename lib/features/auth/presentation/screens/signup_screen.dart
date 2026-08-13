@@ -1,14 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:ma3refa_mobile/features/auth/cubit/auth_cubit.dart';
+import 'package:ma3refa_mobile/features/auth/cubit/auth_states.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custom_rich_text.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_textFormField.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/gender_selector_widget.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/welcom_massege_widget.dart';
+import 'package:ma3refa_mobile/features/home/cubit/home_cubit.dart';
+import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
+import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -64,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Expanded(
                                 child: CustomTextFormField(
                                   labelText: 'first_name'.tr(),
-                                  hintText: 'Mahmoud',
+                                  hintText: 'first_name_hint'.tr(),
                                   controller: firstNameController,
                                   validator: AppValidators.validateFirstName,
                                   prefixIcon: Icons.person_outline,
@@ -74,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Expanded(
                                 child: CustomTextFormField(
                                   labelText: 'last_name'.tr(),
-                                  hintText: 'Abdelghani',
+                                  hintText: 'last_name_hint'.tr(),
                                   controller: lastNameController,
                                   validator: AppValidators.validateLastName,
                                   prefixIcon: Icons.person_outline,
@@ -85,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(height: 15.h),
                           CustomTextFormField(
                             labelText: 'email_address'.tr(),
-                            hintText: 'student@example.com',
+                            hintText: 'email_hint'.tr(),
                             controller: emailController,
                             validator: AppValidators.validateEmailInSignUp,
                             prefixIcon: Icons.lock_outline,
@@ -94,6 +100,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onGenderSelected: (gender) {
                               userGender = gender;
                             },
+                          ),
+                          SizedBox(height: 15.h),
+                          CustomTextFormField(
+                            labelText: 'age'.tr(),
+                            hintText: 'age_hint'.tr(),
+                            controller: ageController,
+                            validator: AppValidators.validateAge,
+                            prefixIcon: Icons.calendar_today_outlined,
                           ),
                           SizedBox(height: 15.h),
                           CustomTextFormField(
@@ -114,13 +128,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             prefixIcon: Icons.lock_outline,
                           ),
                           SizedBox(height: 23.h),
-                          CustomButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                //TODO: Implement logic here
+                          BlocConsumer<AuthCubit, AuthStates>(
+                            listener: (context, state) {
+                              if (state is AuthErrorState) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(state.message),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              } else if (state is AuthSuccessState) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('registration_success'.tr()),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                                // BlocProvider.of<HomeCubit>(
+                                //   context,
+                                // ).getAllHomeCategories();
+                                // BlocProvider.of<ProfileCubit>(
+                                //   context,
+                                // ).fetchProfileHistory();
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => HomeScreen(),
+                                //   ),
+                                // );
                               }
                             },
-                            text: 'register'.tr(),
+                            builder: (context, state) {
+                              return CustomButton(
+                                onPressed: () {
+                                  // if (formKey.currentState!.validate()) {
+                                  //   BlocProvider.of<AuthCubit>(
+                                  //     context,
+                                  //   ).register(
+                                  //     nameController:
+                                  //         '${firstNameController.text} ${lastNameController.text}',
+                                  //     emailController: emailController.text,
+                                  //     passwordController:
+                                  //         passwordController.text,
+                                  //     ageController: int.parse(
+                                  //       ageController.text,
+                                  //     ),
+                                  //     genderController: userGender,
+                                  //   );
+                                  // }
+                                },
+                                text: 'register'.tr(),
+                              );
+                            },
                           ),
                           SizedBox(height: 15.h),
                           CustomRichText(

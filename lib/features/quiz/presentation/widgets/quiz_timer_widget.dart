@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
@@ -86,7 +87,7 @@ class _QuizTimerWidgetState extends State<QuizTimerWidget> {
                   ),
                   SizedBox(height: 20.h),
                   Text(
-                    'Time is Up! ⏳',
+                    'time_is_up'.tr(),
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
@@ -95,7 +96,7 @@ class _QuizTimerWidgetState extends State<QuizTimerWidget> {
                   ),
                   SizedBox(height: 16.h),
                   Text(
-                    'Your allocated quiz time has ended.\nDon\'t worry, your answers have been auto-saved.',
+                    'quiz_time_ended'.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15.sp,
@@ -109,7 +110,7 @@ class _QuizTimerWidgetState extends State<QuizTimerWidget> {
                       Navigator.of(context).pop();
                       widget.onTimerFinished();
                     },
-                    text: 'View Results',
+                    text: 'view_results'.tr(),
                     icon: Icons.arrow_forward,
                   ),
                 ],
@@ -132,10 +133,10 @@ class _QuizTimerWidgetState extends State<QuizTimerWidget> {
     return Container(
       height: 40.h,
       width: 100.w,
-      margin: EdgeInsets.only(right: 16.r),
+      margin: EdgeInsetsDirectional.only(end: 16.w),
       decoration: BoxDecoration(
         color: AppColors.cardSurface.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: Center(
         child: Row(

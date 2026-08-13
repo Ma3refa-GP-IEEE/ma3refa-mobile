@@ -95,7 +95,7 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
     required Color color,
   }) {
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: AlignmentDirectional.centerStart,
       child: Text(
         maxLines: 2,
         textAlign: TextAlign.center,

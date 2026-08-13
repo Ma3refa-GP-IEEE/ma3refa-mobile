@@ -38,7 +38,7 @@ class QuizOnBoardingScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Almost Ready! 🚀',
+                    'almost_ready'.tr(),
                     style: TextStyle(
                       fontSize: 32.sp,
                       fontWeight: FontWeight.bold,
@@ -53,7 +53,7 @@ class QuizOnBoardingScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Quick Tips for Success',
+                    'quick_tips'.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18.sp,
@@ -65,16 +65,12 @@ class QuizOnBoardingScreen extends StatelessWidget {
                 SizedBox(height: 20.h),
 
                 _buildTipCard(
-                  tip:
-                      'Read the questions carefully and take your time to answer.',
+                  tip: 'tip_read_questions'.tr(),
                   icon: Icons.lightbulb_outline,
                 ),
+                _buildTipCard(tip: 'tip_timer'.tr(), icon: Icons.timer),
                 _buildTipCard(
-                  tip: 'Keep an eye on the countdown timer.',
-                  icon: Icons.timer,
-                ),
-                _buildTipCard(
-                  tip: 'Try your best, and don\'t panic!',
+                  tip: 'tip_do_best'.tr(),
                   icon: Icons.sentiment_satisfied_alt,
                 ),
                 SizedBox(height: 10.h),

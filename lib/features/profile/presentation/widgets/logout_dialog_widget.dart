@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -49,7 +50,7 @@ class _LogOutDialogWidgetState extends State<LogOutDialogWidget> {
               ),
               SizedBox(height: 20.h),
               Text(
-                'Logging Out?',
+                'logging_out'.tr(),
                 style: TextStyle(
                   fontSize: 26.sp,
                   fontWeight: FontWeight.bold,
@@ -58,7 +59,7 @@ class _LogOutDialogWidgetState extends State<LogOutDialogWidget> {
               ),
               SizedBox(height: 12.h),
               Text(
-                'Are you sure you want to sign out of your account?',
+                'logout_confirm'.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16.sp,
@@ -90,7 +91,7 @@ class _LogOutDialogWidgetState extends State<LogOutDialogWidget> {
                         child: Text(
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          'Stay Connected',
+                          'stay_connected'.tr(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14.sp,
@@ -118,7 +119,7 @@ class _LogOutDialogWidgetState extends State<LogOutDialogWidget> {
                           widget.onConfirm();
                         },
                         child: Text(
-                          'Yes, Logout',
+                          'yes_logout'.tr(),
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.bold,

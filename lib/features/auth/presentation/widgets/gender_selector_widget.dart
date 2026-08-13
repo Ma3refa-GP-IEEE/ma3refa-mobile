@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
@@ -25,7 +26,7 @@ class _GenderSelectorState extends State<GenderSelector> {
         Align(
           alignment: AlignmentDirectional.centerStart,
           child: Text(
-            'Gender',
+            'gender_label'.tr(),
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,
@@ -45,11 +46,15 @@ class _GenderSelectorState extends State<GenderSelector> {
             builder: (context, currentValue, child) {
               return Row(
                 children: [
-                  buildGenderButton('Male', currentValue),
+                  buildGenderButton('Male', currentValue, 'male_option'.tr()),
                   SizedBox(width: 10.w),
-                  buildGenderButton('Female', currentValue),
+                  buildGenderButton(
+                    'Female',
+                    currentValue,
+                    'female_option'.tr(),
+                  ),
                   SizedBox(width: 10.w),
-                  buildGenderButton('Other', currentValue),
+                  buildGenderButton('Other', currentValue, 'other_option'.tr()),
                 ],
               );
             },
@@ -59,7 +64,7 @@ class _GenderSelectorState extends State<GenderSelector> {
     );
   }
 
-  Widget buildGenderButton(String gender, String currentValue) {
+  Widget buildGenderButton(String gender, String currentValue, String label) {
     bool isSelected = currentValue == gender;
     return Expanded(
       child: GestureDetector(
@@ -75,7 +80,7 @@ class _GenderSelectorState extends State<GenderSelector> {
             borderRadius: BorderRadius.circular(15.r),
           ),
           child: Text(
-            gender,
+            label,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14.sp,

@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 
 class LoadingCardWidget extends StatefulWidget {
@@ -58,7 +59,7 @@ class _LoadingCardWidgetState extends State<LoadingCardWidget>
         height: widget.height,
         decoration: BoxDecoration(
           color: AppColors.background,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -80,7 +81,7 @@ class _LoadingCardWidgetState extends State<LoadingCardWidget>
                     BlendMode.srcIn,
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                     child: Image.asset(
                       "assets/images/loading.jpg",
                       width: widget.width,
@@ -93,7 +94,7 @@ class _LoadingCardWidgetState extends State<LoadingCardWidget>
             ),
 
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               child: Image.asset(
                 "assets/images/loading.jpg",
                 width: widget.width,

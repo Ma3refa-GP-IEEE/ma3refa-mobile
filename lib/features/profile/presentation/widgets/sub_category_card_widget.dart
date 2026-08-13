@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
@@ -37,7 +38,9 @@ class SubCategoryCardWidget extends StatelessWidget {
             ),
           ),
           subtitle: Text(
-            'Total Points: $subcategoryPoint',
+            'total_points'.tr(
+              namedArgs: {'points': subcategoryPoint.toString()},
+            ),
             style: TextStyle(fontSize: 14.sp, color: AppColors.textLight),
           ),
           trailing: RatingTrailingWidget(currentPoints: subcategoryPoint),

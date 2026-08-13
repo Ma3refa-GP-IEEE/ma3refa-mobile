@@ -25,8 +25,8 @@ class CategoryCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.r),
           child: Stack(
             children: [
-              Positioned(
-                right: -15.w,
+              PositionedDirectional(
+                end: -15.w,
                 bottom: -15.h,
                 child: Icon(
                   category.icon,
