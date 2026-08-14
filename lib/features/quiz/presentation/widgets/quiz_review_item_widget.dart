@@ -32,8 +32,10 @@ class _QuizReviewItemWidgetState extends State<QuizReviewItemWidget> {
   @override
   void initState() {
     super.initState();
+    _isCorrect = widget.isCorrect;
     _isExpanded = !_isCorrect;
-    _isSkipped = widget.userAnswer == 'Skipped';
+    final normalizedAnswer = widget.userAnswer.trim().toLowerCase();
+    _isSkipped = normalizedAnswer == 'skipped';
   }
 
   @override

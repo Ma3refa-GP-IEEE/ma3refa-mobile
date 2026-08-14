@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 
@@ -98,13 +99,19 @@ class StarRatingWidget extends StatelessWidget {
                 ),
                 FractionallySizedBox(
                   widthFactor: progressPercent,
-                  child: Container(
-                    height: 10.h,
-                    decoration: BoxDecoration(
-                      color: greenBar,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                  ),
+                  child:
+                      Container(
+                        height: 10.h,
+                        decoration: BoxDecoration(
+                          color: greenBar,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ).animate().scaleX(
+                        begin: 0,
+                        alignment: Alignment.centerLeft,
+                        duration: 1.seconds,
+                        curve: Curves.easeOutBack,
+                      ),
                 ),
               ],
             ),
@@ -135,32 +142,39 @@ class StarRatingWidget extends StatelessWidget {
                 children: List.generate(5, (index) {
                   double fillAmount = (rating - index).clamp(0.0, 1.0);
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4.w),
-                    child: Stack(
-                      children: [
-                        Icon(
-                          Icons.star_rounded,
-                          color: Colors.grey.shade800,
-                          size: 40,
-                        ),
-                        ClipRect(
-                          clipper: _StarClipper(fillAmount),
-                          child: const Icon(
-                            Icons.star_rounded,
-                            color: Color(0xFFFFC107),
-                            size: 40,
-                            shadows: [
-                              Shadow(
-                                color: Color(0x66FFC107),
-                                blurRadius: 10,
-                                offset: Offset(0, 2),
+                        padding: EdgeInsets.symmetric(horizontal: 4.w),
+                        child: Stack(
+                          children: [
+                            Icon(
+                              Icons.star_rounded,
+                              color: Colors.grey.shade800,
+                              size: 40,
+                            ),
+                            ClipRect(
+                              clipper: _StarClipper(fillAmount),
+                              child: const Icon(
+                                Icons.star_rounded,
+                                color: Color(0xFFFFC107),
+                                size: 40,
+                                shadows: [
+                                  Shadow(
+                                    color: Color(0x66FFC107),
+                                    blurRadius: 10,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
+                      )
+                      .animate(delay: (600 + (index * 150)).ms)
+                      .scale(
+                        begin: const Offset(0.5, 0.5),
+                        curve: Curves.easeOutBack,
+                        duration: 400.ms,
+                      )
+                      .fadeIn();
                 }),
               ),
             ),

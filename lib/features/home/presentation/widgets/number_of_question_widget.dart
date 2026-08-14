@@ -2,7 +2,9 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 
 class NumberOfQuestionWidget extends StatefulWidget {
   final Function(int) onNumberOfQuestionsSelected;
@@ -58,22 +60,36 @@ class _NumberOfQuestionWidgetState extends State<NumberOfQuestionWidget> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                  color: inactiveSliderColor,
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Text(
-                  _currentValue.toInt() > 10
-                      ? '${_currentValue.toInt()} ${'home.quizSetup.question'.tr()}'
-                      : '${_currentValue.toInt()} ${'home.quizSetup.questions'.tr()}',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: darkBlueText,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: inactiveSliderColor,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Text(
+                      _currentValue.toInt() > 10
+                          ? '${_currentValue.toInt()} ${'home.quizSetup.question'.tr()}'
+                          : '${_currentValue.toInt()} ${'home.quizSetup.questions'.tr()}',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        color: darkBlueText,
+                      ),
+                    ),
+                  )
+                  .animate(key: ValueKey(_currentValue))
+                  .scale(
+                    begin: const Offset(1.15, 1.15),
+                    end: const Offset(1.0, 1.0),
+                    duration: 150.ms,
+                    curve: Curves.easeOut,
+                  )
+                  .tint(
+                    color: AppColors.primary.withOpacity(0.3),
+                    duration: 150.ms,
                   ),
-                ),
-              ),
             ],
           ),
         ),

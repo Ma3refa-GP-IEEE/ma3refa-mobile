@@ -2,6 +2,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QuizScoreCardWidget extends StatelessWidget {
@@ -57,70 +58,102 @@ class QuizScoreCardWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: 140.h,
-            width: 140.w,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: getCirculeColor(), width: 4.w),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '$percentage%',
-                    style: TextStyle(
-                      fontSize: 32.sp,
-                      fontWeight: FontWeight.bold,
-                      color: getCirculeColor(),
-                    ),
+                height: 140.h,
+                width: 140.w,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: getCirculeColor(), width: 4.w),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '$percentage%',
+                        style: TextStyle(
+                          fontSize: 32.sp,
+                          fontWeight: FontWeight.bold,
+                          color: getCirculeColor(),
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        'score_label'.tr(),
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: Colors.grey[600],
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    'score_label'.tr(),
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+                ),
+              )
+              .animate()
+              .scale(
+                begin: const Offset(0.5, 0.5),
+                duration: 500.ms,
+                curve: Curves.easeOutBack,
+              )
+              .then(delay: 200.ms)
+              .scale(
+                begin: const Offset(1.0, 1.0),
+                end: const Offset(1.05, 1.05),
+                duration: 800.ms,
+                curve: Curves.easeInOut,
+              )
+              .then()
+              .scale(
+                begin: const Offset(1.05, 1.05),
+                end: const Offset(1.0, 1.0),
+                duration: 800.ms,
+                curve: Curves.easeInOut,
               ),
-            ),
-          ),
           SizedBox(height: 32.h),
           Row(
             children: [
               _buildAnsContainer(
-                numOfAnswers: correctAnswers,
-                label: 'correct_label'.tr(),
-                color: const Color(0xFF2E7D32),
-              ),
+                    numOfAnswers: correctAnswers,
+                    label: 'correct_label'.tr(),
+                    color: const Color(0xFF2E7D32),
+                    bgColor: const Color(0xFFE8F5E9),
+                    borderColor: const Color(0xFFC8E6C9),
+                  )
+                  .animate(delay: 300.ms)
+                  .fade(duration: 400.ms)
+                  .slideX(begin: -0.2, curve: Curves.easeOut),
               SizedBox(width: 16.w),
               _buildAnsContainer(
-                numOfAnswers: wrongAnswers,
-                label: 'wrong_label'.tr(),
-                color: const Color(0xFFC62828),
-              ),
+                    numOfAnswers: wrongAnswers,
+                    label: 'wrong_label'.tr(),
+                    color: const Color(0xFFC62828),
+                    bgColor: const Color(0xFFFFEBEE),
+                    borderColor: const Color(0xFFFFCDD2),
+                  )
+                  .animate(delay: 300.ms)
+                  .fade(duration: 400.ms)
+                  .slideX(begin: 0.2, curve: Curves.easeOut),
             ],
           ),
         ],
       ),
-    );
+    ).animate().fade(duration: 400.ms);
   }
 
   Expanded _buildAnsContainer({
     required int numOfAnswers,
     required String label,
     required Color color,
+    required Color bgColor,
+    required Color borderColor,
   }) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 5.w),
         decoration: BoxDecoration(
-          color: const Color(0xFFE8F5E9),
+          color: bgColor,
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: const Color(0xFFC8E6C9), width: 1),
+          border: Border.all(color: borderColor, width: 1),
         ),
         child: Column(
           children: [
@@ -138,9 +171,7 @@ class QuizScoreCardWidget extends StatelessWidget {
               style: TextStyle(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
-                color: label == 'Correct'
-                    ? const Color(0xFF2E7D32)
-                    : const Color(0xFFC62828),
+                color: color,
               ),
             ),
           ],

@@ -2,6 +2,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QuizHistoryCard extends StatelessWidget {
@@ -14,7 +15,6 @@ class QuizHistoryCard extends StatelessWidget {
 
   const QuizHistoryCard({
     super.key,
-
     required this.quizTitle,
     required this.onTap,
     required this.difficulty,
@@ -95,6 +95,7 @@ class QuizHistoryCard extends StatelessWidget {
     final dateTimeMap = _formatDateTime(createdAt);
 
     final Color mainTextColor = const Color(0xFF133F53);
+
     return InkWell(
       onTap: onTap,
       child: Card(
@@ -131,23 +132,31 @@ class QuizHistoryCard extends StatelessWidget {
                       Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 14.w,
-                              vertical: 6.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: scoreColor.withOpacity(0.12),
-                              borderRadius: BorderRadius.circular(16.r),
-                            ),
-                            child: Text(
-                              '$score/$totalQuestions',
-                              style: TextStyle(
-                                color: scoreColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15.sp,
-                              ),
-                            ),
-                          ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 14.w,
+                                  vertical: 6.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: scoreColor.withOpacity(0.12),
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                                child: Text(
+                                  '$score/$totalQuestions',
+                                  style: TextStyle(
+                                    color: scoreColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15.sp,
+                                  ),
+                                ),
+                              )
+                              .animate(delay: 200.ms)
+                              .scale(
+                                begin: const Offset(0.5, 0.5),
+                                curve: Curves.easeOutBack,
+                                duration: 400.ms,
+                              )
+                              .fadeIn(),
+
                           SizedBox(width: 10.w),
                           Container(
                             padding: EdgeInsets.symmetric(

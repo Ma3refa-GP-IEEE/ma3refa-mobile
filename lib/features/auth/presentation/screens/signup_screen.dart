@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
@@ -32,6 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<CustomButtonState> _btnKey = GlobalKey<CustomButtonState>();
   String userGender = 'Male';
 
   @override
@@ -48,158 +50,188 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(15.r),
-                    width: MediaQuery.of(context).size.width * 0.83.w,
-                    //height: 200.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.r),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          WelcomeMassege(
-                            title: 'sign_up_title'.tr(),
-                            subtitle: 'sign_up_subtitle'.tr(),
-                          ),
-                          SizedBox(height: 22.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        padding: EdgeInsets.all(15.r),
+                        width: MediaQuery.of(context).size.width * 0.83.w,
+                        //height: 200.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30.r),
+                          color: Colors.white,
+                        ),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Expanded(
-                                child: CustomTextFormField(
-                                  labelText: 'first_name'.tr(),
-                                  hintText: 'first_name_hint'.tr(),
-                                  controller: firstNameController,
-                                  validator: AppValidators.validateFirstName,
-                                  prefixIcon: Icons.person_outline,
-                                ),
-                              ),
-                              SizedBox(width: 15.w),
-                              Expanded(
-                                child: CustomTextFormField(
-                                  labelText: 'last_name'.tr(),
-                                  hintText: 'last_name_hint'.tr(),
-                                  controller: lastNameController,
-                                  validator: AppValidators.validateLastName,
-                                  prefixIcon: Icons.person_outline,
-                                ),
-                              ),
+                              ...[
+                                    WelcomeMassege(
+                                      title: 'sign_up_title'.tr(),
+                                      subtitle: 'sign_up_subtitle'.tr(),
+                                    ),
+                                    SizedBox(height: 22.h),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: CustomTextFormField(
+                                            labelText: 'first_name'.tr(),
+                                            hintText: 'first_name_hint'.tr(),
+                                            controller: firstNameController,
+                                            validator:
+                                                AppValidators.validateFirstName,
+                                            prefixIcon: Icons.person_outline,
+                                          ),
+                                        ),
+                                        SizedBox(width: 15.w),
+                                        Expanded(
+                                          child: CustomTextFormField(
+                                            labelText: 'last_name'.tr(),
+                                            hintText: 'last_name_hint'.tr(),
+                                            controller: lastNameController,
+                                            validator:
+                                                AppValidators.validateLastName,
+                                            prefixIcon: Icons.person_outline,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 15.h),
+                                    CustomTextFormField(
+                                      labelText: 'email_address'.tr(),
+                                      hintText: 'email_hint'.tr(),
+                                      controller: emailController,
+                                      validator:
+                                          AppValidators.validateEmailInSignUp,
+                                      prefixIcon: Icons.lock_outline,
+                                    ),
+                                    GenderSelector(
+                                      onGenderSelected: (gender) {
+                                        userGender = gender;
+                                      },
+                                    ),
+                                    SizedBox(height: 15.h),
+                                    CustomTextFormField(
+                                      labelText: 'age'.tr(),
+                                      hintText: 'age_hint'.tr(),
+                                      controller: ageController,
+                                      validator: AppValidators.validateAge,
+                                      prefixIcon: Icons.calendar_today_outlined,
+                                    ),
+                                    SizedBox(height: 15.h),
+                                    CustomTextFormField(
+                                      labelText: 'password'.tr(),
+                                      hintText: '••••••••',
+                                      controller: passwordController,
+                                      validator: AppValidators.validatePassword,
+                                      prefixIcon: Icons.lock_outline,
+                                    ),
+                                    SizedBox(height: 15.h),
+                                    CustomTextFormField(
+                                      labelText: 'confirm_password'.tr(),
+                                      hintText: '••••••••',
+                                      controller: confirmPasswordController,
+                                      validator:
+                                          AppValidators.validateConfirmPassword(
+                                            passwordController.text,
+                                          ),
+                                      prefixIcon: Icons.lock_outline,
+                                    ),
+                                    SizedBox(height: 23.h),
+                                    BlocConsumer<AuthCubit, AuthStates>(
+                                      listener: (context, state) {
+                                        if (state is AuthErrorState) {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text(state.message),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                        } else if (state is AuthSuccessState) {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'registration_success'.tr(),
+                                              ),
+                                              backgroundColor: Colors.green,
+                                            ),
+                                          );
+                                          // BlocProvider.of<HomeCubit>(
+                                          //   context,
+                                          // ).getAllHomeCategories();
+                                          // BlocProvider.of<ProfileCubit>(
+                                          //   context,
+                                          // ).fetchProfileHistory();
+                                          // Navigator.pushReplacement(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) => HomeScreen(),
+                                          //   ),
+                                          // );
+                                        }
+                                      },
+                                      builder: (context, state) {
+                                        return CustomButton(
+                                          key: _btnKey,
+                                          onPressed: () {
+                                            if (!formKey.currentState!
+                                                .validate()) {
+                                              _btnKey.currentState?.shake();
+                                            } else {
+                                              // BlocProvider.of<AuthCubit>(context).register(
+                                              //   nameController:
+                                              //       '${firstNameController.text} ${lastNameController.text}',
+                                              //   emailController: emailController.text,
+                                              //   passwordController:
+                                              //       passwordController.text,
+                                              //   ageController: int.parse(
+                                              //     ageController.text,
+                                              //   ),
+                                              //   genderController: userGender,
+                                              // );
+                                            }
+                                          },
+                                          text: 'register'.tr(),
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(height: 15.h),
+                                    CustomRichText(
+                                      onTap: () {
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginScreen(),
+                                          ),
+                                          (route) => false,
+                                        );
+                                      },
+                                      textOne: 'already_have_account'.tr(),
+                                      textTwo: 'login'.tr(),
+                                    ),
+                                  ]
+                                  .animate(interval: 100.ms)
+                                  .fade(duration: 300.ms)
+                                  .slideY(
+                                    begin: 0.2,
+                                    duration: 300.ms,
+                                    curve: Curves.easeOut,
+                                  ),
+                              SizedBox(height: 15.h),
                             ],
                           ),
-                          SizedBox(height: 15.h),
-                          CustomTextFormField(
-                            labelText: 'email_address'.tr(),
-                            hintText: 'email_hint'.tr(),
-                            controller: emailController,
-                            validator: AppValidators.validateEmailInSignUp,
-                            prefixIcon: Icons.lock_outline,
-                          ),
-                          GenderSelector(
-                            onGenderSelected: (gender) {
-                              userGender = gender;
-                            },
-                          ),
-                          SizedBox(height: 15.h),
-                          CustomTextFormField(
-                            labelText: 'age'.tr(),
-                            hintText: 'age_hint'.tr(),
-                            controller: ageController,
-                            validator: AppValidators.validateAge,
-                            prefixIcon: Icons.calendar_today_outlined,
-                          ),
-                          SizedBox(height: 15.h),
-                          CustomTextFormField(
-                            labelText: 'password'.tr(),
-                            hintText: '••••••••',
-                            controller: passwordController,
-                            validator: AppValidators.validatePassword,
-                            prefixIcon: Icons.lock_outline,
-                          ),
-                          SizedBox(height: 15.h),
-                          CustomTextFormField(
-                            labelText: 'confirm_password'.tr(),
-                            hintText: '••••••••',
-                            controller: confirmPasswordController,
-                            validator: AppValidators.validateConfirmPassword(
-                              passwordController.text,
-                            ),
-                            prefixIcon: Icons.lock_outline,
-                          ),
-                          SizedBox(height: 23.h),
-                          BlocConsumer<AuthCubit, AuthStates>(
-                            listener: (context, state) {
-                              if (state is AuthErrorState) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(state.message),
-                                    backgroundColor: Colors.red,
-                                  ),
-                                );
-                              } else if (state is AuthSuccessState) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('registration_success'.tr()),
-                                    backgroundColor: Colors.green,
-                                  ),
-                                );
-                                // BlocProvider.of<HomeCubit>(
-                                //   context,
-                                // ).getAllHomeCategories();
-                                // BlocProvider.of<ProfileCubit>(
-                                //   context,
-                                // ).fetchProfileHistory();
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => HomeScreen(),
-                                //   ),
-                                // );
-                              }
-                            },
-                            builder: (context, state) {
-                              return CustomButton(
-                                onPressed: () {
-                                  // if (formKey.currentState!.validate()) {
-                                  //   BlocProvider.of<AuthCubit>(
-                                  //     context,
-                                  //   ).register(
-                                  //     nameController:
-                                  //         '${firstNameController.text} ${lastNameController.text}',
-                                  //     emailController: emailController.text,
-                                  //     passwordController:
-                                  //         passwordController.text,
-                                  //     ageController: int.parse(
-                                  //       ageController.text,
-                                  //     ),
-                                  //     genderController: userGender,
-                                  //   );
-                                  // }
-                                },
-                                text: 'register'.tr(),
-                              );
-                            },
-                          ),
-                          SizedBox(height: 15.h),
-                          CustomRichText(
-                            onTap: () {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginScreen(),
-                                ),
-                                (route) => false,
-                              );
-                            },
-                            textOne: 'already_have_account'.tr(),
-                            textTwo: 'login'.tr(),
-                          ),
-                          SizedBox(height: 15.h),
-                        ],
+                        ),
+                      )
+                      .animate()
+                      .fade(duration: 300.ms)
+                      .scale(
+                        begin: const Offset(0.9, 0.9),
+                        duration: 300.ms,
+                        curve: Curves.easeOutBack,
                       ),
-                    ),
-                  ),
                 ],
               ),
             ),

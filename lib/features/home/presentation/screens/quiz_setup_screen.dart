@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
@@ -45,44 +46,52 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
           padding: EdgeInsets.all(16.r),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _buildCustomText(
-                text: 'home.quizSetup.selectDifficulty'.tr(),
-                fontSize: 18.sp,
-                color: AppColors.textDark,
-              ),
-              SizedBox(height: 10.h),
-              DifficultySelector(
-                onDifficultySelected: (difficulty) {
-                  selectedDifficulty = difficulty;
-                },
-              ),
-              SizedBox(height: 20.h),
+            children:
+                [
+                      _buildCustomText(
+                        text: 'home.quizSetup.selectDifficulty'.tr(),
+                        fontSize: 18.sp,
+                        color: AppColors.textDark,
+                      ),
+                      SizedBox(height: 10.h),
+                      DifficultySelector(
+                        onDifficultySelected: (difficulty) {
+                          selectedDifficulty = difficulty;
+                        },
+                      ),
+                      SizedBox(height: 20.h),
 
-              NumberOfQuestionWidget(
-                onNumberOfQuestionsSelected: (int p1) {
-                  selectedNumberOfQuestions = p1;
-                },
-              ),
-              SizedBox(height: 20.h),
-              _buildCustomText(
-                text: 'home.quizSetup.timeDuration'.tr(),
-                fontSize: 18.sp,
-                color: AppColors.textDark,
-              ),
-              SizedBox(height: 10.h),
-              TimeSelectionCard(
-                onTimeSelected: (int p1) {
-                  selectedMinutes = p1;
-                },
-              ),
-              SizedBox(height: 100.h),
-              CustomButton(
-                onPressed: () {},
-                text: 'home.quizSetup.startQuiz'.tr(),
-                icon: Icons.arrow_forward,
-              ),
-            ],
+                      NumberOfQuestionWidget(
+                        onNumberOfQuestionsSelected: (int p1) {
+                          selectedNumberOfQuestions = p1;
+                        },
+                      ),
+                      SizedBox(height: 20.h),
+                      _buildCustomText(
+                        text: 'home.quizSetup.timeDuration'.tr(),
+                        fontSize: 18.sp,
+                        color: AppColors.textDark,
+                      ),
+                      SizedBox(height: 10.h),
+                      TimeSelectionCard(
+                        onTimeSelected: (int p1) {
+                          selectedMinutes = p1;
+                        },
+                      ),
+                      SizedBox(height: 100.h),
+                      CustomButton(
+                        onPressed: () {},
+                        text: 'home.quizSetup.startQuiz'.tr(),
+                        icon: Icons.arrow_forward,
+                      ),
+                    ]
+                    .animate(interval: 100.ms)
+                    .fade(duration: 400.ms)
+                    .slideY(
+                      begin: 0.1,
+                      duration: 400.ms,
+                      curve: Curves.easeOutQuad,
+                    ),
           ),
         ),
       ),

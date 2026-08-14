@@ -1,7 +1,8 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: unrelated_type_equality_checks, deprecated_member_use
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
@@ -26,6 +27,7 @@ class QuizOnBoardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isRtl = Directionality.of(context) == TextDirection.RTL;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Padding(
@@ -63,35 +65,45 @@ class QuizOnBoardingScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20.h),
-
-                _buildTipCard(
-                  tip: 'tip_read_questions'.tr(),
-                  icon: Icons.lightbulb_outline,
-                ),
-                _buildTipCard(tip: 'tip_timer'.tr(), icon: Icons.timer),
-                _buildTipCard(
-                  tip: 'tip_do_best'.tr(),
-                  icon: Icons.sentiment_satisfied_alt,
-                ),
-                SizedBox(height: 10.h),
-                CustomButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => QuizQuestionsScreen(
-                          quizModel: quizModel,
-                          numberOfQuestions: numberOfQuestions,
-                          quizTitle: quizTitle,
-                          quizTime: quizTime,
-                          subCategoryId: subCategoryId,
+                ...[
+                      _buildTipCard(
+                        tip: 'tip_read_questions'.tr(),
+                        icon: Icons.lightbulb_outline,
+                      ),
+                      _buildTipCard(tip: 'tip_timer'.tr(), icon: Icons.timer),
+                      _buildTipCard(
+                        tip: 'tip_do_best'.tr(),
+                        icon: Icons.sentiment_satisfied_alt,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 8.0.h),
+                        child: CustomButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => QuizQuestionsScreen(
+                                  quizModel: quizModel,
+                                  numberOfQuestions: numberOfQuestions,
+                                  quizTitle: quizTitle,
+                                  quizTime: quizTime,
+                                  subCategoryId: subCategoryId,
+                                ),
+                              ),
+                            );
+                          },
+                          text: 'get_started'.tr(),
+                          icon: Icons.arrow_forward,
                         ),
                       ),
-                    );
-                  },
-                  text: 'get_started'.tr(),
-                  icon: Icons.arrow_forward,
-                ),
+                    ]
+                    .animate(interval: 1.seconds)
+                    .fade(duration: 500.ms)
+                    .slideX(
+                      begin: isRtl ? 1.0 : -1.0,
+                      duration: 500.ms,
+                      curve: Curves.easeOutBack,
+                    ),
               ],
             ),
           ),

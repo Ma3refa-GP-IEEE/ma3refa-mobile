@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/quiz_data.dart';
@@ -68,10 +69,20 @@ class SubCategoryScreen extends StatelessWidget {
                     .length,
                 itemBuilder: (context, index) {
                   return CustomListTileWidget(
-                    subCategory: QuizData.categories
-                        .firstWhere((category) => category.name == categoryName)
-                        .subCategories[index],
-                  );
+                        subCategory: QuizData.categories
+                            .firstWhere(
+                              (category) => category.name == categoryName,
+                            )
+                            .subCategories[index],
+                      )
+                      .animate()
+                      .fade(duration: 400.ms, delay: (index * 100).ms)
+                      .slideY(
+                        begin: 0.2,
+                        duration: 400.ms,
+                        delay: (index * 100).ms,
+                        curve: Curves.easeOutQuad,
+                      );
                 },
               ),
             ],

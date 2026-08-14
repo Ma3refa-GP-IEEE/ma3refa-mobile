@@ -2,10 +2,15 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/quiz_data.dart';
+import 'package:ma3refa_mobile/features/profile/data/models/history_quiz_model.dart';
+import 'package:ma3refa_mobile/features/profile/data/models/pagination_model.dart';
 import 'package:ma3refa_mobile/features/profile/data/models/profile_model.dart';
+import 'package:ma3refa_mobile/features/profile/data/models/subcategory_quizzes_model.dart';
+import 'package:ma3refa_mobile/features/profile/presentation/screens/attempt_history.dart';
 import 'package:ma3refa_mobile/features/profile/presentation/widgets/daily_streak_widget.dart';
 import 'package:ma3refa_mobile/features/profile/presentation/widgets/logout_dialog_widget.dart';
 import 'package:ma3refa_mobile/features/profile/presentation/widgets/sub_category_card_widget.dart';
@@ -115,10 +120,98 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   }
 
                   return SubCategoryCardWidget(
-                    subcategory: subcategory,
-                    subcategoryPoint: subcategoryPoint.totalPoints,
-                    icon: getIcon(subcategory),
-                  );
+                        subcategory: subcategory,
+                        subcategoryPoint: subcategoryPoint.totalPoints,
+                        icon: getIcon(subcategory),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AttemptHistoryScreen(
+                                subcategoryQuizzesModel:
+                                    SubcategoryQuizzesModel(
+                                      subcategoryId: 50,
+                                      subcategory: 'Physics',
+                                      totalPoints: 160,
+                                      quizzes: [
+                                        HistoryQuizModel(
+                                          quizId: index + 1,
+                                          difficulty: index % 3 == 0
+                                              ? 'Easy'
+                                              : index % 3 == 1
+                                              ? 'Medium'
+                                              : 'Hard',
+                                          score: index % 3 == 0
+                                              ? 3
+                                              : index % 3 == 1
+                                              ? 7
+                                              : 14,
+                                          totalQuestions: index % 3 == 0
+                                              ? 5
+                                              : index % 3 == 1
+                                              ? 10
+                                              : 15,
+                                          createdAt: '2026-01-01 15:19:36',
+                                        ),
+                                        HistoryQuizModel(
+                                          quizId: index + 1,
+                                          difficulty: index % 3 == 0
+                                              ? 'Easy'
+                                              : index % 3 == 1
+                                              ? 'Medium'
+                                              : 'Hard',
+                                          score: index % 3 == 0
+                                              ? 3
+                                              : index % 3 == 1
+                                              ? 7
+                                              : 14,
+                                          totalQuestions: index % 3 == 0
+                                              ? 5
+                                              : index % 3 == 1
+                                              ? 10
+                                              : 15,
+                                          createdAt: '2026-01-01 15:19:36',
+                                        ),
+                                        HistoryQuizModel(
+                                          quizId: index + 1,
+                                          difficulty: index % 3 == 0
+                                              ? 'Easy'
+                                              : index % 3 == 1
+                                              ? 'Medium'
+                                              : 'Hard',
+                                          score: index % 3 == 0
+                                              ? 3
+                                              : index % 3 == 1
+                                              ? 7
+                                              : 14,
+                                          totalQuestions: index % 3 == 0
+                                              ? 5
+                                              : index % 3 == 1
+                                              ? 10
+                                              : 15,
+                                          createdAt: '2026-01-01 15:19:36',
+                                        ),
+                                      ],
+                                      pagination: PaginationModel(
+                                        currentPage: 1,
+                                        perPage: 10,
+                                        totalQuizzes: 5,
+                                        totalPages: 1,
+                                      ),
+                                    ),
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                      .animate()
+                      .fade(duration: 400.ms, delay: (index * 100).ms)
+                      .slideY(
+                        begin: 0.2,
+                        duration: 400.ms,
+                        delay: (index * 100).ms,
+                        curve: Curves.easeOutQuad,
+                      );
                 },
               ),
             ],

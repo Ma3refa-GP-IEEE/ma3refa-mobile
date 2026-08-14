@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 
@@ -57,52 +58,64 @@ class _DifficultySelectorState extends State<DifficultySelector> {
         : difficulty == 'Medium'
         ? 'home.quizSetup.difficulty.medium'.tr()
         : 'home.quizSetup.difficulty.hard'.tr();
+
     return Expanded(
       child: GestureDetector(
         onTap: () {
           selectedDifficultyNotifier.value = difficulty;
           widget.onDifficultySelected(difficulty);
         },
-        child: AnimatedContainer(
-          height: 70.h,
-          width: 50.w,
-          duration: const Duration(milliseconds: 250),
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.primary : Color(0xffBEE9E8),
-            borderRadius: BorderRadius.circular(15.r),
-          ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  difficulty == "Easy"
-                      ? Icons.insert_emoticon
-                      : difficulty == "Medium"
-                      ? Icons.trending_up
-                      : Icons.local_fire_department,
-                  color: isSelected ? Colors.white : const Color(0xFF4A5568),
-                  size: 24.sp,
-                ),
-                SizedBox(height: 5.h),
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    label,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                      color: isSelected
-                          ? Colors.white
-                          : const Color(0xFF4A5568),
+        child:
+            AnimatedContainer(
+                  height: 70.h,
+                  width: 50.w,
+                  duration: const Duration(milliseconds: 250),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? AppColors.primary
+                        : const Color(0xffBEE9E8),
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          difficulty == "Easy"
+                              ? Icons.insert_emoticon
+                              : difficulty == "Medium"
+                              ? Icons.trending_up
+                              : Icons.local_fire_department,
+                          color: isSelected
+                              ? Colors.white
+                              : const Color(0xFF4A5568),
+                          size: 24.sp,
+                        ),
+                        SizedBox(height: 5.h),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            label,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                              color: isSelected
+                                  ? Colors.white
+                                  : const Color(0xFF4A5568),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                )
+                .animate(target: isSelected ? 1 : 0)
+                .scale(
+                  end: const Offset(1.05, 1.05),
+                  duration: 200.ms,
+                  curve: Curves.easeOutBack,
                 ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

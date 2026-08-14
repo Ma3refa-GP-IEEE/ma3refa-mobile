@@ -1,6 +1,9 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 
@@ -17,32 +20,61 @@ class _TimeSelectionCardState extends State<TimeSelectionCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: const Color(0xffBEE9E8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
-      elevation: 0,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-        child: ListTile(
-          title: Text(
-            '$selectedMinutes ${'home.quizSetup.minutes'.tr()}',
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textDark,
+    return GestureDetector(
+      onTap: () => _showTimePicker(context),
+      child: Card(
+        color: const Color(0xffBEE9E8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.r),
+        ),
+        elevation: 0,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+          child: ListTile(
+            title:
+                Text(
+                      '$selectedMinutes ${'home.quizSetup.minutes'.tr()}',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textDark,
+                      ),
+                    )
+                    .animate(key: ValueKey(selectedMinutes))
+                    .scale(
+                      begin: const Offset(1.15, 1.15),
+                      end: const Offset(1.0, 1.0),
+                      duration: 200.ms,
+                      curve: Curves.easeOutBack,
+                    )
+                    .tint(
+                      color: AppColors.primary.withOpacity(0.4),
+                      duration: 200.ms,
+                    ),
+            leading: Container(
+              padding: EdgeInsets.all(10.r),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Icon(Icons.timer, color: AppColors.textDark, size: 28.sp)
+                  .animate(
+                    onPlay: (controller) => controller.repeat(reverse: true),
+                  )
+                  .scale(
+                    begin: const Offset(1.0, 1.0),
+                    end: const Offset(1.1, 1.1),
+                    duration: 1.seconds,
+                    curve: Curves.easeInOut,
+                  ),
             ),
-          ),
-          leading: Container(
-            padding: EdgeInsets.all(10.r),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12.r),
+            trailing: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.edit,
+                color: AppColors.primary,
+              ).animate().shake(delay: 1.seconds, duration: 500.ms, hz: 3),
             ),
-            child: Icon(Icons.timer, color: AppColors.textDark, size: 28.sp),
-          ),
-          trailing: IconButton(
-            onPressed: () => _showTimePicker(context),
-            icon: const Icon(Icons.edit, color: AppColors.primary),
           ),
         ),
       ),

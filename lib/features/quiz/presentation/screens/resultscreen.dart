@@ -1,5 +1,8 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
@@ -59,7 +62,7 @@ class _ResultScreenState extends State<ResultScreen> {
         title: Text('quiz_results'.tr()),
         centerTitle: true,
         backgroundColor: AppColors.background,
-        leading: widget.comingFromQuizScreen
+        leading: !widget.comingFromQuizScreen
             ? IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
@@ -78,13 +81,15 @@ class _ResultScreenState extends State<ResultScreen> {
               correctAnswers: numberOfCorrectAnswers(),
             ),
             SizedBox(height: 20.h),
+            if (!widget.comingFromQuizScreen)
+              _buildDateWidget(widget.quizDetailsModel.createdAt),
             Align(
               alignment: AlignmentDirectional.centerStart,
               child: Text(
                 'review_answers'.tr(),
                 style: TextStyle(
                   fontSize: 18.sp,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.bold,
                   color: AppColors.textDark,
                 ),
               ),
@@ -106,32 +111,91 @@ class _ResultScreenState extends State<ResultScreen> {
                   result.selectedAnswer,
                 );
                 return QuizReviewItemWidget(
-                  questionNumber: index + 1,
-                  questionText: result.question.description,
-                  correctAnswer: actualCorrectAnswerText,
-                  userAnswer: actualUserAnswerText,
-                  isCorrect: result.isCorrect,
-                  explanation: result.explanation,
-                );
+                      questionNumber: index + 1,
+                      questionText: result.question.description,
+                      correctAnswer: actualCorrectAnswerText,
+                      userAnswer: actualUserAnswerText,
+                      isCorrect: result.isCorrect,
+                      explanation: result.explanation,
+                    )
+                    .animate()
+                    .fade(duration: 400.ms, delay: (index * 150).ms)
+                    .slideY(
+                      begin: 0.2,
+                      duration: 400.ms,
+                      delay: (index * 150).ms,
+                      curve: Curves.easeOutQuad,
+                    );
               },
             ),
             SizedBox(height: 20.h),
             widget.comingFromQuizScreen
                 ? CustomButton(
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    text: 'back_to_home'.tr(),
-                    icon: Icons.home,
-                  )
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeScreen(),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        text: 'back_to_home'.tr(),
+                        icon: Icons.home,
+                      )
+                      .animate(delay: 1.seconds)
+                      .fadeIn()
+                      .scale(curve: Curves.easeOutBack)
                 : SizedBox.shrink(),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildDateWidget(String dateString) {
+    try {
+      DateTime parsedDate = DateTime.parse(dateString);
+      String formattedDate = DateFormat(
+        'dd MMM yyyy, hh:mm a',
+      ).format(parsedDate);
+
+      return Container(
+        margin: EdgeInsets.only(bottom: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.calendar_today_rounded,
+              color: AppColors.primary,
+              size: 20.sp,
+            ),
+            SizedBox(width: 8.w),
+            Text(
+              formattedDate,
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textDark,
+              ),
+            ),
+          ],
+        ),
+      ).animate().fade(duration: 500.ms).slideY(begin: -0.2);
+    } catch (e) {
+      return const SizedBox.shrink();
+    }
   }
 }

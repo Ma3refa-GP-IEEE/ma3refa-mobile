@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/quiz_data.dart';
@@ -49,18 +50,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: QuizData.categories.length,
                 itemBuilder: (context, index) {
                   return CategoryCard(
-                    category: QuizData.categories[index],
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SubCategoryScreen(
-                            categoryName: QuizData.categories[index].name,
-                          ),
-                        ),
+                        category: QuizData.categories[index],
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SubCategoryScreen(
+                                categoryName: QuizData.categories[index].name,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                      .animate()
+                      .fade(duration: 400.ms, delay: (index * 100).ms)
+                      .scale(
+                        begin: const Offset(0.8, 0.8),
+                        duration: 400.ms,
+                        delay: (index * 100).ms,
+                        curve: Curves.easeOutBack,
                       );
-                    },
-                  );
                 },
               ),
               SizedBox(height: 20.h),
@@ -88,12 +97,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: QuizData.categories.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: EdgeInsetsDirectional.only(end: 12.w),
-                      child: SizedBox(
-                        width: 280.w,
-                        child: RecommendationWidget(),
-                      ),
-                    );
+                          padding: EdgeInsetsDirectional.only(end: 12.w),
+                          child: SizedBox(
+                            width: 280.w,
+                            child: RecommendationWidget(),
+                          ),
+                        )
+                        .animate()
+                        .fade(duration: 400.ms, delay: (index * 100).ms)
+                        .slideY(
+                          begin: 0.2,
+                          duration: 400.ms,
+                          delay: (index * 100).ms,
+                          curve: Curves.easeOutQuad,
+                        );
                   },
                 ),
               ),

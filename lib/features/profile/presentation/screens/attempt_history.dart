@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/features/profile/data/models/subcategory_quizzes_model.dart';
-import 'package:ma3refa_mobile/features/profile/presentation/widgets/quiz_history_model.dart';
+import 'package:ma3refa_mobile/features/profile/presentation/widgets/quiz_history_card.dart';
 import 'package:ma3refa_mobile/features/profile/presentation/widgets/star_rating_widget.dart';
 
 class AttemptHistoryScreen extends StatelessWidget {
@@ -39,12 +40,16 @@ class AttemptHistoryScreen extends StatelessWidget {
           children: [
             SizedBox(height: 16.h),
             Padding(
-              padding: EdgeInsets.all(8.r),
-              child: StarRatingWidget(
-                maxPoints: 500,
-                currentPoints: subcategoryQuizzesModel.totalPoints.toDouble(),
-              ),
-            ),
+                  padding: EdgeInsets.all(8.r),
+                  child: StarRatingWidget(
+                    maxPoints: 500,
+                    currentPoints: subcategoryQuizzesModel.totalPoints
+                        .toDouble(),
+                  ),
+                )
+                .animate()
+                .fade(duration: 400.ms)
+                .slideY(begin: -0.1, curve: Curves.easeOut),
             SizedBox(height: 16.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.r),
@@ -74,7 +79,7 @@ class AttemptHistoryScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
+            ).animate(delay: 200.ms).fade(duration: 300.ms).slideX(begin: -0.1),
             SizedBox(height: 16.h),
             ListView.builder(
               shrinkWrap: true,
@@ -83,13 +88,16 @@ class AttemptHistoryScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final quiz = subcategoryQuizzesModel.quizzes[index];
                 return QuizHistoryCard(
-                  quizTitle: subcategoryQuizzesModel.subcategory,
-                  score: quiz.score,
-                  totalQuestions: quiz.totalQuestions,
-                  createdAt: quiz.createdAt,
-                  difficulty: quiz.difficulty,
-                  onTap: () {},
-                );
+                      quizTitle: subcategoryQuizzesModel.subcategory,
+                      score: quiz.score,
+                      totalQuestions: quiz.totalQuestions,
+                      createdAt: quiz.createdAt,
+                      difficulty: quiz.difficulty,
+                      onTap: () {},
+                    )
+                    .animate(delay: (300 + (index * 100)).ms)
+                    .fade(duration: 400.ms)
+                    .slideY(begin: 0.2, curve: Curves.easeOutBack);
               },
             ),
           ],
