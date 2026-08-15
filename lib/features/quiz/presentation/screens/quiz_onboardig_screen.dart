@@ -29,7 +29,7 @@ class QuizOnBoardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.microtask(() {
-      getIt<AudioService>().playAssetSound('assets/sounds/searching_sound.mp3');
+      getIt<AudioService>().playAssetSound('sounds/searching_sound.mp3');
     });
     bool isRtl = Directionality.of(context) == TextDirection.RTL;
     return Scaffold(

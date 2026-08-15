@@ -64,22 +64,16 @@ class _ResultScreenState extends State<ResultScreen> {
         : widget.quizDetailsModel.score ==
               widget.quizDetailsModel.totalQuestions
         ? getIt<AudioService>().playAssetSound(
-            'assets/sounds/dexter_if_userscore_equals_100.mp3',
+            'sounds/dexter_if_userscore_equals_100.mp3',
           )
         : widget.quizDetailsModel.score >=
               widget.quizDetailsModel.totalQuestions / 2
         ? getIt<AudioService>().playAssetSound(
-            'assets/sounds/if_userscore_greaterthan_50.mp3',
+            'sounds/if_userscore_greaterthan_50.mp3',
           )
         : getIt<AudioService>().playAssetSound(
-            'assets/sounds/under_50_percent_arabic.mp3',
+            'sounds/under_50_percent_arabic.mp3',
           );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    getIt<AudioService>().disposeAudioPlayer();
   }
 
   @override

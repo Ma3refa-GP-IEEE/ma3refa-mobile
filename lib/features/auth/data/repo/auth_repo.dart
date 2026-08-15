@@ -1,14 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:ma3refa_mobile/core/errors/server_errors.dart';
 import 'package:ma3refa_mobile/core/services/dio_services.dart';
-import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/api_consts.dart';
 import 'package:ma3refa_mobile/features/auth/data/models/failuer_model.dart';
 import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
 
 class AuthRepo {
-  DioServices dioService = getIt<DioServices>();
+  final DioServices dioService;
+
   AuthRepo(this.dioService);
+
   Future<Either<FailuerModel, UserModel>> signUp(UserModel user) async {
     try {
       final response = await dioService.post(
@@ -17,13 +18,10 @@ class AuthRepo {
       );
       return Right(UserModel.fromJson(response));
     } on ServerException catch (e) {
-      return Left(FailuerModel.fromJson(e.errors));
+      return Left(e.failureModel);
     } catch (e) {
       return Left(
-        FailuerModel(
-          statusCode: 500,
-          message: 'An unexpected error occurred: ${e.toString()}',
-        ),
+        FailuerModel(message: 'An unexpected error occurred: ${e.toString()}'),
       );
     }
   }
@@ -39,15 +37,10 @@ class AuthRepo {
       );
       return Right(UserModel.fromJson(response));
     } on ServerException catch (e) {
-      return Left(
-        FailuerModel(statusCode: e.statusCode ?? 400, message: e.message),
-      );
+      return Left(e.failureModel);
     } catch (e) {
       return Left(
-        FailuerModel(
-          statusCode: 500,
-          message: 'An unexpected error occurred: ${e.toString()}',
-        ),
+        FailuerModel(message: 'An unexpected error occurred: ${e.toString()}'),
       );
     }
   }

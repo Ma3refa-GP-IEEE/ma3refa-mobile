@@ -1,7 +1,8 @@
 class ApiConsts {
-  static const String baseUrl = 'https://mock.ma3refa.local/api/';
-  static const String loginEndpoint = 'auth/login';
-  static const String registerEndpoint = 'auth/register';
+  static const String baseUrl =
+      'https://ma3refa-backend-production.up.railway.app/api/';
+  static const String loginEndpoint = 'login';
+  static const String registerEndpoint = 'register';
   static const String allCategoriesEndpoint = 'categories';
   static const String userProfileEndpoint = 'user/profile';
   static const String generateQuizEndpoint = 'quiz/generate';

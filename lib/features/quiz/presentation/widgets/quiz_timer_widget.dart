@@ -44,9 +44,7 @@ class _QuizTimerWidgetState extends State<QuizTimerWidget> {
         });
       } else {
         _timer?.cancel();
-        getIt<AudioService>().playAssetSound(
-          'assets/sounds/time_out_sound.wav',
-        );
+        getIt<AudioService>().playAssetSound('sounds/time_out_sound.wav');
         _showTimeUpDialog();
       }
     });

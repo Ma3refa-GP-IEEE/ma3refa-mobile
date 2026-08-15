@@ -36,9 +36,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<CustomButtonState> _btnKey = GlobalKey<CustomButtonState>();
   String userGender = 'Male';
+
   @override
   void dispose() {
-    getIt<AudioService>().disposeAudioPlayer();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    ageController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -146,7 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       listener: (context, state) {
                                         if (state is AuthErrorState) {
                                           getIt<AudioService>().playAssetSound(
-                                            'assets/sounds/failed_login_or_signup_sound.mp3',
+                                            'sounds/failed_login_or_signup_sound.mp3',
                                           );
                                           ScaffoldMessenger.of(
                                             context,
@@ -167,18 +173,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               backgroundColor: Colors.green,
                                             ),
                                           );
-                                          // BlocProvider.of<HomeCubit>(
-                                          //   context,
-                                          // ).getAllHomeCategories();
-                                          // BlocProvider.of<ProfileCubit>(
-                                          //   context,
-                                          // ).fetchProfileHistory();
-                                          // Navigator.pushReplacement(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //     builder: (context) => HomeScreen(),
-                                          //   ),
-                                          // );
+                                          BlocProvider.of<HomeCubit>(
+                                            context,
+                                          ).getAllHomeCategories();
+                                          BlocProvider.of<ProfileCubit>(
+                                            context,
+                                          ).fetchProfileHistory();
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomeScreen(),
+                                            ),
+                                          );
                                         }
                                       },
                                       builder: (context, state) {
@@ -189,20 +196,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 .validate()) {
                                               _btnKey.currentState?.shake();
                                               getIt<AudioService>().playAssetSound(
-                                                'assets/sounds/failed_login_or_signup_sound.mp3',
+                                                'sounds/failed_login_or_signup_sound.mp3',
                                               );
                                             } else {
-                                              // BlocProvider.of<AuthCubit>(context).register(
-                                              //   nameController:
-                                              //       '${firstNameController.text} ${lastNameController.text}',
-                                              //   emailController: emailController.text,
-                                              //   passwordController:
-                                              //       passwordController.text,
-                                              //   ageController: int.parse(
-                                              //     ageController.text,
-                                              //   ),
-                                              //   genderController: userGender,
-                                              // );
+                                              BlocProvider.of<AuthCubit>(
+                                                context,
+                                              ).register(
+                                                nameController:
+                                                    '${firstNameController.text} ${lastNameController.text}',
+                                                emailController:
+                                                    emailController.text,
+                                                passwordController:
+                                                    passwordController.text,
+                                                ageController: int.parse(
+                                                  ageController.text,
+                                                ),
+                                                genderController: userGender,
+                                                passwordConfirmationController:
+                                                    confirmPasswordController
+                                                        .text,
+                                              );
                                             }
                                           },
                                           text: 'register'.tr(),

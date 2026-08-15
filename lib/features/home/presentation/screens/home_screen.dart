@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         category: QuizData.categories[index],
                         onTap: () {
                           getIt<AudioService>().playAssetSound(
-                            'assets/sounds/click_cards.wav',
+                            'sounds/click_cards.wav',
                           );
                           Navigator.push(
                             context,
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: RecommendationWidget(
                               onTap: () {
                                 getIt<AudioService>().playAssetSound(
-                                  'assets/sounds/click_cards.wav',
+                                  'sounds/click_cards.wav',
                                 );
                                 //   Navigator.push(
                                 //     context,

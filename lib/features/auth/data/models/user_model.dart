@@ -4,6 +4,7 @@ class UserModel {
   final String name;
   final String email;
   final String password;
+  final String passwordConfirmation;
   final int age;
   final String gender;
 
@@ -15,6 +16,7 @@ class UserModel {
     required this.gender,
     this.id,
     this.token,
+    required this.passwordConfirmation,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class UserModel {
       name: userData['name'] ?? '',
       email: userData['email'] ?? '',
       password: userData['password'] ?? '',
+      passwordConfirmation: userData['password_confirmation'] ?? '',
       age: userData['age'] ?? 0,
       gender: userData['gender'] ?? '',
     );

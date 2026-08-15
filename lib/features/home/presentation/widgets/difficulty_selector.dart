@@ -66,9 +66,7 @@ class _DifficultySelectorState extends State<DifficultySelector> {
         onTap: () {
           selectedDifficultyNotifier.value = difficulty;
           widget.onDifficultySelected(difficulty);
-          getIt<AudioService>().playAssetSound(
-            'assets/sounds/chose_difficulty.wav',
-          );
+          getIt<AudioService>().playAssetSound('sounds/chose_difficulty.wav');
         },
         child:
             AnimatedContainer(

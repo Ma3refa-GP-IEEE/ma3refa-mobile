@@ -1,20 +1,12 @@
 class FailuerModel {
-  final int statusCode;
   final String message;
-
-  FailuerModel({required this.statusCode, required this.message});
+  final Map<String, dynamic>? errors;
+  FailuerModel({required this.message, this.errors});
 
   factory FailuerModel.fromJson(Map<String, dynamic> json) {
     return FailuerModel(
-      statusCode: json['statusCode'],
-      message: json['message'],
+      message: json['message'] ?? 'Unknown error occurred',
+      errors: json['errors'],
     );
-  }
-
-  Map<String, dynamic> toJson(FailuerModel failuerModel) {
-    return {
-      'statusCode': failuerModel.statusCode,
-      'message': failuerModel.message,
-    };
   }
 }

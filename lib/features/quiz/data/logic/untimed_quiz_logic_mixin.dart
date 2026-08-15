@@ -69,9 +69,7 @@ mixin UntimedQuizLogicMixin on State<UntimedQuizQuestionsScreen> {
         isCurrentQuestionAnswered = false;
         isWrongAnswerTriggered = false;
       });
-      getIt<AudioService>().playAssetSound(
-        'assets/sounds/steps_progress_sound.wav',
-      );
+      getIt<AudioService>().playAssetSound('sounds/steps_progress_sound.wav');
       confettiController.stop();
       pageController.nextPage(
         duration: const Duration(milliseconds: 300),

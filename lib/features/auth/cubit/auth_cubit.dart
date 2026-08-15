@@ -28,6 +28,7 @@ class AuthCubit extends Cubit<AuthStates> {
     required String nameController,
     required String emailController,
     required String passwordController,
+    required String passwordConfirmationController,
     required int ageController,
     required String genderController,
   }) async {
@@ -37,6 +38,7 @@ class AuthCubit extends Cubit<AuthStates> {
       name: nameController,
       email: emailController,
       password: passwordController,
+      passwordConfirmation: passwordConfirmationController,
       age: ageController,
       gender: genderController,
     );

@@ -1,9 +1,17 @@
+import 'package:ma3refa_mobile/features/auth/data/models/failuer_model.dart';
+
 class ServerException implements Exception {
-  final String message;
+  final FailuerModel failureModel;
   final int? statusCode;
-  final dynamic errors;
-  ServerException({required this.message, this.statusCode, this.errors});
+
+  ServerException({required this.failureModel, this.statusCode});
 
   @override
-  String toString() => message;
+  String toString() {
+    if (failureModel.errors != null && failureModel.errors!.isNotEmpty) {
+      final firstErrorKey = failureModel.errors!.keys.first;
+      return failureModel.errors![firstErrorKey]![0];
+    }
+    return failureModel.message;
+  }
 }

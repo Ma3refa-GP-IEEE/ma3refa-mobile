@@ -85,7 +85,7 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
                       CustomButton(
                         onPressed: () {
                           getIt<AudioService>().playAssetSound(
-                            'assets/sounds/click_at_quiz_setup.mp3',
+                            'sounds/click_at_quiz_setup.mp3',
                           );
                           if (selectedMinutes == 0) {
                             // Navigator.push(

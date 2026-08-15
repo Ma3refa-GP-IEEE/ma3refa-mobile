@@ -24,17 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      getIt<AudioService>().playAssetSound(
-        'assets/sounds/splash_screen_sound.wav',
-      );
+      getIt<AudioService>().playAssetSound('sounds/splash_screen_sound.wav');
     });
     _startSplashLogic();
-  }
-
-  @override
-  void dispose() {
-    getIt<AudioService>().disposeAudioPlayer();
-    super.dispose();
   }
 
   Future<void> _startSplashLogic() async {

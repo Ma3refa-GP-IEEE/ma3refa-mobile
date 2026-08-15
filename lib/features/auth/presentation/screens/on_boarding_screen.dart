@@ -4,7 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/logo_card_widget.dart';
@@ -86,10 +88,13 @@ class OnBoardingScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 40.h),
+                SizedBox(height: 60.h),
 
                 CustomButton(
                       onPressed: () {
+                        getIt<AudioService>().playAssetSound(
+                          'sounds/click_cards.wav',
+                        );
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

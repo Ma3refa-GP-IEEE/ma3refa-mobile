@@ -18,15 +18,10 @@ class HistoryRepo {
       );
       return Right(ProfileModel.fromJson(response));
     } on ServerException catch (e) {
-      return Left(
-        FailuerModel(statusCode: e.statusCode ?? 400, message: e.message),
-      );
+      return Left(e.failureModel);
     } catch (e) {
       return Left(
-        FailuerModel(
-          statusCode: 500,
-          message: 'There was an unexpected error, please try again later',
-        ),
+        FailuerModel(message: 'An unexpected error occurred: ${e.toString()}'),
       );
     }
   }
@@ -43,15 +38,10 @@ class HistoryRepo {
       );
       return Right(SubcategoryQuizzesModel.fromJson(response));
     } on ServerException catch (e) {
-      return Left(
-        FailuerModel(statusCode: e.statusCode ?? 400, message: e.message),
-      );
+      return Left(e.failureModel);
     } catch (e) {
       return Left(
-        FailuerModel(
-          statusCode: 500,
-          message: 'There was an unexpected error, please try again later',
-        ),
+        FailuerModel(message: 'An unexpected error occurred: ${e.toString()}'),
       );
     }
   }

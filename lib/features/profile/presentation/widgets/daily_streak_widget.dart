@@ -45,7 +45,7 @@ class _DailyStreakWidgetState extends State<DailyStreakWidget> {
 
     return InkWell(
       onTap: () {
-        getIt<AudioService>().playAssetSound('assets/sounds/streak_sound.mp3');
+        getIt<AudioService>().playAssetSound('sounds/streak_sound.mp3');
       },
       child:
           Card(
