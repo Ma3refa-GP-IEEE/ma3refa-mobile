@@ -16,7 +16,7 @@ class TimeSelectionCard extends StatefulWidget {
 }
 
 class _TimeSelectionCardState extends State<TimeSelectionCard> {
-  int selectedMinutes = 10;
+  int selectedMinutes = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,9 @@ class _TimeSelectionCardState extends State<TimeSelectionCard> {
           child: ListTile(
             title:
                 Text(
-                      '$selectedMinutes ${'home.quizSetup.minutes'.tr()}',
+                      selectedMinutes == 0
+                          ? "home.quizSetup.untimed".tr()
+                          : '$selectedMinutes ${'home.quizSetup.minutes'.tr()}',
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
@@ -116,15 +118,17 @@ class _TimeSelectionCardState extends State<TimeSelectionCard> {
                 child: CupertinoPicker(
                   itemExtent: 50.h,
                   scrollController: FixedExtentScrollController(
-                    initialItem: selectedMinutes - 1,
+                    initialItem: selectedMinutes,
                   ),
                   onSelectedItemChanged: (index) {
-                    tempMinutes = index + 1;
+                    tempMinutes = index;
                   },
                   children: List.generate(60, (index) {
                     return Center(
                       child: Text(
-                        '${index + 1} ${'home.quizSetup.minutes'.tr()}',
+                        index == 0
+                            ? "home.quizSetup.untimed".tr()
+                            : '$index ${'home.quizSetup.minutes'.tr()}',
                         style: TextStyle(
                           fontSize: 18.sp,
                           color: AppColors.textDark,

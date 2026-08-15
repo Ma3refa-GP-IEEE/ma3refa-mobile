@@ -5,7 +5,7 @@ import 'package:ma3refa_mobile/features/quiz/data/models/result_params.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/quiz_questions_screen.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/submit_dialog_widget.dart';
 
-mixin QuizLogicMixin on State<QuizQuestionsScreen> {
+mixin TimedQuizLogicMixin on State<QuizQuestionsScreen> {
   late List<Answer> userAnswers;
   late PageController pageController;
   int currentQuestionIndex = 0;
@@ -34,6 +34,7 @@ mixin QuizLogicMixin on State<QuizQuestionsScreen> {
       );
     });
 
+    // Auto-advance for timed quiz
     if (currentQuestionIndex < widget.numberOfQuestions - 1) {
       Future.delayed(const Duration(milliseconds: 400), () {
         pageController.nextPage(
@@ -47,12 +48,11 @@ mixin QuizLogicMixin on State<QuizQuestionsScreen> {
   ResultParams finishAndSubmitQuiz() {
     int finalScore = userAnswers.where((ans) => ans.isCorrect).length;
     int subCatId = widget.subCategoryId;
-    ResultParams result = ResultParams(
+    return ResultParams(
       score: finalScore,
       answers: userAnswers,
       subcategoryId: subCatId,
     );
-    return result;
   }
 
   void showSubmitConfirmationDialog() {
@@ -65,8 +65,8 @@ mixin QuizLogicMixin on State<QuizQuestionsScreen> {
         return SubmitDialogWidget(
           onSubmit: () {
             Navigator.of(context).pop();
-            //final result = finishAndSubmitQuiz();
-            // BlocProvider.of<QuizCubit>(context).finishCurrentQuiz(...)
+            // final result = finishAndSubmitQuiz();
+            // BlocProvider.of<QuizCubit>(context).finishCurrentQuiz(result);
           },
         );
       },

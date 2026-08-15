@@ -109,5 +109,9 @@
   "esay": "Easy",
   "medium": "Medium",
   "hard": "Hard",
-  "unknown": "Unknown"
+  "unknown": "Unknown",
+  "next_question": "Next Question",
+  "previous_question": "Previous Question",
+  "submit": "Submit",
+  "home.quizSetup.untimed": "UnTimed Quiz"
 }

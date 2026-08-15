@@ -7,6 +7,7 @@ import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button
 import 'package:ma3refa_mobile/features/home/presentation/widgets/difficulty_selector.dart';
 import 'package:ma3refa_mobile/features/home/presentation/widgets/number_of_question_widget.dart';
 import 'package:ma3refa_mobile/features/home/presentation/widgets/time_selection_widget.dart';
+import 'package:ma3refa_mobile/features/quiz/presentation/screens/untimed_quiz_questions_screen.dart';
 
 class QuizSetupScreen extends StatefulWidget {
   const QuizSetupScreen({super.key});
@@ -80,7 +81,35 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
                       ),
                       SizedBox(height: 100.h),
                       CustomButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (selectedMinutes == 0) {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => UntimedQuizQuestionsScreen(
+                            //       quizModel: ,
+                            //       numberOfQuestions: selectedNumberOfQuestions,
+                            //       quizTitle: '',
+                            //       quizTime: 0,
+                            //       subCategoryId:,
+                            //     ),
+                            //   ),
+                            // );
+                          } else {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => QuizQuestionsScreen(
+                            //       quizModel: ,
+                            //       numberOfQuestions: selectedNumberOfQuestions,
+                            //       quizTitle: '',
+                            //       quizTime: selectedMinutes,
+                            //       subCategoryId:,
+                            //     ),
+                            //   ),
+                            // );
+                          }
+                        },
                         text: 'home.quizSetup.startQuiz'.tr(),
                         icon: Icons.arrow_forward,
                       ),

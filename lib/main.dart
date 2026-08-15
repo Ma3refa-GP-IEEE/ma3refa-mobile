@@ -25,6 +25,7 @@ import 'package:ma3refa_mobile/features/quiz/data/models/result_params.dart';
 import 'package:ma3refa_mobile/features/quiz/data/repo/quiz_repo.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/quiz_onboardig_screen.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/resultscreen.dart';
+import 'package:ma3refa_mobile/features/quiz/presentation/screens/untimed_quiz_questions_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,35 +80,93 @@ class MyApp extends StatelessWidget {
                 themeMode: cubit.isDarkMode ? ThemeMode.dark : ThemeMode.light,
                 theme: ThemeData.light(),
                 darkTheme: ThemeData.dark(),
-                home: ProfileScreen(
-                  profileModel: ProfileModel(
-                    user: UserModel(
-                      name: 'Mahmoud Abdelghani',
-                      email: 'mahmoud@example.com',
-                      password: '000000000',
-                      age: 22,
-                      gender: 'Male',
-                    ),
-                    currentStreak: 7,
-                    lastActivity: '2023-10-01',
-                    subcategoryPoints: [
-                      SubcategoryPoints(
-                        subcategoryId: 1,
-                        subcategory: 'Python',
-                        totalPoints: 300,
+                home: UntimedQuizQuestionsScreen(
+                  quizModel: QuizModel(
+                    quizId: 5,
+                    questions: [
+                      QuestionModel(
+                        id: 2,
+                        description: 'What is the capital of France?',
+                        optionA: 'London',
+                        optionB: 'Berlin',
+                        optionC: 'Paris',
+                        optionD: 'Madrid',
+                        correctAnswer: 'Paris',
+                        explanation:
+                            'Paris is the capital and most populous city of France. It has been a major center of finance, diplomacy, commerce, fashion, science, and the arts since the 17th century.',
                       ),
-                      SubcategoryPoints(
-                        subcategoryId: 2,
-                        subcategory: 'Mathematics',
-                        totalPoints: 250,
+                      QuestionModel(
+                        id: 2,
+                        description: 'What is the capital of France?',
+                        optionA: 'London',
+                        optionB: 'Berlin',
+                        optionC: 'Paris',
+                        optionD: 'Madrid',
+                        correctAnswer: 'Paris',
+                        explanation:
+                            'Paris is the capital and most populous city of France. It has been a major center of finance, diplomacy, commerce, fashion, science, and the arts since the 17th century.',
                       ),
-                      SubcategoryPoints(
-                        subcategoryId: 3,
-                        subcategory: 'Geography',
-                        totalPoints: 90,
+                      QuestionModel(
+                        id: 2,
+                        description: 'What is the capital of France?',
+                        optionA: 'London',
+                        optionB: 'Berlin',
+                        optionC: 'Paris',
+                        optionD: 'Madrid',
+                        correctAnswer: 'Paris',
+                        explanation:
+                            'Paris is the capital and most populous city of France. It has been a major center of finance, diplomacy, commerce, fashion, science, and the arts since the 17th century.',
+                      ),
+                      QuestionModel(
+                        id: 2,
+                        description: 'What is the capital of France?',
+                        optionA: 'London',
+                        optionB: 'Berlin',
+                        optionC: 'Paris',
+                        optionD: 'Madrid',
+                        correctAnswer: 'Paris',
+                        explanation:
+                            'Paris is the capital and most populous city of France. It has been a major center of finance, diplomacy, commerce, fashion, science, and the arts since the 17th century.',
+                      ),
+                      QuestionModel(
+                        id: 2,
+                        description: 'What is the capital of France?',
+                        optionA: 'London',
+                        optionB: 'Berlin',
+                        optionC: 'Paris',
+                        optionD: 'Madrid',
+                        correctAnswer: 'Paris',
+                        explanation:
+                            'Paris is the capital and most populous city of France. It has been a major center of finance, diplomacy, commerce, fashion, science, and the arts since the 17th century.',
+                      ),
+                      QuestionModel(
+                        id: 2,
+                        description: 'What is the capital of France?',
+                        optionA: 'London',
+                        optionB: 'Berlin',
+                        optionC: 'Paris',
+                        optionD: 'Madrid',
+                        correctAnswer: 'Paris',
+                        explanation:
+                            'Paris is the capital and most populous city of France. It has been a major center of finance, diplomacy, commerce, fashion, science, and the arts since the 17th century.',
+                      ),
+                      QuestionModel(
+                        id: 2,
+                        description: 'What is the capital of France?',
+                        optionA: 'London',
+                        optionB: 'Berlin',
+                        optionC: 'Paris',
+                        optionD: 'Madrid',
+                        correctAnswer: 'Paris',
+                        explanation:
+                            'Paris is the capital and most populous city of France. It has been a major center of finance, diplomacy, commerce, fashion, science, and the arts since the 17th century.',
                       ),
                     ],
                   ),
+                  numberOfQuestions: 7,
+                  quizTitle: 'General Knowledge Quiz',
+                  quizTime: 60,
+                  subCategoryId: 60,
                 ),
                 // home: QuizOnBoardingScreen(
                 //   quizModel: QuizModel(

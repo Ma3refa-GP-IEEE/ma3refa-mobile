@@ -5,7 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
-import 'package:ma3refa_mobile/features/quiz/data/logic/quiz_logic.dart';
+import 'package:ma3refa_mobile/features/quiz/data/logic/timed_quiz_logic_mixin.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/quiz_model.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/quiz_onboardig_screen.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/answer_options_widget.dart';
@@ -32,7 +32,7 @@ class QuizQuestionsScreen extends StatefulWidget {
 }
 
 class _QuizQuestionsScreenState extends State<QuizQuestionsScreen>
-    with QuizLogicMixin {
+    with TimedQuizLogicMixin {
   @override
   void initState() {
     super.initState();

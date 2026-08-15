@@ -109,5 +109,9 @@
     "esay": "سهل",
     "medium": "متوسط",
     "hard": "صعب",
-    "unknown": "غير معروف"
+    "unknown": "غير معروف",
+    "next_question": "السؤال التالي",
+    "previous_question": "السؤال السابق",
+    "submit": "إرسال",
+    "home.quizSetup.untimed": "اختبار غير محدد الوقت"
 }
