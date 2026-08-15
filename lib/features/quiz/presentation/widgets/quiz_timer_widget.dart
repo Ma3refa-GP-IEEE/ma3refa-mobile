@@ -6,7 +6,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 
 class QuizTimerWidget extends StatefulWidget {
@@ -42,6 +44,9 @@ class _QuizTimerWidgetState extends State<QuizTimerWidget> {
         });
       } else {
         _timer?.cancel();
+        getIt<AudioService>().playAssetSound(
+          'assets/sounds/time_out_sound.wav',
+        );
         _showTimeUpDialog();
       }
     });

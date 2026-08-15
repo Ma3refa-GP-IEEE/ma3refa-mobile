@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/cubit/auth_cubit.dart';
@@ -35,6 +36,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<CustomButtonState> _btnKey = GlobalKey<CustomButtonState>();
   String userGender = 'Male';
+  @override
+  void dispose() {
+    getIt<AudioService>().disposeAudioPlayer();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +145,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     BlocConsumer<AuthCubit, AuthStates>(
                                       listener: (context, state) {
                                         if (state is AuthErrorState) {
+                                          getIt<AudioService>().playAssetSound(
+                                            'assets/sounds/failed_login_or_signup_sound.mp3',
+                                          );
                                           ScaffoldMessenger.of(
                                             context,
                                           ).showSnackBar(
@@ -179,6 +188,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             if (!formKey.currentState!
                                                 .validate()) {
                                               _btnKey.currentState?.shake();
+                                              getIt<AudioService>().playAssetSound(
+                                                'assets/sounds/failed_login_or_signup_sound.mp3',
+                                              );
                                             } else {
                                               // BlocProvider.of<AuthCubit>(context).register(
                                               //   nameController:

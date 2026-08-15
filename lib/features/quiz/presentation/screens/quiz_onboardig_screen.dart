@@ -4,7 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/quiz_model.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/quiz_questions_screen.dart';
@@ -24,9 +26,11 @@ class QuizOnBoardingScreen extends StatelessWidget {
     required this.quizTime,
     required this.subCategoryId,
   });
-
   @override
   Widget build(BuildContext context) {
+    Future.microtask(() {
+      getIt<AudioService>().playAssetSound('assets/sounds/searching_sound.mp3');
+    });
     bool isRtl = Directionality.of(context) == TextDirection.RTL;
     return Scaffold(
       backgroundColor: AppColors.background,

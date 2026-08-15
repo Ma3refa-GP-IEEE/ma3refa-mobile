@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 
 class DifficultySelector extends StatefulWidget {
   final Function(String) onDifficultySelected;
@@ -64,6 +66,9 @@ class _DifficultySelectorState extends State<DifficultySelector> {
         onTap: () {
           selectedDifficultyNotifier.value = difficulty;
           widget.onDifficultySelected(difficulty);
+          getIt<AudioService>().playAssetSound(
+            'assets/sounds/chose_difficulty.wav',
+          );
         },
         child:
             AnimatedContainer(

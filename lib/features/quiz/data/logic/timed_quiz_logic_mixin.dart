@@ -34,7 +34,6 @@ mixin TimedQuizLogicMixin on State<QuizQuestionsScreen> {
       );
     });
 
-    // Auto-advance for timed quiz
     if (currentQuestionIndex < widget.numberOfQuestions - 1) {
       Future.delayed(const Duration(milliseconds: 400), () {
         pageController.nextPage(

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_splash_screen/flutter_splash_screen.dart';
 import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/on_boarding_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/logo_card_widget.dart';
@@ -21,7 +23,18 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getIt<AudioService>().playAssetSound(
+        'assets/sounds/splash_screen_sound.wav',
+      );
+    });
     _startSplashLogic();
+  }
+
+  @override
+  void dispose() {
+    getIt<AudioService>().disposeAudioPlayer();
+    super.dispose();
   }
 
   Future<void> _startSplashLogic() async {

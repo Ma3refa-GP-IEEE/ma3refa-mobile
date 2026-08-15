@@ -4,7 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 
 class DailyStreakWidget extends StatefulWidget {
   final int streakCount;
@@ -41,55 +43,64 @@ class _DailyStreakWidgetState extends State<DailyStreakWidget> {
           .shimmer(color: Colors.white.withOpacity(0.3), duration: 1.seconds);
     }
 
-    return Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24.r),
-          ),
-          elevation: 4,
-          child: Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 24.r, horizontal: 48.r),
-            decoration: BoxDecoration(
-              color: const Color(0xffA8DADC),
-              borderRadius: BorderRadius.circular(24.r),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  fireIcon,
-                  SizedBox(height: 12.h),
-                  Text(
-                    'days'.tr(
-                      namedArgs: {'count': widget.streakCount.toString()},
-                    ),
-                    style: TextStyle(
-                      fontSize: 32.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textDark,
+    return InkWell(
+      onTap: () {
+        getIt<AudioService>().playAssetSound('assets/sounds/streak_sound.mp3');
+      },
+      child:
+          Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24.r),
+                ),
+                elevation: 4,
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 24.r,
+                    horizontal: 48.r,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xffA8DADC),
+                    borderRadius: BorderRadius.circular(24.r),
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        fireIcon,
+                        SizedBox(height: 12.h),
+                        Text(
+                          'days'.tr(
+                            namedArgs: {'count': widget.streakCount.toString()},
+                          ),
+                          style: TextStyle(
+                            fontSize: 32.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textDark,
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          'daily_streak'.tr(),
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textDark.withOpacity(0.7),
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    'daily_streak'.tr(),
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textDark.withOpacity(0.7),
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                ],
+                ),
+              )
+              .animate()
+              .fade(duration: 400.ms)
+              .scale(
+                begin: const Offset(0.9, 0.9),
+                curve: Curves.easeOutBack,
+                duration: 400.ms,
               ),
-            ),
-          ),
-        )
-        .animate()
-        .fade(duration: 400.ms)
-        .scale(
-          begin: const Offset(0.9, 0.9),
-          curve: Curves.easeOutBack,
-          duration: 400.ms,
-        );
+    );
   }
 }

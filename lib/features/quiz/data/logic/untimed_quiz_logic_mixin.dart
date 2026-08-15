@@ -2,6 +2,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/result_params.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/untimed_quiz_questions_screen.dart';
 
@@ -13,14 +15,6 @@ mixin UntimedQuizLogicMixin on State<UntimedQuizQuestionsScreen> {
   bool isCurrentQuestionAnswered = false;
   final AudioPlayer audioPlayer = AudioPlayer();
   late ConfettiController confettiController;
-
-  Future<void> _playAssetSound(String assetPath) async {
-    try {
-      await audioPlayer.play(AssetSource(assetPath));
-    } catch (e) {
-      debugPrint('Failed to play sound asset "$assetPath": $e');
-    }
-  }
 
   void initUntimedQuizLogic() {
     pageController = PageController(initialPage: 0);
@@ -54,12 +48,17 @@ mixin UntimedQuizLogicMixin on State<UntimedQuizQuestionsScreen> {
 
     if (isCorrectAnswer) {
       confettiController.play();
-      await _playAssetSound('sounds/coreeeeect-answer.mp3');
+      await getIt<AudioService>().playAssetSound(
+        'sounds/coreeeeect-answer.mp3',
+      );
     } else {
       setState(() {
         isWrongAnswerTriggered = true;
       });
-      await _playAssetSound('sounds/wrong_answer_sound.wav');
+      await getIt<AudioService>().playAssetSound(
+        'sounds/wrong_answer_sound.wav',
+      );
+
       HapticFeedback.heavyImpact();
     }
   }
@@ -70,6 +69,9 @@ mixin UntimedQuizLogicMixin on State<UntimedQuizQuestionsScreen> {
         isCurrentQuestionAnswered = false;
         isWrongAnswerTriggered = false;
       });
+      getIt<AudioService>().playAssetSound(
+        'assets/sounds/steps_progress_sound.wav',
+      );
       confettiController.stop();
       pageController.nextPage(
         duration: const Duration(milliseconds: 300),

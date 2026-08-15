@@ -1,3 +1,6 @@
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
+
 class Utils {
   static String getAvatarUrl({
     required String userName,
@@ -12,6 +15,26 @@ class Utils {
       default:
         return 'https://api.dicebear.com/7.x/bottts/svg?seed=$cleanSeed';
     }
+  }
+}
+
+class AudioService {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  Future<void> playAssetSound(String assetPath) async {
+    try {
+      await _audioPlayer.play(AssetSource(assetPath));
+    } catch (e) {
+      debugPrint('Failed to play sound asset "$assetPath": $e');
+    }
+  }
+
+  Future<void> stopSound() async {
+    await _audioPlayer.stop();
+  }
+
+  void disposeAudioPlayer() {
+    _audioPlayer.dispose();
   }
 }
 

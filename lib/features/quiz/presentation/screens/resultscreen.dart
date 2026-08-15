@@ -4,7 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/question_model.dart';
@@ -52,6 +54,32 @@ class _ResultScreenState extends State<ResultScreen> {
       default:
         return answerLetter;
     }
+  }
+
+  @override
+  initState() {
+    super.initState();
+    !widget.comingFromQuizScreen
+        ? null
+        : widget.quizDetailsModel.score ==
+              widget.quizDetailsModel.totalQuestions
+        ? getIt<AudioService>().playAssetSound(
+            'assets/sounds/dexter_if_userscore_equals_100.mp3',
+          )
+        : widget.quizDetailsModel.score >=
+              widget.quizDetailsModel.totalQuestions / 2
+        ? getIt<AudioService>().playAssetSound(
+            'assets/sounds/if_userscore_greaterthan_50.mp3',
+          )
+        : getIt<AudioService>().playAssetSound(
+            'assets/sounds/under_50_percent_arabic.mp3',
+          );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    getIt<AudioService>().disposeAudioPlayer();
   }
 
   @override

@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/quiz_data.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/sub_category_screen.dart';
 import 'package:ma3refa_mobile/features/home/presentation/widgets/category_card.dart';
 import 'package:ma3refa_mobile/features/home/presentation/widgets/home_header_widget.dart';
@@ -52,6 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   return CategoryCard(
                         category: QuizData.categories[index],
                         onTap: () {
+                          getIt<AudioService>().playAssetSound(
+                            'assets/sounds/click_cards.wav',
+                          );
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -100,7 +105,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: EdgeInsetsDirectional.only(end: 12.w),
                           child: SizedBox(
                             width: 280.w,
-                            child: RecommendationWidget(),
+                            child: RecommendationWidget(
+                              onTap: () {
+                                getIt<AudioService>().playAssetSound(
+                                  'assets/sounds/click_cards.wav',
+                                );
+                                //   Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //       builder: (context) => SubCategoryScreen(
+                                //         categoryName: QuizData.categories[index].name,
+                                //       ),
+                                //     ),
+                                //   );
+                                // }, category: QuizData.categories[index]),
+                              },
+                            ),
                           ),
                         )
                         .animate()
