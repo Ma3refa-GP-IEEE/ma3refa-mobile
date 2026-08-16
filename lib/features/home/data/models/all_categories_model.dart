@@ -20,4 +20,11 @@ class AllCategoriesModel {
       ),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'categories': categories.map((e) => e.toJson()).toList(),
+      'recommendations': recommendations.map((e) => e.toJson()).toList(),
+    };
+  }
 }

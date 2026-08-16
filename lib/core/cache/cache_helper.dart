@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,12 +52,46 @@ class CacheHelper {
     });
   }
 
+  static Future<List<String>> getUsernameAndGender() async {
+    String? firstName = await secureStorage.read(key: 'firstName') ?? "Mahmoud";
+    String? lastName = await secureStorage.read(key: 'lastName') ?? "Ahmed";
+    String? fullName = '$firstName $lastName';
+    String? gender = await secureStorage.read(key: 'gender') ?? "Male";
+    return [fullName, gender];
+  }
+
   static Future<void> saveOnBoarding() async {
     await sharedPreferences!.setBool('onBoarding', true);
   }
 
   static Future<bool?> getOnBoarding() async {
     return sharedPreferences!.getBool('onBoarding');
+  }
+
+  static Future<void> saveHomeData(Map<String, dynamic> homeData) async {
+    String encodedData = jsonEncode(homeData);
+    await sharedPreferences!.setString('home_data', encodedData);
+  }
+
+  static Map<String, dynamic>? getHomeData() {
+    String? encodedData = sharedPreferences!.getString('home_data');
+    if (encodedData != null) {
+      return jsonDecode(encodedData) as Map<String, dynamic>;
+    }
+    return null;
+  }
+
+  static Future<void> saveProfileData(Map<String, dynamic> profileData) async {
+    String encodedData = jsonEncode(profileData);
+    await sharedPreferences!.setString('profile_data', encodedData);
+  }
+
+  static Map<String, dynamic>? getProfileData() {
+    String? encodedData = sharedPreferences!.getString('profile_data');
+    if (encodedData != null) {
+      return jsonDecode(encodedData) as Map<String, dynamic>;
+    }
+    return null;
   }
 
   static Future<void> setLanguage(String language) async {

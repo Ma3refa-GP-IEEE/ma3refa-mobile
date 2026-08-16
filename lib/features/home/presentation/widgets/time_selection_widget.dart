@@ -71,7 +71,9 @@ class _TimeSelectionCardState extends State<TimeSelectionCard> {
                   ),
             ),
             trailing: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                _showTimePicker(context);
+              },
               icon: Icon(
                 Icons.edit,
                 color: AppColors.primary,

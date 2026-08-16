@@ -7,18 +7,17 @@ import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/quiz/data/logic/timed_quiz_logic_mixin.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/quiz_model.dart';
-import 'package:ma3refa_mobile/features/quiz/presentation/screens/quiz_onboardig_screen.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/answer_options_widget.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/quiz_progress_widget.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/quiz_timer_widget.dart';
 
-class QuizQuestionsScreen extends StatefulWidget {
+class TimedQuizQuestionsScreen extends StatefulWidget {
   final int subCategoryId;
   final QuizModel quizModel;
   final int numberOfQuestions;
   final String quizTitle;
   final int quizTime;
-  const QuizQuestionsScreen({
+  const TimedQuizQuestionsScreen({
     super.key,
     required this.quizModel,
     required this.numberOfQuestions,
@@ -28,10 +27,11 @@ class QuizQuestionsScreen extends StatefulWidget {
   });
 
   @override
-  State<QuizQuestionsScreen> createState() => _QuizQuestionsScreenState();
+  State<TimedQuizQuestionsScreen> createState() =>
+      _TimedQuizQuestionsScreenState();
 }
 
-class _QuizQuestionsScreenState extends State<QuizQuestionsScreen>
+class _TimedQuizQuestionsScreenState extends State<TimedQuizQuestionsScreen>
     with TimedQuizLogicMixin {
   @override
   void initState() {
@@ -55,21 +55,17 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen>
         centerTitle: false,
         actions: [
           QuizTimerWidget(
-            durationInMinutes: 60, //durationInMinutes: widget.quizTime,
+            durationInMinutes: widget.quizTime,
             onTimerFinished: () {
               //final result = finishAndSubmitQuiz();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => QuizOnBoardingScreen(
-                    subCategoryId: widget.subCategoryId,
-                    quizModel: widget.quizModel,
-                    numberOfQuestions: widget.numberOfQuestions,
-                    quizTitle: widget.quizTitle,
-                    quizTime: widget.quizTime,
-                  ),
-                ),
-              );
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => ResultScreen(
+
+              //     ),
+              //   ),
+              // );
             },
           ),
         ],

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ma3refa_mobile/core/utils/quiz_data.dart';
 
 class SubCategoryModel {
+  final int? subcategoryId;
   final int? categoryId;
   final String name;
   final String description;
@@ -14,11 +15,13 @@ class SubCategoryModel {
     required this.description,
     required this.icon,
     this.categoryId,
+    this.subcategoryId,
   });
 
   factory SubCategoryModel.fromJson(Map<String, dynamic> json) {
-    final String subName = json['subcategories']['name'] ?? '';
-    final int? subId = json['subcategories']['id'];
+    final String subName = json['name'] ?? '';
+    final int? subId = json['id'];
+    final int? categoryId = json['category_id'];
 
     SubCategoryModel? localSubData;
     try {
@@ -33,12 +36,23 @@ class SubCategoryModel {
     }
 
     return SubCategoryModel(
-      categoryId: subId,
+      subcategoryId: subId,
+      categoryId: categoryId,
       name: subName,
       description:
           localSubData?.description ??
           'Explore comprehensive topics and test your knowledge.',
       icon: localSubData?.icon ?? Icons.category,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'subcategory_id': subcategoryId,
+      'category_id': categoryId,
+      'name': name,
+      'description': description,
+      'icon': icon.codePoint,
+    };
   }
 }

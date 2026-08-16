@@ -23,6 +23,14 @@ class ProfileModel {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'user': user.toJson(),
+      'streak': {'current': currentStreak, 'last_activity': lastActivity},
+      'subcategory_points': subcategoryPoints.map((e) => e.toJson()).toList(),
+    };
+  }
 }
 
 class SubcategoryPoints {
@@ -42,5 +50,13 @@ class SubcategoryPoints {
       subcategory: json['subcategory_name'],
       totalPoints: json['total_points'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'subcategory_id': subcategoryId,
+      'subcategory_name': subcategory,
+      'total_points': totalPoints,
+    };
   }
 }

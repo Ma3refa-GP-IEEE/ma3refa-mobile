@@ -45,6 +45,7 @@ class UserModel {
       'password': password,
       'age': age,
       'gender': gender,
+      'password_confirmation': passwordConfirmation,
     };
   }
 }

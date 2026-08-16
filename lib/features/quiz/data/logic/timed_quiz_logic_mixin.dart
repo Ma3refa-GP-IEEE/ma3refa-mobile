@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/result_params.dart';
-import 'package:ma3refa_mobile/features/quiz/presentation/screens/quiz_questions_screen.dart';
+import 'package:ma3refa_mobile/features/quiz/presentation/screens/timed_quiz_questions_screen.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/submit_dialog_widget.dart';
 
-mixin TimedQuizLogicMixin on State<QuizQuestionsScreen> {
+mixin TimedQuizLogicMixin on State<TimedQuizQuestionsScreen> {
   late List<Answer> userAnswers;
   late PageController pageController;
   int currentQuestionIndex = 0;

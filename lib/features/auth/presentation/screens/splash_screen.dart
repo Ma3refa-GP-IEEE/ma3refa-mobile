@@ -33,21 +33,25 @@ class _SplashScreenState extends State<SplashScreen> {
     FlutterSplashScreen.hide();
     await Future.delayed(const Duration(seconds: 3));
     if (!mounted) return;
-
     bool isOnBoardingVisited = await CacheHelper.getOnBoarding() ?? false;
     String? token = await CacheHelper.getToken();
-
+    List<String>? usernameAndGender = await CacheHelper.getUsernameAndGender();
     Widget nextScreen;
-
     if (isOnBoardingVisited) {
       if (token != null && token.isNotEmpty) {
-        nextScreen = const HomeScreen();
+        nextScreen = HomeScreen(
+          userName: usernameAndGender[0],
+          gender: usernameAndGender[1],
+        );
       } else {
-        nextScreen = const LoginScreen();
+        nextScreen = LoginScreen();
       }
     } else {
+      await CacheHelper.saveOnBoarding();
       nextScreen = const OnBoardingScreen();
     }
+
+    if (!mounted) return;
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => nextScreen),

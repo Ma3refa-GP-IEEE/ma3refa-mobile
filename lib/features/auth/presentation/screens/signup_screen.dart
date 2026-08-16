@@ -35,7 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<CustomButtonState> _btnKey = GlobalKey<CustomButtonState>();
-  String userGender = 'Male';
+  String userGender = 'male';
 
   @override
   void dispose() {
@@ -117,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     GenderSelector(
                                       onGenderSelected: (gender) {
-                                        userGender = gender;
+                                        userGender = gender.toLowerCase();
                                       },
                                     ),
                                     SizedBox(height: 15.h),
@@ -182,8 +182,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeScreen(),
+                                              builder: (context) => HomeScreen(
+                                                gender: state.user.gender,
+                                                userName: state.user.name,
+                                              ),
                                             ),
                                           );
                                         }

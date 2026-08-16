@@ -1,4 +1,5 @@
 import 'package:ma3refa_mobile/features/home/data/models/all_categories_model.dart';
+import 'package:ma3refa_mobile/features/home/data/models/category_model.dart';
 import 'package:ma3refa_mobile/features/home/data/models/sub_category_model.dart';
 
 abstract class HomeStates {}
@@ -20,8 +21,8 @@ class HomeCategoriesErrorState extends HomeStates {
 class SubCategoriesLoadingState extends HomeStates {}
 
 class SubCategoriesSuccessState extends HomeStates {
-  final SubCategoryModel subCategoryModel;
-  SubCategoriesSuccessState({required this.subCategoryModel});
+  final CategoryModel categoryModel;
+  SubCategoriesSuccessState({required this.categoryModel});
 }
 
 class SubCategoriesErrorState extends HomeStates {
