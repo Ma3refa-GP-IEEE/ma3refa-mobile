@@ -83,7 +83,7 @@ class _LoadingCardWidgetState extends State<LoadingCardWidget>
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.r),
                     child: Image.asset(
-                      "assets/images/loading.jpg",
+                      "assets/images/loading.png",
                       width: widget.width,
                       height: widget.height,
                       fit: BoxFit.cover,
@@ -96,7 +96,7 @@ class _LoadingCardWidgetState extends State<LoadingCardWidget>
             ClipRRect(
               borderRadius: BorderRadius.circular(20.r),
               child: Image.asset(
-                "assets/images/loading.jpg",
+                "assets/images/loading.png",
                 width: widget.width,
                 height: widget.height,
                 fit: BoxFit.cover,

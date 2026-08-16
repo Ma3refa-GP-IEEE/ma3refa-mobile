@@ -11,11 +11,11 @@ class RecommendationWidget extends StatelessWidget {
   final String difficultyLevel;
   final String subCategoryTitle;
   final int subCategoryId;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
 
   RecommendationWidget({
     super.key,
-    this.onTap,
+    required this.onTap,
     required this.topicTitle,
     required this.difficultyLevel,
     required this.subCategoryTitle,
@@ -104,7 +104,7 @@ class RecommendationWidget extends StatelessWidget {
             ),
             const Spacer(),
             CustomButton(
-              onPressed: () {},
+              onPressed: onTap,
               text: 'home.recommendation.playQuiz'.tr(),
               icon: Icons.play_arrow,
             ),

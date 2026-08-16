@@ -13,6 +13,7 @@ import 'package:ma3refa_mobile/features/quiz/cubit/quiz_cubit.dart';
 import 'package:ma3refa_mobile/features/quiz/cubit/quiz_states.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/quiz_setup_params.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/timed_quiz_questions_screen.dart';
+import 'package:ma3refa_mobile/features/quiz/presentation/screens/untimed_quiz_questions_screen.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/loading_card_widget.dart';
 
 class QuizOnBoardingScreen extends StatefulWidget {
@@ -56,9 +57,10 @@ class _QuizOnBoardingScreenState extends State<QuizOnBoardingScreen> {
             ),
           );
           Future.delayed(const Duration(seconds: 2), () {
-            Navigator.pop(context);
+            if (mounted) {
+              Navigator.pop(context);
+            }
           });
-          Navigator.pop(context);
         }
       },
       builder: (context, state) {
@@ -117,23 +119,41 @@ class _QuizOnBoardingScreenState extends State<QuizOnBoardingScreen> {
                             child: CustomButton(
                               onPressed: () {
                                 if (state is GenerateQuizSuccessState) {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          TimedQuizQuestionsScreen(
-                                            subCategoryId: widget
-                                                .quizSetupParams
-                                                .subcategoryId,
-                                            quizModel: state.quiz,
-                                            numberOfQuestions: widget
-                                                .quizSetupParams
-                                                .numberOfQuestions,
-                                            quizTitle: widget.quizTitle,
-                                            quizTime: widget.quizTime,
+                                  widget.quizTime == 0
+                                      ? Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                UntimedQuizQuestionsScreen(
+                                                  subCategoryId: widget
+                                                      .quizSetupParams
+                                                      .subcategoryId,
+                                                  quizModel: state.quiz,
+                                                  numberOfQuestions: widget
+                                                      .quizSetupParams
+                                                      .numberOfQuestions,
+                                                  quizTitle: widget.quizTitle,
+                                                  quizTime: widget.quizTime,
+                                                ),
                                           ),
-                                    ),
-                                  );
+                                        )
+                                      : Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                TimedQuizQuestionsScreen(
+                                                  subCategoryId: widget
+                                                      .quizSetupParams
+                                                      .subcategoryId,
+                                                  quizModel: state.quiz,
+                                                  numberOfQuestions: widget
+                                                      .quizSetupParams
+                                                      .numberOfQuestions,
+                                                  quizTitle: widget.quizTitle,
+                                                  quizTime: widget.quizTime,
+                                                ),
+                                          ),
+                                        );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(

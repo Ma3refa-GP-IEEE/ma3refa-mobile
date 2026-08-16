@@ -39,8 +39,8 @@ class _ResultScreenState extends State<ResultScreen> {
     return correctAnswers;
   }
 
-  String getFullAnswerText(QuestionModel question, String answerLetter) {
-    switch (answerLetter.toLowerCase()) {
+  String getFullAnswerText(QuestionModel question, String? answerLetter) {
+    switch (answerLetter?.toLowerCase()) {
       case 'a':
         return question.optionA;
       case 'b':
@@ -49,10 +49,11 @@ class _ResultScreenState extends State<ResultScreen> {
         return question.optionC;
       case 'd':
         return question.optionD;
-      case 'skipped':
-        return 'skipped'.tr();
+      case null:
+        return 'You Skipped this question or did not answer it.';
       default:
-        return answerLetter;
+        return answerLetter ??
+            'You Skipped this question or did not answer it.';
     }
   }
 

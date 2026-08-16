@@ -8,9 +8,9 @@ class QuizModel {
 
   factory QuizModel.fromJson(Map<String, dynamic> json) {
     return QuizModel(
-      quizId: json['quiz_id'] ?? 0,
+      quizId: json['data']['quiz_id'] ?? 0,
       questions:
-          (json['questions'] as List<dynamic>?)
+          (json['data']['questions'] as List<dynamic>?)
               ?.map((questionJson) => QuestionModel.fromJson(questionJson))
               .toList() ??
           [],

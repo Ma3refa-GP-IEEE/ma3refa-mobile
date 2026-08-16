@@ -24,7 +24,7 @@ mixin UntimedQuizLogicMixin on State<UntimedQuizQuestionsScreen> {
     userAnswers = List.generate(widget.numberOfQuestions, (index) {
       return Answer(
         questionId: index + 1,
-        selectedAnswer: 'skipped',
+        selectedAnswer: null,
         isCorrect: false,
       );
     });
@@ -34,13 +34,23 @@ mixin UntimedQuizLogicMixin on State<UntimedQuizQuestionsScreen> {
     if (isCurrentQuestionAnswered) return;
 
     final currentQuestion = widget.quizModel.questions[currentQuestionIndex];
+    String selectedLetter = '';
+    if (selectedAnswerOption == currentQuestion.optionA) {
+      selectedLetter = 'a';
+    } else if (selectedAnswerOption == currentQuestion.optionB) {
+      selectedLetter = 'b';
+    } else if (selectedAnswerOption == currentQuestion.optionC) {
+      selectedLetter = 'c';
+    } else if (selectedAnswerOption == currentQuestion.optionD) {
+      selectedLetter = 'd';
+    }
     bool isCorrectAnswer =
-        (selectedAnswerOption == currentQuestion.correctAnswer);
+        (selectedLetter == currentQuestion.correctAnswer.toLowerCase());
 
     setState(() {
       userAnswers[currentQuestionIndex] = Answer(
         questionId: currentQuestion.id,
-        selectedAnswer: selectedAnswerOption,
+        selectedAnswer: selectedLetter,
         isCorrect: isCorrectAnswer,
       );
       isCurrentQuestionAnswered = true;

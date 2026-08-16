@@ -33,8 +33,8 @@ class FinishQuizErrorState extends QuizState {
 class FetchQuizResultsLoadingState extends QuizState {}
 
 class FetchQuizResultsSuccessState extends QuizState {
-  final QuizDetailsModel quizDetails;
-  FetchQuizResultsSuccessState(this.quizDetails);
+  final QuizDetailsModel quizDetailsModel;
+  FetchQuizResultsSuccessState(this.quizDetailsModel);
 }
 
 class FetchQuizResultsErrorState extends QuizState {

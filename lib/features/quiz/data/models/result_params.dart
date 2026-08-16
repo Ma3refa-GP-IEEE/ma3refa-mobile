@@ -20,7 +20,7 @@ class ResultParams {
 
 class Answer {
   final int questionId;
-  final String selectedAnswer;
+  final String? selectedAnswer;
   final bool isCorrect;
 
   Answer({

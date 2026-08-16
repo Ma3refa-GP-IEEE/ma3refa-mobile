@@ -1,6 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ma3refa_mobile/features/quiz/cubit/quiz_cubit.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/result_params.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/timed_quiz_questions_screen.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/submit_dialog_widget.dart';
@@ -15,7 +17,7 @@ mixin TimedQuizLogicMixin on State<TimedQuizQuestionsScreen> {
     userAnswers = List.generate(widget.numberOfQuestions, (index) {
       return Answer(
         questionId: index + 1,
-        selectedAnswer: 'skipped',
+        selectedAnswer: null,
         isCorrect: false,
       );
     });
@@ -23,13 +25,25 @@ mixin TimedQuizLogicMixin on State<TimedQuizQuestionsScreen> {
 
   void handleAnswerSelection({required String selectedAnswerOption}) {
     final currentQuestion = widget.quizModel.questions[currentQuestionIndex];
+
+    String selectedLetter = '';
+    if (selectedAnswerOption == currentQuestion.optionA) {
+      selectedLetter = 'a';
+    } else if (selectedAnswerOption == currentQuestion.optionB) {
+      selectedLetter = 'b';
+    } else if (selectedAnswerOption == currentQuestion.optionC) {
+      selectedLetter = 'c';
+    } else if (selectedAnswerOption == currentQuestion.optionD) {
+      selectedLetter = 'd';
+    }
+
     bool isCorrectAnswer =
-        (selectedAnswerOption == currentQuestion.correctAnswer);
+        (selectedLetter == currentQuestion.correctAnswer.toLowerCase());
 
     setState(() {
       userAnswers[currentQuestionIndex] = Answer(
         questionId: currentQuestion.id,
-        selectedAnswer: selectedAnswerOption,
+        selectedAnswer: selectedLetter,
         isCorrect: isCorrectAnswer,
       );
     });
@@ -55,17 +69,24 @@ mixin TimedQuizLogicMixin on State<TimedQuizQuestionsScreen> {
   }
 
   void showSubmitConfirmationDialog() {
+    final parentContext = context;
+
     showDialog(
       context: context,
       barrierDismissible: true,
       barrierColor: Colors.black.withOpacity(0.5),
       useRootNavigator: true,
-      builder: (context) {
+      builder: (dialogContext) {
         return SubmitDialogWidget(
           onSubmit: () {
-            Navigator.of(context).pop();
-            // final result = finishAndSubmitQuiz();
-            // BlocProvider.of<QuizCubit>(context).finishCurrentQuiz(result);
+            Navigator.of(dialogContext).pop();
+
+            final params = finishAndSubmitQuiz();
+
+            BlocProvider.of<QuizCubit>(parentContext).finishCurrentQuiz(
+              quizId: widget.quizModel.quizId,
+              params: params,
+            );
           },
         );
       },

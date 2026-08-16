@@ -20,18 +20,23 @@ class QuizDetailsModel {
   });
 
   factory QuizDetailsModel.fromJson(Map<String, dynamic> json) {
-    List<QuizResultsModel> results = (json['results'] as List)
-        .map((e) => QuizResultsModel.fromJson(e))
-        .toList();
+    final Map<String, dynamic> data =
+        json['data'] != null && json['data'] is Map<String, dynamic>
+        ? json['data']
+        : json;
 
     return QuizDetailsModel(
-      quizId: json['quiz_id'] ?? 0,
-      subcategory: json['subcategory'] ?? '',
-      difficulty: json['difficulty'] ?? 'Easy',
-      score: json['score'] ?? 0,
-      totalQuestions: json['total_questions'] ?? 0,
-      createdAt: json['created_at'] ?? '',
-      results: results,
+      quizId: data['quiz_id'] ?? 0,
+      subcategory: data['subcategory'] ?? '',
+      difficulty: data['difficulty'] ?? 'Easy',
+      score: data['score'] ?? 0,
+      totalQuestions: data['total_questions'] ?? 0,
+      createdAt: data['created_at'] ?? '',
+      results: data['results'] != null
+          ? (data['results'] as List)
+                .map((e) => QuizResultsModel.fromJson(e))
+                .toList()
+          : [],
     );
   }
 }

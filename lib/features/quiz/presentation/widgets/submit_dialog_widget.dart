@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 
 class SubmitDialogWidget extends StatefulWidget {
   final VoidCallback onSubmit;
@@ -63,58 +64,20 @@ class _SubmitDialogWidgetState extends State<SubmitDialogWidget> {
                   ),
                   SizedBox(height: 28.h),
 
-                  Row(
+                  Column(
                     children: [
-                      Expanded(
-                        child: SizedBox(
-                          height: 48.h,
-                          child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                color: Color(0xFF1B4D6A),
-                                width: 1.5,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24.r),
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              'review_answers'.tr(),
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF1B4D6A),
-                              ),
-                            ),
-                          ),
-                        ),
+                      CustomButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        text: 'review_answers'.tr(),
                       ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: SizedBox(
-                          height: 48.h,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF1B4D6A),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24.r),
-                              ),
-                              elevation: 0,
-                            ),
-                            onPressed: widget.onSubmit,
-                            child: Text(
-                              'yes_submit'.tr(),
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
+
+                      SizedBox(height: 12.h),
+                      CustomButton(
+                        onPressed: widget.onSubmit,
+                        text: 'yes_submit'.tr(),
+                        icon: Icons.check,
                       ),
                     ],
                   ),

@@ -6,7 +6,7 @@ import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 
 class AnswerOptionWidget extends StatefulWidget {
   final List<String> answers;
-  final String selectedAnswer;
+  final String? selectedAnswer;
   final Function(String) onOptionSelected;
 
   final bool isAnswered;
@@ -30,9 +30,10 @@ class _AnswerOptionWidgetState extends State<AnswerOptionWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: List.generate(widget.answers.length, (index) {
+        String currentLetter = String.fromCharCode(97 + index);
         String currentOption = widget.answers[index];
-        bool isSelected = currentOption == widget.selectedAnswer;
-        bool isCorrect = currentOption == widget.correctAnswer;
+        bool isSelected = currentLetter == widget.selectedAnswer;
+        bool isCorrect = currentLetter == widget.correctAnswer?.toLowerCase();
         bool isWrongSelection = isSelected && !isCorrect;
 
         Color getBorderColor() {

@@ -21,7 +21,7 @@ class QuestionModel {
 
   factory QuestionModel.fromJson(Map<String, dynamic> json) {
     return QuestionModel(
-      id: json['id'] ?? 0,
+      id: json['id'] ?? json['question_id'] ?? 0,
       description: json['description'] ?? '',
       optionA: json['option_a'] ?? '',
       optionB: json['option_b'] ?? '',
