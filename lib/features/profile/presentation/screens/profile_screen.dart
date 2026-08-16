@@ -1,24 +1,25 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/quiz_data.dart';
-import 'package:ma3refa_mobile/features/profile/data/models/history_quiz_model.dart';
-import 'package:ma3refa_mobile/features/profile/data/models/pagination_model.dart';
-import 'package:ma3refa_mobile/features/profile/data/models/profile_model.dart';
-import 'package:ma3refa_mobile/features/profile/data/models/subcategory_quizzes_model.dart';
+import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.dart';
+import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
+import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_state.dart';
 import 'package:ma3refa_mobile/features/profile/presentation/screens/attempt_history.dart';
 import 'package:ma3refa_mobile/features/profile/presentation/widgets/daily_streak_widget.dart';
 import 'package:ma3refa_mobile/features/profile/presentation/widgets/logout_dialog_widget.dart';
 import 'package:ma3refa_mobile/features/profile/presentation/widgets/sub_category_card_widget.dart';
+import 'package:ma3refa_mobile/features/profile/presentation/widgets/summary_widget.dart';
 import 'package:ma3refa_mobile/features/profile/presentation/widgets/user_card_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final ProfileModel profileModel;
-  const ProfileScreen({super.key, required this.profileModel});
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -31,10 +32,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       barrierDismissible: true,
       barrierColor: Colors.black12,
       useRootNavigator: true,
-      builder: (context) {
+      builder: (dialogContext) {
         return LogOutDialogWidget(
-          onConfirm: () {
-            //!Perform logout action here
+          onConfirm: () async {
+            Navigator.of(dialogContext).pop();
+
+            await CacheHelper.clearData();
+
+            if (context.mounted) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (Route<dynamic> route) => false,
+              );
+            }
           },
         );
       },
@@ -43,181 +54,172 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: Text('my_profile'.tr()),
-        titleTextStyle: TextStyle(
-          color: AppColors.textDark,
-          fontSize: 22.sp,
-          fontWeight: FontWeight.bold,
-        ),
-        centerTitle: true,
-        backgroundColor: AppColors.background,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout, color: AppColors.textDark),
-            onPressed: () {
-              _showLogoutConfirmationDialog();
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.all(16.r),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              UserCardWidget(
-                userName: widget.profileModel.user.name,
-                userEmail: widget.profileModel.user.email,
-                gender: widget.profileModel.user.gender,
-              ),
-              SizedBox(height: 20.h),
-              DailyStreakWidget(streakCount: widget.profileModel.currentStreak),
-              SizedBox(height: 20.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'quiz_history'.tr(),
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textDark,
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.replay, color: AppColors.textDark),
-                    onPressed: () {
-                      //
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: 10.h),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: widget.profileModel.subcategoryPoints.length,
-                itemBuilder: (context, index) {
-                  final subcategoryPoint =
-                      widget.profileModel.subcategoryPoints[index];
-                  final String subcategory = subcategoryPoint.subcategory;
-                  IconData getIcon(String subcategory) {
-                    return QuizData.getIconForSubcategory(
-                      subcategoryPoint.subcategory,
-                    );
-                  }
+    return BlocConsumer<ProfileCubit, ProfileState>(
+      listener: (context, state) {
+        if (state is ProfileErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.errorMessage),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+        if (state is ProfileSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Profile data refreshed successfully"),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+        if (state is ProfileLoadingState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Refreshing profile data..."),
+              backgroundColor: Colors.blue,
+            ),
+          );
+        }
+      },
+      builder: (context, state) {
+        bool isLoading = state is ProfileLoadingState;
 
-                  return SubCategoryCardWidget(
-                        subcategory: subcategory,
-                        subcategoryPoint: subcategoryPoint.totalPoints,
-                        icon: getIcon(subcategory),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AttemptHistoryScreen(
-                                subcategoryQuizzesModel:
-                                    SubcategoryQuizzesModel(
-                                      subcategoryId: 50,
-                                      subcategory: 'Physics',
-                                      totalPoints: 160,
-                                      quizzes: [
-                                        HistoryQuizModel(
-                                          quizId: index + 1,
-                                          difficulty: index % 3 == 0
-                                              ? 'Easy'
-                                              : index % 3 == 1
-                                              ? 'Medium'
-                                              : 'Hard',
-                                          score: index % 3 == 0
-                                              ? 3
-                                              : index % 3 == 1
-                                              ? 7
-                                              : 14,
-                                          totalQuestions: index % 3 == 0
-                                              ? 5
-                                              : index % 3 == 1
-                                              ? 10
-                                              : 15,
-                                          createdAt: '2026-01-01 15:19:36',
-                                        ),
-                                        HistoryQuizModel(
-                                          quizId: index + 1,
-                                          difficulty: index % 3 == 0
-                                              ? 'Easy'
-                                              : index % 3 == 1
-                                              ? 'Medium'
-                                              : 'Hard',
-                                          score: index % 3 == 0
-                                              ? 3
-                                              : index % 3 == 1
-                                              ? 7
-                                              : 14,
-                                          totalQuestions: index % 3 == 0
-                                              ? 5
-                                              : index % 3 == 1
-                                              ? 10
-                                              : 15,
-                                          createdAt: '2026-01-01 15:19:36',
-                                        ),
-                                        HistoryQuizModel(
-                                          quizId: index + 1,
-                                          difficulty: index % 3 == 0
-                                              ? 'Easy'
-                                              : index % 3 == 1
-                                              ? 'Medium'
-                                              : 'Hard',
-                                          score: index % 3 == 0
-                                              ? 3
-                                              : index % 3 == 1
-                                              ? 7
-                                              : 14,
-                                          totalQuestions: index % 3 == 0
-                                              ? 5
-                                              : index % 3 == 1
-                                              ? 10
-                                              : 15,
-                                          createdAt: '2026-01-01 15:19:36',
-                                        ),
-                                      ],
-                                      pagination: PaginationModel(
-                                        currentPage: 1,
-                                        perPage: 10,
-                                        totalQuizzes: 5,
-                                        totalPages: 1,
-                                      ),
-                                    ),
-                              ),
-                            ),
-                          );
-                        },
-                      )
-                      .animate()
-                      .fade(duration: 400.ms, delay: (index * 100).ms)
-                      .slideY(
-                        begin: 0.2,
-                        duration: 400.ms,
-                        delay: (index * 100).ms,
-                        curve: Curves.easeOutQuad,
-                      );
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: AppBar(
+            title: Text('my_profile'.tr()),
+            titleTextStyle: TextStyle(
+              color: AppColors.textDark,
+              fontSize: 22.sp,
+              fontWeight: FontWeight.bold,
+            ),
+            centerTitle: true,
+            backgroundColor: AppColors.background,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.logout, color: AppColors.textDark),
+                onPressed: () {
+                  _showLogoutConfirmationDialog();
                 },
               ),
             ],
           ),
-        ),
-      ),
+          body: isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : (state is ProfileSuccessState)
+              ? SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: EdgeInsets.all(16.r),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        UserCardWidget(
+                          userName: state.profileModel.user.name,
+                          userEmail: state.profileModel.user.email,
+                          gender: state.profileModel.user.gender,
+                        ),
+                        SizedBox(height: 20.h),
+                        DailyStreakWidget(
+                          lastActivity: state.profileModel.lastActivity,
+                          streakCount: state.profileModel.currentStreak,
+                        ),
+                        SizedBox(height: 20.h),
+                        SummaryWidget(
+                          completedQuizzes:
+                              state.profileModel.allUserCompletedQuizzes,
+                          totalPoints: state.profileModel.allUsertotalPoints,
+                        ),
+                        SizedBox(height: 5.h),
+                        Divider(
+                          color: AppColors.textLight.withOpacity(0.5),
+                          thickness: 1,
+                        ),
+                        SizedBox(height: 5.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'quiz_history'.tr(),
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.textDark,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.replay,
+                                color: AppColors.textDark,
+                              ),
+                              onPressed: () {
+                                context
+                                    .read<ProfileCubit>()
+                                    .fetchProfileHistory();
+                              },
+                            ),
+                          ],
+                        ),
+
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount:
+                              state.profileModel.subcategoryPoints.length,
+                          itemBuilder: (context, index) {
+                            final subcategoryPoint =
+                                state.profileModel.subcategoryPoints[index];
+                            final String subcategory =
+                                subcategoryPoint.subcategory;
+                            IconData getIcon(String subcategory) {
+                              return QuizData.getIconForSubcategory(
+                                subcategoryPoint.subcategory,
+                              );
+                            }
+
+                            return SubCategoryCardWidget(
+                                  subcategory: subcategory,
+                                  subcategoryPoint:
+                                      subcategoryPoint.totalPoints,
+                                  icon: getIcon(subcategory),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AttemptHistoryScreen(
+                                              subcategoryId: subcategoryPoint
+                                                  .subcategoryId,
+                                              subcategoryName: subcategory,
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                )
+                                .animate()
+                                .fade(duration: 400.ms, delay: (index * 100).ms)
+                                .slideY(
+                                  begin: 0.2,
+                                  duration: 400.ms,
+                                  delay: (index * 100).ms,
+                                  curve: Curves.easeOutQuad,
+                                );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : const Center(child: Text("No Profile Data Available")),
+        );
+      },
     );
   }
 }

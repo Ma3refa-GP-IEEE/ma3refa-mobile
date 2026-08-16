@@ -6,14 +6,16 @@ class Utils {
     required String userName,
     required String gender,
   }) {
-    final cleanSeed = Uri.encodeComponent(userName);
     switch (gender.toLowerCase()) {
       case 'male':
-        return 'https://api.dicebear.com/7.x/avataaars/svg?seed=$cleanSeed';
+      case 'm':
+        return 'assets/images/boy.jpg';
       case 'female':
-        return 'https://api.dicebear.com/7.x/lorelei/svg?seed=$cleanSeed';
+      case 'f':
+        return 'assets/images/girl.jpg';
       default:
-        return 'https://api.dicebear.com/7.x/bottts/svg?seed=$cleanSeed';
+        final cleanSeed = Uri.encodeComponent(userName);
+        return 'https://api.dicebear.com/7.x/bottts/png?seed=$cleanSeed';
     }
   }
 }

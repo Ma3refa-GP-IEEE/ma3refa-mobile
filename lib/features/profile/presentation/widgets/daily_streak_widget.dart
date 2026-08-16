@@ -9,9 +9,14 @@ import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
 
 class DailyStreakWidget extends StatefulWidget {
+  final String lastActivity;
   final int streakCount;
 
-  const DailyStreakWidget({super.key, required this.streakCount});
+  const DailyStreakWidget({
+    super.key,
+    required this.streakCount,
+    required this.lastActivity,
+  });
 
   @override
   State<DailyStreakWidget> createState() => _DailyStreakWidgetState();
@@ -56,8 +61,8 @@ class _DailyStreakWidgetState extends State<DailyStreakWidget> {
                 child: Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(
-                    vertical: 24.r,
-                    horizontal: 48.r,
+                    vertical: 20.r,
+                    horizontal: 40.r,
                   ),
                   decoration: BoxDecoration(
                     color: const Color(0xffA8DADC),
@@ -68,13 +73,13 @@ class _DailyStreakWidgetState extends State<DailyStreakWidget> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         fireIcon,
-                        SizedBox(height: 12.h),
+                        SizedBox(height: 8.h),
                         Text(
                           'days'.tr(
                             namedArgs: {'count': widget.streakCount.toString()},
                           ),
                           style: TextStyle(
-                            fontSize: 32.sp,
+                            fontSize: 28.sp,
                             fontWeight: FontWeight.bold,
                             color: AppColors.textDark,
                           ),
@@ -87,6 +92,13 @@ class _DailyStreakWidgetState extends State<DailyStreakWidget> {
                             fontWeight: FontWeight.w600,
                             color: AppColors.textDark.withOpacity(0.7),
                             letterSpacing: 1.2,
+                          ),
+                        ),
+                        Text(
+                          "Last Activity: ${widget.lastActivity}",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textDark.withOpacity(0.6),
                           ),
                         ),
                       ],

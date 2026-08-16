@@ -15,6 +15,9 @@ import 'package:ma3refa_mobile/features/home/presentation/screens/sub_category_s
 import 'package:ma3refa_mobile/features/home/presentation/widgets/category_card.dart';
 import 'package:ma3refa_mobile/features/home/presentation/widgets/home_header_widget.dart';
 import 'package:ma3refa_mobile/features/home/presentation/widgets/recommendation_widget.dart';
+import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
+import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_state.dart';
+import 'package:ma3refa_mobile/features/profile/presentation/screens/profile_screen.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/quiz_setup_params.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/quiz_onboardig_screen.dart';
 
@@ -38,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (homeCubit.state is HomeInitialState) {
       homeCubit.getAllHomeCategories();
     }
+    BlocProvider.of<ProfileCubit>(context).fetchProfileHistory();
   }
 
   Future<void> _loadUserData() async {
@@ -59,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ? state.allCategoriesModel
               : homeCubit.lastHomeCategoriesModel;
 
-          if (state is HomeCategoriesLoadingState && allCategoriesModel == null) {
+          if (state is HomeCategoriesLoadingState &&
+              allCategoriesModel == null) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is HomeInitialState && allCategoriesModel == null) {
             BlocProvider.of<HomeCubit>(context).getAllHomeCategories();
@@ -78,6 +83,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       HomeHeaderWidget(
+                        onProfileTap: () {
+                          final profileState = BlocProvider.of<ProfileCubit>(
+                            context,
+                          ).state;
+
+                          if (profileState is ProfileSuccessState) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProfileScreen(),
+                              ),
+                            );
+                          } else {
+                            BlocProvider.of<ProfileCubit>(
+                              context,
+                            ).fetchProfileHistory();
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Failed to load profile. Please try again.',
+                                ),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        },
                         userName: currentUserName,
                         gender: currentGender,
                       ),
@@ -172,8 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           padding: EdgeInsets.symmetric(horizontal: 16.r),
-                          itemCount:
-                              allCategoriesModel.recommendations.isEmpty
+                          itemCount: allCategoriesModel.recommendations.isEmpty
                               ? QuizData.recommendations.length
                               : allCategoriesModel.recommendations.length,
                           itemBuilder: (context, index) {

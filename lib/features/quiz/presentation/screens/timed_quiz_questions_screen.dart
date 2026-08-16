@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
+import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
 import 'package:ma3refa_mobile/features/quiz/cubit/quiz_cubit.dart';
 import 'package:ma3refa_mobile/features/quiz/cubit/quiz_states.dart';
 import 'package:ma3refa_mobile/features/quiz/data/logic/timed_quiz_logic_mixin.dart';
@@ -202,6 +203,9 @@ class _TimedQuizQuestionsScreenState extends State<TimedQuizQuestionsScreen>
                                   onPressed: isSubmitting
                                       ? () {}
                                       : () {
+                                          BlocProvider.of<ProfileCubit>(
+                                            context,
+                                          ).fetchProfileHistory();
                                           showSubmitConfirmationDialog();
                                         },
                                   text: 'finish_quiz'.tr(),

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
 
@@ -21,6 +20,7 @@ class UserCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String avatarPath = Utils.getAvatarUrl(userName: userName, gender: gender);
     return Card(
           elevation: 4,
           shape: RoundedRectangleBorder(
@@ -47,22 +47,18 @@ class UserCardWidget extends StatelessWidget {
                           width: 56.w,
                           height: 56.h,
                           color: Colors.white,
-                          child: SvgPicture.network(
-                            Utils.getAvatarUrl(
-                              userName: userName,
-                              gender: gender,
-                            ),
-                            fit: BoxFit.cover,
-                            placeholderBuilder: (context) => Center(
-                              child: SizedBox(
-                                width: 16.w,
-                                height: 16.h,
-                                child: const CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              ),
-                            ),
-                          ),
+                          child: avatarPath.startsWith('http')
+                              ? Image.network(
+                                  avatarPath,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Icon(
+                                        Icons.person,
+                                        color: Colors.grey,
+                                        size: 30.sp,
+                                      ),
+                                )
+                              : Image.asset(avatarPath, fit: BoxFit.cover),
                         ),
                       ),
                     )

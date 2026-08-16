@@ -4,6 +4,8 @@ class ProfileModel {
   final UserModel user;
   final int currentStreak;
   final String lastActivity;
+  final int allUserCompletedQuizzes;
+  final int allUsertotalPoints;
   final List<SubcategoryPoints> subcategoryPoints;
 
   ProfileModel({
@@ -11,16 +13,23 @@ class ProfileModel {
     required this.currentStreak,
     required this.lastActivity,
     required this.subcategoryPoints,
+    required this.allUserCompletedQuizzes,
+    required this.allUsertotalPoints,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
+    final Map<String, dynamic> data =
+        json.containsKey('data') && json['data'] != null ? json['data'] : json;
+
     return ProfileModel(
-      user: UserModel.fromJson(json['user']),
-      currentStreak: json['streak']['current'] ?? 0,
-      lastActivity: json['streak']['last_activity'] ?? '',
-      subcategoryPoints: (json['subcategory_points'] as List? ?? [])
+      user: UserModel.fromJson(data['user'] ?? {}),
+      currentStreak: data['streak']?['current'] ?? 0,
+      lastActivity: data['streak']?['last_activity'] ?? '',
+      subcategoryPoints: (data['subcategory_points'] as List? ?? [])
           .map((e) => SubcategoryPoints.fromJson(e))
           .toList(),
+      allUserCompletedQuizzes: data['stats']?['completed_quizzes'] ?? 0,
+      allUsertotalPoints: data['stats']?['total_points'] ?? 0,
     );
   }
 
@@ -29,6 +38,10 @@ class ProfileModel {
       'user': user.toJson(),
       'streak': {'current': currentStreak, 'last_activity': lastActivity},
       'subcategory_points': subcategoryPoints.map((e) => e.toJson()).toList(),
+      'stats': {
+        'completed_quizzes': allUserCompletedQuizzes,
+        'total_points': allUsertotalPoints,
+      },
     };
   }
 }

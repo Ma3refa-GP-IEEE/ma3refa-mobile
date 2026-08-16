@@ -9,6 +9,7 @@ import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/logo_card_widget.dart';
 
 class HomeHeaderWidget extends StatelessWidget {
+  final VoidCallback onProfileTap;
   final String userName;
   final String gender;
 
@@ -16,6 +17,7 @@ class HomeHeaderWidget extends StatelessWidget {
     super.key,
     required this.userName,
     required this.gender,
+    required this.onProfileTap,
   });
 
   @override
@@ -53,9 +55,7 @@ class HomeHeaderWidget extends StatelessWidget {
           ),
           Spacer(),
           GestureDetector(
-            onTap: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
-            },
+            onTap: onProfileTap,
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
