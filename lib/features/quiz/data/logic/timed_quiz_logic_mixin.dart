@@ -2,12 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ma3refa_mobile/features/home/cubit/home_cubit.dart';
 import 'package:ma3refa_mobile/features/quiz/cubit/quiz_cubit.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/result_params.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/timed_quiz_questions_screen.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/submit_dialog_widget.dart';
 
 mixin TimedQuizLogicMixin on State<TimedQuizQuestionsScreen> {
+  late int difficultyLevel;
   late List<Answer> userAnswers;
   late PageController pageController;
   int currentQuestionIndex = 0;
@@ -59,10 +61,15 @@ mixin TimedQuizLogicMixin on State<TimedQuizQuestionsScreen> {
   }
 
   ResultParams finishAndSubmitQuiz() {
+    difficultyLevel = widget.difficultyLevel.toLowerCase() == 'easy'
+        ? 1
+        : widget.difficultyLevel.toLowerCase() == 'medium'
+        ? 2
+        : 3;
     int finalScore = userAnswers.where((ans) => ans.isCorrect).length;
     int subCatId = widget.subCategoryId;
     return ResultParams(
-      score: finalScore,
+      score: finalScore * difficultyLevel,
       answers: userAnswers,
       subcategoryId: subCatId,
     );
@@ -82,11 +89,11 @@ mixin TimedQuizLogicMixin on State<TimedQuizQuestionsScreen> {
             Navigator.of(dialogContext).pop();
 
             final params = finishAndSubmitQuiz();
-
             BlocProvider.of<QuizCubit>(parentContext).finishCurrentQuiz(
               quizId: widget.quizModel.quizId,
               params: params,
             );
+            BlocProvider.of<HomeCubit>(context).getAllHomeCategories();
           },
         );
       },

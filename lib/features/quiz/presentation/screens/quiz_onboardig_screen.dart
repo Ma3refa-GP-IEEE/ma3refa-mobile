@@ -44,6 +44,12 @@ class _QuizOnBoardingScreenState extends State<QuizOnBoardingScreen> {
   }
 
   @override
+  void dispose() {
+    getIt<AudioService>().stopSound();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     bool isRtl = Directionality.of(context) == TextDirection.RTL;
     return BlocConsumer<QuizCubit, QuizState>(
@@ -115,7 +121,7 @@ class _QuizOnBoardingScreenState extends State<QuizOnBoardingScreen> {
                             icon: Icons.sentiment_satisfied_alt,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 8.0.h),
+                            padding: EdgeInsets.only(top: 15.h),
                             child: CustomButton(
                               onPressed: () {
                                 if (state is GenerateQuizSuccessState) {
@@ -134,6 +140,9 @@ class _QuizOnBoardingScreenState extends State<QuizOnBoardingScreen> {
                                                       .numberOfQuestions,
                                                   quizTitle: widget.quizTitle,
                                                   quizTime: widget.quizTime,
+                                                  difficultyLevel: widget
+                                                      .quizSetupParams
+                                                      .difficulty,
                                                 ),
                                           ),
                                         )
@@ -151,6 +160,9 @@ class _QuizOnBoardingScreenState extends State<QuizOnBoardingScreen> {
                                                       .numberOfQuestions,
                                                   quizTitle: widget.quizTitle,
                                                   quizTime: widget.quizTime,
+                                                  difficultyLevel: widget
+                                                      .quizSetupParams
+                                                      .difficulty,
                                                 ),
                                           ),
                                         );

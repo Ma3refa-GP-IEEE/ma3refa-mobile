@@ -8,6 +8,7 @@ import 'package:ma3refa_mobile/features/home/data/models/sub_category_model.dart
 class CustomListTileWidget extends StatelessWidget {
   final SubCategoryModel subCategory;
   final VoidCallback onTap;
+
   const CustomListTileWidget({
     super.key,
     required this.subCategory,
@@ -18,40 +19,66 @@ class CustomListTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(20.r),
       child: Card(
-        color: Color(0xffBEE9E8),
-        //margin: EdgeInsets.all(10.r),
+        color: const Color(0xffBEE9E8),
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.r),
         ),
-        child: ListTile(
-          contentPadding: EdgeInsets.all(16.r),
-          leading: Container(
-            padding: EdgeInsets.all(10.r),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Icon(
-              subCategory.icon,
-              color: AppColors.textDark,
-              size: 28.sp,
-            ),
+        child: Padding(
+          padding: EdgeInsets.all(16.r),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.all(10.r),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Icon(
+                  subCategory.icon,
+                  color: AppColors.textDark,
+                  size: 28.sp,
+                ),
+              ),
+
+              SizedBox(width: 16.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      subCategory.name,
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textDark,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      subCategory.description,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: AppColors.textLight,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(width: 16.w),
+
+              Icon(
+                Icons.arrow_forward_ios,
+                color: AppColors.textDark,
+                size: 20.sp,
+              ),
+            ],
           ),
-          title: Text(
-            subCategory.name,
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textDark,
-            ),
-          ),
-          subtitle: Text(
-            subCategory.description,
-            style: TextStyle(fontSize: 14.sp, color: AppColors.textLight),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios, color: AppColors.textDark),
         ),
       ),
     );

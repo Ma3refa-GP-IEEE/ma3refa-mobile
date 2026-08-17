@@ -7,6 +7,7 @@ import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/on_boarding_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/logo_card_widget.dart';
@@ -29,20 +30,24 @@ class _SplashScreenState extends State<SplashScreen> {
     _startSplashLogic();
   }
 
+  @override
+  void dispose() {
+    getIt<AudioService>().stopSound();
+    super.dispose();
+  }
+
   Future<void> _startSplashLogic() async {
     FlutterSplashScreen.hide();
     await Future.delayed(const Duration(seconds: 3));
     if (!mounted) return;
     bool isOnBoardingVisited = await CacheHelper.getOnBoarding() ?? false;
     String? token = await CacheHelper.getToken();
-    List<String>? usernameAndGender = await CacheHelper.getUsernameAndGender();
+    //List<String>? usernameAndGender = await CacheHelper.getUsernameAndGender();
+    final UserModel user = await CacheHelper.getUserData();
     Widget nextScreen;
     if (isOnBoardingVisited) {
       if (token != null && token.isNotEmpty) {
-        nextScreen = HomeScreen(
-          userName: usernameAndGender[0],
-          gender: usernameAndGender[1],
-        );
+        nextScreen = HomeScreen(userName: user.name, gender: user.gender);
       } else {
         nextScreen = LoginScreen();
       }

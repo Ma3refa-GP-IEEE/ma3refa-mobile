@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
@@ -22,8 +23,17 @@ class Utils {
 
 class AudioService {
   final AudioPlayer _audioPlayer = AudioPlayer();
+  bool isMuted = false;
+
+  void toggleMute() {
+    isMuted = !isMuted;
+    if (isMuted) {
+      stopSound();
+    }
+  }
 
   Future<void> playAssetSound(String assetPath) async {
+    if (isMuted) return;
     try {
       await _audioPlayer.play(AssetSource(assetPath));
     } catch (e) {
@@ -42,22 +52,33 @@ class AudioService {
 
 class AppValidators {
   static String? validateFirstName(String? firstName) {
-    if (firstName == null || firstName.isEmpty) {
+    if (firstName == null || firstName.trim().isEmpty) {
       return 'Please enter your first name';
+    }
+    if (firstName.trim().length < 2) {
+      return 'Name must be at least 2 characters';
     }
     return null;
   }
 
   static String? validateLastName(String? lastName) {
-    if (lastName == null || lastName.isEmpty) {
+    if (lastName == null || lastName.trim().isEmpty) {
       return 'Please enter your last name';
+    }
+    if (lastName.trim().length < 2) {
+      return 'Name must be at least 2 characters';
     }
     return null;
   }
 
   static String? validateEmailInLogin(String? email) {
-    if (email == null || email.isEmpty) {
+    if (email == null || email.trim().isEmpty) {
       return 'Please enter your email address';
+    }
+    if (!RegExp(
+      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
+    ).hasMatch(email.trim())) {
+      return 'Please enter a valid email format';
     }
     return null;
   }
@@ -66,43 +87,80 @@ class AppValidators {
     if (password == null || password.isEmpty) {
       return 'Please enter your password';
     }
+    if (password.length < 8) {
+      return 'Password must be at least 8 characters long';
+    }
     return null;
   }
 
-  static String? Function(String?) validateConfirmPassword(
+  static String? validateConfirmPassword(
+    String? confirmPassword,
     String originalPassword,
   ) {
-    return (String? confirmPassword) {
-      if (confirmPassword == null || confirmPassword.isEmpty) {
-        return 'Please confirm your password';
-      }
-      if (confirmPassword != originalPassword) {
-        return 'Passwords do not match';
-      }
-      return null;
-    };
+    if (confirmPassword == null || confirmPassword.trim().isEmpty) {
+      return 'Please confirm your password';
+    }
+    if (confirmPassword != originalPassword) {
+      return 'Passwords do not match';
+    }
+    return null;
   }
 
   static String? validateAge(String? age) {
-    if (age == null || age.isEmpty) {
+    if (age == null || age.trim().isEmpty) {
       return 'Please enter your age';
     }
-    final ageValue = int.tryParse(age);
-    if (ageValue == null || ageValue < 0 || ageValue > 100) {
-      return 'Please enter a valid age';
+    final ageValue = int.tryParse(age.trim());
+    if (ageValue == null || ageValue < 5 || ageValue > 100) {
+      return 'Please enter a valid age (5 - 100)';
     }
     return null;
   }
 
   static String? validateEmailInSignUp(String? email) {
-    if (email == null || email.isEmpty) {
+    if (email == null || email.trim().isEmpty) {
       return 'Please enter your email';
     }
     if (!RegExp(
       r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
-    ).hasMatch(email)) {
+    ).hasMatch(email.trim())) {
       return 'Please enter a valid email address';
     }
     return null;
+  }
+
+  static String handleApiError(dynamic error) {
+    if (error is DioException) {
+      if (error.response != null && error.response?.data != null) {
+        final data = error.response!.data;
+
+        if (data['errors'] != null) {
+          final Map<String, dynamic> errors = data['errors'];
+          if (errors.isNotEmpty) {
+            final firstErrorList = errors.values.first;
+            if (firstErrorList is List && firstErrorList.isNotEmpty) {
+              return firstErrorList.first.toString();
+            }
+          }
+        }
+
+        if (data['message'] != null) {
+          return data['message'].toString();
+        }
+      }
+
+      switch (error.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.receiveTimeout:
+        case DioExceptionType.sendTimeout:
+          return 'Connection timeout, please check your internet.';
+        case DioExceptionType.connectionError:
+          return 'No internet connection.';
+        default:
+          return 'Something went wrong, please try again.';
+      }
+    }
+
+    return error.toString();
   }
 }

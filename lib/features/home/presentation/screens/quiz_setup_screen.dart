@@ -29,6 +29,13 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
   String selectedDifficulty = 'medium';
   int selectedNumberOfQuestions = 10;
   int selectedMinutes = 0;
+
+  @override
+  void dispose() {
+    getIt<AudioService>().stopSound();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

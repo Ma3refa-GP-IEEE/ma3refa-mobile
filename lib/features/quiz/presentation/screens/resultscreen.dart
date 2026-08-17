@@ -1,14 +1,15 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
+import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/question_model.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/quiz_details_model.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/quiz_review_item_widget.dart';
@@ -75,6 +76,12 @@ class _ResultScreenState extends State<ResultScreen> {
         : getIt<AudioService>().playAssetSound(
             'sounds/under_50_percent_arabic.mp3',
           );
+  }
+
+  @override
+  void dispose() {
+    getIt<AudioService>().stopSound();
+    super.dispose();
   }
 
   @override
@@ -155,6 +162,9 @@ class _ResultScreenState extends State<ResultScreen> {
             widget.comingFromQuizScreen
                 ? CustomButton(
                         onPressed: () {
+                          BlocProvider.of<ProfileCubit>(
+                            context,
+                          ).fetchProfileHistory();
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(

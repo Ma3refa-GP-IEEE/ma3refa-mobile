@@ -93,7 +93,7 @@ class RecommendationWidget extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
             Text(
-              "Suggested Topic: $topicTitle",
+              "Sugested topic/s: $topicTitle",
               style: TextStyle(
                 fontSize: 14.sp,
                 color: AppColors.textLight,

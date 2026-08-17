@@ -52,14 +52,6 @@ class CacheHelper {
     });
   }
 
-  static Future<List<String>> getUsernameAndGender() async {
-    String? firstName = await secureStorage.read(key: 'firstName') ?? "Mahmoud";
-    String? lastName = await secureStorage.read(key: 'lastName') ?? "Ahmed";
-    String? fullName = '$firstName $lastName';
-    String? gender = await secureStorage.read(key: 'gender') ?? "Male";
-    return [fullName, gender];
-  }
-
   static Future<void> saveOnBoarding() async {
     await sharedPreferences!.setBool('onBoarding', true);
   }

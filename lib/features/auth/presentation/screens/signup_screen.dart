@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
@@ -45,6 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    getIt<AudioService>().stopSound();
     super.dispose();
   }
 
@@ -61,9 +63,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(height: 30.h),
                   Container(
-                        padding: EdgeInsets.all(15.r),
-                        width: MediaQuery.of(context).size.width * 0.83.w,
+                        padding: EdgeInsets.all(12.r),
+                        width: MediaQuery.of(context).size.width * 0.9.w,
                         //height: 200.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30.r),
@@ -79,32 +82,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       subtitle: 'sign_up_subtitle'.tr(),
                                     ),
                                     SizedBox(height: 22.h),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomTextFormField(
-                                            labelText: 'first_name'.tr(),
-                                            hintText: 'first_name_hint'.tr(),
-                                            controller: firstNameController,
-                                            validator:
-                                                AppValidators.validateFirstName,
-                                            prefixIcon: Icons.person_outline,
-                                          ),
-                                        ),
-                                        SizedBox(width: 15.w),
-                                        Expanded(
-                                          child: CustomTextFormField(
-                                            labelText: 'last_name'.tr(),
-                                            hintText: 'last_name_hint'.tr(),
-                                            controller: lastNameController,
-                                            validator:
-                                                AppValidators.validateLastName,
-                                            prefixIcon: Icons.person_outline,
-                                          ),
-                                        ),
-                                      ],
+
+                                    CustomTextFormField(
+                                      labelText: 'first_name'.tr(),
+                                      hintText: 'first_name_hint'.tr(),
+                                      controller: firstNameController,
+                                      validator:
+                                          AppValidators.validateFirstName,
+                                      prefixIcon: Icons.person_outline,
+                                    ),
+                                    SizedBox(height: 15.h),
+                                    CustomTextFormField(
+                                      labelText: 'last_name'.tr(),
+                                      hintText: 'last_name_hint'.tr(),
+                                      controller: lastNameController,
+                                      validator: AppValidators.validateLastName,
+                                      prefixIcon: Icons.person_outline,
                                     ),
                                     SizedBox(height: 15.h),
                                     CustomTextFormField(
@@ -141,8 +134,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       labelText: 'confirm_password'.tr(),
                                       hintText: '••••••••',
                                       controller: confirmPasswordController,
-                                      validator:
+                                      validator: (value) =>
                                           AppValidators.validateConfirmPassword(
+                                            value,
                                             passwordController.text,
                                           ),
                                       prefixIcon: Icons.lock_outline,
@@ -163,6 +157,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             ),
                                           );
                                         } else if (state is AuthSuccessState) {
+                                          final String firstName = state
+                                              .user
+                                              .name
+                                              .split(' ')
+                                              .first;
+                                          final String lastName =
+                                              state.user.name
+                                                      .split(' ')
+                                                      .length >
+                                                  1
+                                              ? state.user.name
+                                                    .split(' ')
+                                                    .sublist(1)
+                                                    .join(' ')
+                                              : '';
+                                          CacheHelper.saveUserData(
+                                            firstName: firstName,
+                                            lastName: lastName,
+                                            email: state.user.email,
+                                            userAge: state.user.age,
+                                            gender: state.user.gender,
+                                          );
                                           ScaffoldMessenger.of(
                                             context,
                                           ).showSnackBar(
@@ -194,6 +210,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         return CustomButton(
                                           key: _btnKey,
                                           onPressed: () {
+                                            FocusScope.of(context).unfocus();
+
                                             if (!formKey.currentState!
                                                 .validate()) {
                                               _btnKey.currentState?.shake();
@@ -205,14 +223,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 context,
                                               ).register(
                                                 nameController:
-                                                    '${firstNameController.text} ${lastNameController.text}',
-                                                emailController:
-                                                    emailController.text,
+                                                    '${firstNameController.text.trim()} ${lastNameController.text.trim()}',
+                                                emailController: emailController
+                                                    .text
+                                                    .trim(),
                                                 passwordController:
                                                     passwordController.text,
-                                                ageController: int.parse(
-                                                  ageController.text,
-                                                ),
+                                                ageController:
+                                                    int.tryParse(
+                                                      ageController.text.trim(),
+                                                    ) ??
+                                                    22,
                                                 genderController: userGender,
                                                 passwordConfirmationController:
                                                     confirmPasswordController

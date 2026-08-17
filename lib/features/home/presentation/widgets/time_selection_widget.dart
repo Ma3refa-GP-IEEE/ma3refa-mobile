@@ -30,54 +30,68 @@ class _TimeSelectionCardState extends State<TimeSelectionCard> {
         elevation: 0,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-          child: ListTile(
-            title:
-                Text(
-                      selectedMinutes == 0
-                          ? "home.quizSetup.untimed".tr()
-                          : '$selectedMinutes ${'home.quizSetup.minutes'.tr()}',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textDark,
-                      ),
-                    )
-                    .animate(key: ValueKey(selectedMinutes))
-                    .scale(
-                      begin: const Offset(1.15, 1.15),
-                      end: const Offset(1.0, 1.0),
-                      duration: 200.ms,
-                      curve: Curves.easeOutBack,
-                    )
-                    .tint(
-                      color: AppColors.primary.withOpacity(0.4),
-                      duration: 200.ms,
-                    ),
-            leading: Container(
-              padding: EdgeInsets.all(10.r),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Icon(Icons.timer, color: AppColors.textDark, size: 28.sp)
-                  .animate(
-                    onPlay: (controller) => controller.repeat(reverse: true),
-                  )
-                  .scale(
-                    begin: const Offset(1.0, 1.0),
-                    end: const Offset(1.1, 1.1),
-                    duration: 1.seconds,
-                    curve: Curves.easeInOut,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10.r),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-            ),
-            trailing: IconButton(
-              onPressed: () {
-                _showTimePicker(context);
-              },
-              icon: Icon(
-                Icons.edit,
-                color: AppColors.primary,
-              ).animate().shake(delay: 1.seconds, duration: 500.ms, hz: 3),
+                  child:
+                      Icon(Icons.timer, color: AppColors.textDark, size: 28.sp)
+                          .animate(
+                            onPlay: (controller) =>
+                                controller.repeat(reverse: true),
+                          )
+                          .scale(
+                            begin: const Offset(1.0, 1.0),
+                            end: const Offset(1.1, 1.1),
+                            duration: 1.seconds,
+                            curve: Curves.easeInOut,
+                          ),
+                ),
+
+                SizedBox(width: 16.w),
+                Expanded(
+                  child:
+                      Text(
+                            selectedMinutes == 0
+                                ? "home.quizSetup.untimed".tr()
+                                : '$selectedMinutes ${'home.quizSetup.minutes'.tr()}',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textDark,
+                            ),
+                          )
+                          .animate(key: ValueKey(selectedMinutes))
+                          .scale(
+                            begin: const Offset(1.15, 1.15),
+                            end: const Offset(1.0, 1.0),
+                            duration: 200.ms,
+                            curve: Curves.easeOutBack,
+                          )
+                          .tint(
+                            color: AppColors.primary.withOpacity(0.4),
+                            duration: 200.ms,
+                          ),
+                ),
+
+                SizedBox(width: 8.w),
+                IconButton(
+                  onPressed: () {
+                    _showTimePicker(context);
+                  },
+                  icon: Icon(
+                    Icons.edit,
+                    color: AppColors.primary,
+                  ).animate().shake(delay: 1.seconds, duration: 500.ms, hz: 3),
+                ),
+              ],
             ),
           ),
         ),

@@ -3,13 +3,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
-import 'package:ma3refa_mobile/features/auth/presentation/widgets/logo_card_widget.dart';
 
 class HomeHeaderWidget extends StatelessWidget {
-  final VoidCallback onProfileTap;
   final String userName;
   final String gender;
 
@@ -17,72 +14,75 @@ class HomeHeaderWidget extends StatelessWidget {
     super.key,
     required this.userName,
     required this.gender,
-    required this.onProfileTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    String avatarPath = Utils.getAvatarUrl(userName: userName, gender: gender);
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 20.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          LogoCardWidget(width: 60.w, height: 60.h),
-          SizedBox(width: 12.w),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'hello_header'.tr(),
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(height: 2.h),
-              SizedBox(
-                width: 200.w,
-                child: Text(
-                  'header_subtitle'.tr(),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 14.sp, color: AppColors.textLight),
-                ),
-              ),
-            ],
-          ),
-          Spacer(),
           GestureDetector(
-            onTap: onProfileTap,
+            onTap: () {
+              Scaffold.of(context).openDrawer();
+            },
             child: Container(
+              padding: EdgeInsets.all(2.r),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.blueAccent.withOpacity(0.2),
+                  color: AppColors.primary.withOpacity(0.3),
                   width: 2,
                 ),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(24.r),
+                borderRadius: BorderRadius.circular(50.r),
                 child: Container(
-                  width: 48.w,
-                  height: 48.h,
-                  color: Colors.grey.shade100,
-                  child: SvgPicture.network(
-                    Utils.getAvatarUrl(userName: userName, gender: gender),
-                    fit: BoxFit.cover,
-                    placeholderBuilder: (context) => Center(
-                      child: SizedBox(
-                        width: 16.w,
-                        height: 16.h,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                    ),
-                  ),
+                  width: 50.w,
+                  height: 50.h,
+                  color: Colors.white,
+                  child: avatarPath.startsWith('http')
+                      ? Image.network(
+                          avatarPath,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Icon(
+                            Icons.person,
+                            color: Colors.grey,
+                            size: 30.sp,
+                          ),
+                        )
+                      : Image.asset(avatarPath, fit: BoxFit.cover),
                 ),
               ),
+            ),
+          ),
+
+          SizedBox(width: 30.w),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'hello_header'.tr(),
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: 2.h),
+                Text(
+                  'header_subtitle'.tr(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 14.sp, color: AppColors.textLight),
+                ),
+              ],
             ),
           ),
         ],

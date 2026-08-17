@@ -6,8 +6,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/quiz_data.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.dart';
 import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
 import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_state.dart';
@@ -35,9 +37,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (dialogContext) {
         return LogOutDialogWidget(
           onConfirm: () async {
-            Navigator.of(dialogContext).pop();
-
             await CacheHelper.clearData();
+            Navigator.of(dialogContext).pop();
 
             if (context.mounted) {
               Navigator.pushAndRemoveUntil(
@@ -50,6 +51,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    getIt<AudioService>().stopSound();
+    super.dispose();
   }
 
   @override

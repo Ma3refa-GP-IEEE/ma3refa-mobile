@@ -58,7 +58,7 @@ class RatingTrailingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double maxPoints = 500.0;
+    double maxPoints = 500;
     double rating = (currentPoints / maxPoints) * 5.0;
     rating = rating.clamp(0.0, 5.0);
 

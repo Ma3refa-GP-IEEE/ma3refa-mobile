@@ -8,11 +8,13 @@ import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/quiz_data.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
 import 'package:ma3refa_mobile/features/home/cubit/home_cubit.dart';
 import 'package:ma3refa_mobile/features/home/cubit/home_states.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/error_at_home_widget.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/sub_category_screen.dart';
 import 'package:ma3refa_mobile/features/home/presentation/widgets/category_card.dart';
+import 'package:ma3refa_mobile/features/home/presentation/widgets/custome_drawer.dart';
 import 'package:ma3refa_mobile/features/home/presentation/widgets/home_header_widget.dart';
 import 'package:ma3refa_mobile/features/home/presentation/widgets/recommendation_widget.dart';
 import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
@@ -44,11 +46,17 @@ class _HomeScreenState extends State<HomeScreen> {
     BlocProvider.of<ProfileCubit>(context).fetchProfileHistory();
   }
 
+  @override
+  void dispose() {
+    getIt<AudioService>().stopSound();
+    super.dispose();
+  }
+
   Future<void> _loadUserData() async {
-    List<String>? usernameAndGender = await CacheHelper.getUsernameAndGender();
+    final UserModel userData = await CacheHelper.getUserData();
     setState(() {
-      currentUserName = widget.userName ?? usernameAndGender[0];
-      currentGender = widget.gender ?? usernameAndGender[1];
+      currentUserName = widget.userName ?? userData.name;
+      currentGender = widget.gender ?? userData.gender;
     });
   }
 
@@ -56,6 +64,29 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      drawer: CustomDrawer(
+        userName: currentUserName,
+        gender: currentGender,
+        onProfileTap: () {
+          final profileState = BlocProvider.of<ProfileCubit>(context).state;
+
+          if (profileState is ProfileSuccessState) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfileScreen()),
+            );
+          } else {
+            BlocProvider.of<ProfileCubit>(context).fetchProfileHistory();
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Failed to load profile. Please try again.'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+      ),
       body: BlocBuilder<HomeCubit, HomeStates>(
         builder: (BuildContext context, HomeStates state) {
           final homeCubit = BlocProvider.of<HomeCubit>(context);
@@ -83,33 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       HomeHeaderWidget(
-                        onProfileTap: () {
-                          final profileState = BlocProvider.of<ProfileCubit>(
-                            context,
-                          ).state;
-
-                          if (profileState is ProfileSuccessState) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProfileScreen(),
-                              ),
-                            );
-                          } else {
-                            BlocProvider.of<ProfileCubit>(
-                              context,
-                            ).fetchProfileHistory();
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Failed to load profile. Please try again.',
-                                ),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
-                          }
-                        },
                         userName: currentUserName,
                         gender: currentGender,
                       ),

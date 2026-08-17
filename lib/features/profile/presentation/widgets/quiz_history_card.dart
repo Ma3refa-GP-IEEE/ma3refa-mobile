@@ -27,25 +27,25 @@ class QuizHistoryCard extends StatelessWidget {
     switch (difficulty) {
       case 'easy':
         return {
-          'text': 'easy'.tr(),
+          'text': "Easy",
           'color': const Color(0xFFE8F5E9),
           'textColor': const Color(0xFF2E7D32),
         };
       case 'medium':
         return {
-          'text': 'medium'.tr(),
+          'text': "Medium",
           'color': const Color(0xFFD0F0FD),
           'textColor': const Color(0xFF133F53),
         };
       case 'hard':
         return {
-          'text': 'hard'.tr(),
+          'text': "Hard",
           'color': const Color(0xFFFFEBEE),
           'textColor': const Color(0xFFC62828),
         };
       default:
         return {
-          'text': 'unknown'.tr(),
+          'text': "Unknown",
           'color': Colors.grey.shade200,
           'textColor': Colors.grey,
         };
@@ -88,7 +88,13 @@ class QuizHistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double percentage = (score / totalQuestions) * 100;
+    final int difficultyLevel = difficulty.toLowerCase() == 'easy'
+        ? 1
+        : difficulty.toLowerCase() == 'medium'
+        ? 2
+        : 3;
+    final numOfCorrectAnswers = score ~/ difficultyLevel;
+    final double percentage = (numOfCorrectAnswers / totalQuestions) * 100;
     final Color scoreColor = _getScoreColor(percentage);
 
     final diff = _getDifficultyDetails(difficulty);
@@ -141,7 +147,7 @@ class QuizHistoryCard extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16.r),
                                 ),
                                 child: Text(
-                                  '$score/$totalQuestions',
+                                  '$numOfCorrectAnswers / $totalQuestions',
                                   style: TextStyle(
                                     color: scoreColor,
                                     fontWeight: FontWeight.bold,

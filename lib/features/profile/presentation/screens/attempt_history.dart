@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/profile/cubit/history/sub_category_cubit.dart';
 import 'package:ma3refa_mobile/features/profile/cubit/history/sub_category_states.dart';
-import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
-import 'package:ma3refa_mobile/features/profile/data/models/subcategory_quizzes_model.dart';
 import 'package:ma3refa_mobile/features/profile/presentation/widgets/quiz_history_card.dart';
 import 'package:ma3refa_mobile/features/profile/presentation/widgets/star_rating_widget.dart';
 import 'package:ma3refa_mobile/features/quiz/cubit/quiz_cubit.dart';
 import 'package:ma3refa_mobile/features/quiz/cubit/quiz_states.dart';
-import 'package:ma3refa_mobile/features/quiz/data/models/quiz_details_model.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/resultscreen.dart';
 
 class AttemptHistoryScreen extends StatefulWidget {
@@ -49,6 +48,7 @@ class _AttemptHistoryScreenState extends State<AttemptHistoryScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    getIt<AudioService>().stopSound();
     super.dispose();
   }
 
@@ -187,23 +187,6 @@ class _AttemptHistoryScreenState extends State<AttemptHistoryScreen> {
                                 BlocProvider.of<QuizCubit>(
                                   context,
                                 ).getQuizDetails(quizId: quiz.quizId);
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => ResultScreen(
-                                //       quizDetailsModel: QuizDetailsModel(
-                                //         quizId: quiz.quizId,
-                                //         subcategory: model.subcategory,
-                                //         difficulty: quiz.difficulty,
-                                //         score: quiz.score,
-                                //         totalQuestions: quiz.totalQuestions,
-                                //         createdAt: quiz.createdAt,
-                                //         results: [],
-                                //       ),
-                                //       comingFromQuizScreen: false,
-                                //     ),
-                                //   ),
-                                // );
                               },
                             )
                             .animate(delay: (300 + (index * 100)).ms)

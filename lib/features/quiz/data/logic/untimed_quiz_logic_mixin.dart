@@ -8,6 +8,7 @@ import 'package:ma3refa_mobile/features/quiz/data/models/result_params.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/untimed_quiz_questions_screen.dart';
 
 mixin UntimedQuizLogicMixin on State<UntimedQuizQuestionsScreen> {
+  late int difficultyLevel;
   bool isWrongAnswerTriggered = false;
   late List<Answer> userAnswers;
   late PageController pageController;
@@ -59,14 +60,14 @@ mixin UntimedQuizLogicMixin on State<UntimedQuizQuestionsScreen> {
     if (isCorrectAnswer) {
       confettiController.play();
       await getIt<AudioService>().playAssetSound(
-        'sounds/coreeeeect-answer.mp3',
+        'sounds/coreeeeect-answer.wav',
       );
     } else {
       setState(() {
         isWrongAnswerTriggered = true;
       });
       await getIt<AudioService>().playAssetSound(
-        'sounds/wrong_answer_sound.wav',
+        'sounds/wrong_answer_sound.mp3',
       );
 
       HapticFeedback.heavyImpact();
@@ -89,9 +90,14 @@ mixin UntimedQuizLogicMixin on State<UntimedQuizQuestionsScreen> {
   }
 
   ResultParams finishAndSubmitQuiz() {
+    difficultyLevel = widget.difficultyLevel.toLowerCase() == 'easy'
+        ? 1
+        : widget.difficultyLevel.toLowerCase() == 'medium'
+        ? 2
+        : 3;
     int finalScore = userAnswers.where((ans) => ans.isCorrect).length;
     return ResultParams(
-      score: finalScore,
+      score: finalScore * difficultyLevel,
       answers: userAnswers,
       subcategoryId: widget.subCategoryId,
     );

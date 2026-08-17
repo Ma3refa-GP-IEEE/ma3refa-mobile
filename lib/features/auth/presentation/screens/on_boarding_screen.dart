@@ -39,7 +39,7 @@ class OnBoardingScreen extends StatelessWidget {
                       begin: const Offset(0.9, 0.9),
                       curve: Curves.easeOutBack,
                     ),
-                SizedBox(height: 25.h),
+                SizedBox(height: 20.h),
 
                 Text(
                       'onboarding_title'.tr(),
@@ -54,7 +54,7 @@ class OnBoardingScreen extends StatelessWidget {
                     .fade(duration: 500.ms)
                     .slideY(begin: 0.2),
 
-                SizedBox(height: 20.h),
+                SizedBox(height: 30.h),
 
                 SizedBox(
                   height: 60.h,
@@ -68,7 +68,7 @@ class OnBoardingScreen extends StatelessWidget {
                           )
                           .animate()
                           .fadeIn(duration: 500.ms)
-                          .fadeOut(delay: 2.seconds, duration: 500.ms), // تختفي
+                          .fadeOut(delay: 2.seconds, duration: 500.ms),
 
                       Text(
                             'onboarding_subtitle3'.tr(),
@@ -77,7 +77,7 @@ class OnBoardingScreen extends StatelessWidget {
                           )
                           .animate(delay: 2.5.seconds)
                           .fadeIn(duration: 500.ms)
-                          .fadeOut(delay: 2.seconds, duration: 500.ms), // تختفي
+                          .fadeOut(delay: 2.seconds, duration: 500.ms),
 
                       Text(
                         'onboarding_subtitle4'.tr(),
@@ -88,7 +88,7 @@ class OnBoardingScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 60.h),
+                SizedBox(height: 100.h),
 
                 CustomButton(
                       onPressed: () {
