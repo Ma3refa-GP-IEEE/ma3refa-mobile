@@ -1,7 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ma3refa_mobile/core/utils/custom_snackbar.dart';
 import 'package:ma3refa_mobile/features/home/cubit/home_cubit.dart';
 import 'package:ma3refa_mobile/features/quiz/cubit/quiz_cubit.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/result_params.dart';
@@ -87,13 +89,18 @@ mixin TimedQuizLogicMixin on State<TimedQuizQuestionsScreen> {
         return SubmitDialogWidget(
           onSubmit: () {
             Navigator.of(dialogContext).pop();
-
             final params = finishAndSubmitQuiz();
             BlocProvider.of<QuizCubit>(parentContext).finishCurrentQuiz(
               quizId: widget.quizModel.quizId,
               params: params,
             );
             BlocProvider.of<HomeCubit>(context).getAllHomeCategories();
+            CustomSnackBar.show(
+              context: parentContext,
+              title: 'Quiz Submitted',
+              message: 'Your quiz has been submitted successfully.',
+              contentType: ContentType.success,
+            );
           },
         );
       },

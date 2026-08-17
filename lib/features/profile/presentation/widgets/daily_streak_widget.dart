@@ -7,9 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class DailyStreakWidget extends StatefulWidget {
-  final String lastActivity;
+  final DateTime? lastActivity;
   final int streakCount;
 
   const DailyStreakWidget({
@@ -25,6 +26,9 @@ class DailyStreakWidget extends StatefulWidget {
 class _DailyStreakWidgetState extends State<DailyStreakWidget> {
   @override
   Widget build(BuildContext context) {
+    final String timeFormated = widget.lastActivity != null
+        ? DateFormat('yyyy-MM-dd').format(widget.lastActivity!)
+        : "";
     final bool isStreakActive = widget.streakCount > 0;
 
     final Color activeFireColor = const Color(0xFFFF9E59);
@@ -94,13 +98,37 @@ class _DailyStreakWidgetState extends State<DailyStreakWidget> {
                             letterSpacing: 1.2,
                           ),
                         ),
-                        Text(
-                          "Last Activity: ${widget.lastActivity}",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.textDark.withOpacity(0.6),
-                          ),
-                        ),
+                        widget.lastActivity != null
+                            ? Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Last Activity: $timeFormated",
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: AppColors.textDark.withOpacity(
+                                          0.6,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 5.h),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      timeago.format(widget.lastActivity!),
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: AppColors.textDark.withOpacity(
+                                          0.6,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : SizedBox.shrink(),
                       ],
                     ),
                   ),

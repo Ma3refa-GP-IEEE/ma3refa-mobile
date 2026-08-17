@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 
 class CustomTextFormField extends StatefulWidget {
+  final TextInputType? keyboardType;
   final bool isLabelNeded;
   final String labelText;
   final String hintText;
@@ -19,6 +20,7 @@ class CustomTextFormField extends StatefulWidget {
     required this.validator,
     required this.prefixIcon,
     this.isLabelNeded = true,
+    this.keyboardType,
   });
 
   @override
@@ -48,7 +50,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           controller: widget.controller,
           validator: widget.validator,
 
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: widget.keyboardType,
           decoration: InputDecoration(
             hintText: widget.hintText,
             hintStyle: TextStyle(

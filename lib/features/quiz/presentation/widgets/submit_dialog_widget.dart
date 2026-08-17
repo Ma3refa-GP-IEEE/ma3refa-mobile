@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 
 class SubmitDialogWidget extends StatefulWidget {
@@ -71,6 +72,8 @@ class _SubmitDialogWidgetState extends State<SubmitDialogWidget> {
                           Navigator.of(context).pop();
                         },
                         text: 'review_answers'.tr(),
+                        buttonColor: Colors.white,
+                        textColor: AppColors.textDark,
                       ),
 
                       SizedBox(height: 12.h),
@@ -78,6 +81,8 @@ class _SubmitDialogWidgetState extends State<SubmitDialogWidget> {
                         onPressed: widget.onSubmit,
                         text: 'yes_submit'.tr(),
                         icon: Icons.check,
+                        textColor: Colors.white,
+                        buttonColor: Colors.greenAccent,
                       ),
                     ],
                   ),

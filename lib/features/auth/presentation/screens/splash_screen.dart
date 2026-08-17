@@ -12,6 +12,7 @@ import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.d
 import 'package:ma3refa_mobile/features/auth/presentation/screens/on_boarding_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/logo_card_widget.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
+import 'package:ma3refa_mobile/features/home/presentation/screens/home_wraper_sereen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -47,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Widget nextScreen;
     if (isOnBoardingVisited) {
       if (token != null && token.isNotEmpty) {
-        nextScreen = HomeScreen(userName: user.name, gender: user.gender);
+        nextScreen = HomeWrapper(userName: user.name, gender: user.gender);
       } else {
         nextScreen = LoginScreen();
       }
@@ -67,39 +68,41 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Padding(
-        padding: EdgeInsets.all(15.r),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // 200.w 200.h
-              LogoCardWidget(width: 200.w, height: 200.h),
-              SizedBox(height: 20.h),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'app_name'.tr(),
-                  style: TextStyle(
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textDark,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(15.r),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // 200.w 200.h
+                LogoCardWidget(width: 200.w, height: 200.h),
+                SizedBox(height: 20.h),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'app_name'.tr(),
+                    style: TextStyle(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textDark,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20.h),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'app_name_subtitle'.tr(),
-                  style: TextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.textLight,
+                SizedBox(height: 20.h),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'app_name_subtitle'.tr(),
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.textLight,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

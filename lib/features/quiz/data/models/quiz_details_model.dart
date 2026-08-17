@@ -6,7 +6,7 @@ class QuizDetailsModel {
   final String difficulty;
   final int score;
   final int totalQuestions;
-  final String createdAt;
+  final DateTime? createdAt;
   final List<QuizResultsModel> results;
 
   QuizDetailsModel({
@@ -31,7 +31,9 @@ class QuizDetailsModel {
       difficulty: data['difficulty'] ?? 'Easy',
       score: data['score'] ?? 0,
       totalQuestions: data['total_questions'] ?? 0,
-      createdAt: data['created_at'] ?? '',
+      createdAt: data['created_at'] != null
+          ? DateTime.tryParse(data['created_at'] as String)?.toLocal()
+          : null,
       results: data['results'] != null
           ? (data['results'] as List)
                 .map((e) => QuizResultsModel.fromJson(e))

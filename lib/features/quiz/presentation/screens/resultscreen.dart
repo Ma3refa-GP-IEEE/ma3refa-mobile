@@ -14,6 +14,7 @@ import 'package:ma3refa_mobile/features/quiz/data/models/question_model.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/quiz_details_model.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/quiz_review_item_widget.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/widgets/quiz_score_card_widget.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ResultScreen extends StatefulWidget {
   final bool comingFromQuizScreen;
@@ -79,12 +80,6 @@ class _ResultScreenState extends State<ResultScreen> {
   }
 
   @override
-  void dispose() {
-    getIt<AudioService>().stopSound();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -101,97 +96,100 @@ class _ResultScreenState extends State<ResultScreen> {
               )
             : null,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.r),
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            QuizScoreCardWidget(
-              totalQuestions: widget.quizDetailsModel.totalQuestions,
-              correctAnswers: numberOfCorrectAnswers(),
-            ),
-            SizedBox(height: 20.h),
-            if (!widget.comingFromQuizScreen)
-              _buildDateWidget(widget.quizDetailsModel.createdAt),
-            Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: Text(
-                'review_answers'.tr(),
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textDark,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(16.r),
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              QuizScoreCardWidget(
+                totalQuestions: widget.quizDetailsModel.totalQuestions,
+                correctAnswers: numberOfCorrectAnswers(),
+              ),
+              SizedBox(height: 20.h),
+              if (!widget.comingFromQuizScreen)
+                _buildDateWidget(widget.quizDetailsModel.createdAt),
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(
+                  'review_answers'.tr(),
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textDark,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 10.h),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: widget.quizDetailsModel.results.length,
-              itemBuilder: (context, index) {
-                final result = widget.quizDetailsModel.results[index];
-                String actualCorrectAnswerText = getFullAnswerText(
-                  result.question,
-                  result.question.correctAnswer,
-                );
+              SizedBox(height: 10.h),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.quizDetailsModel.results.length,
+                itemBuilder: (context, index) {
+                  final result = widget.quizDetailsModel.results[index];
+                  String actualCorrectAnswerText = getFullAnswerText(
+                    result.question,
+                    result.question.correctAnswer,
+                  );
 
-                String actualUserAnswerText = getFullAnswerText(
-                  result.question,
-                  result.selectedAnswer,
-                );
-                return QuizReviewItemWidget(
-                      questionNumber: index + 1,
-                      questionText: result.question.description,
-                      correctAnswer: actualCorrectAnswerText,
-                      userAnswer: actualUserAnswerText,
-                      isCorrect: result.isCorrect,
-                      explanation: result.explanation,
-                    )
-                    .animate()
-                    .fade(duration: 400.ms, delay: (index * 150).ms)
-                    .slideY(
-                      begin: 0.2,
-                      duration: 400.ms,
-                      delay: (index * 150).ms,
-                      curve: Curves.easeOutQuad,
-                    );
-              },
-            ),
-            SizedBox(height: 20.h),
-            widget.comingFromQuizScreen
-                ? CustomButton(
-                        onPressed: () {
-                          BlocProvider.of<ProfileCubit>(
-                            context,
-                          ).fetchProfileHistory();
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ),
-                            (Route<dynamic> route) => false,
-                          );
-                        },
-                        text: 'back_to_home'.tr(),
-                        icon: Icons.home,
+                  String actualUserAnswerText = getFullAnswerText(
+                    result.question,
+                    result.selectedAnswer,
+                  );
+                  return QuizReviewItemWidget(
+                        questionNumber: index + 1,
+                        questionText: result.question.description,
+                        correctAnswer: actualCorrectAnswerText,
+                        userAnswer: actualUserAnswerText,
+                        isCorrect: result.isCorrect,
+                        explanation: result.explanation,
                       )
-                      .animate(delay: 1.seconds)
-                      .fadeIn()
-                      .scale(curve: Curves.easeOutBack)
-                : SizedBox.shrink(),
-          ],
+                      .animate()
+                      .fade(duration: 400.ms, delay: (index * 150).ms)
+                      .slideY(
+                        begin: 0.2,
+                        duration: 400.ms,
+                        delay: (index * 150).ms,
+                        curve: Curves.easeOutQuad,
+                      );
+                },
+              ),
+              SizedBox(height: 20.h),
+              widget.comingFromQuizScreen
+                  ? CustomButton(
+                          onPressed: () {
+                            BlocProvider.of<ProfileCubit>(
+                              context,
+                            ).fetchProfileHistory();
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          text: 'back_to_home'.tr(),
+                          icon: Icons.home,
+                        )
+                        .animate(delay: 1.seconds)
+                        .fadeIn()
+                        .scale(curve: Curves.easeOutBack)
+                  : SizedBox.shrink(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildDateWidget(String dateString) {
+  Widget _buildDateWidget(DateTime? date) {
     try {
-      DateTime parsedDate = DateTime.parse(dateString);
-      String formattedDate = DateFormat(
+      if (date == null) return const SizedBox.shrink();
+
+      final String formattedDate = DateFormat(
         'dd MMM yyyy, hh:mm a',
-      ).format(parsedDate);
+      ).format(date);
 
       return Container(
         margin: EdgeInsets.only(bottom: 20.h),
@@ -217,7 +215,7 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
             SizedBox(width: 8.w),
             Text(
-              formattedDate,
+              "$formattedDate\n ${timeago.format(date)}",
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,

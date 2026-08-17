@@ -1,4 +1,5 @@
 // ignore_for_file: deprecated_member_use
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/custom_snackbar.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
@@ -52,7 +54,6 @@ class _TimedQuizQuestionsScreenState extends State<TimedQuizQuestionsScreen>
   void dispose() {
     disposeQuizLogic();
     super.dispose();
-    getIt<AudioService>().stopSound();
   }
 
   @override
@@ -79,18 +80,18 @@ class _TimedQuizQuestionsScreenState extends State<TimedQuizQuestionsScreen>
               context,
             ).getQuizDetails(quizId: widget.quizModel.quizId);
           }
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errorMessage),
-              backgroundColor: Colors.red,
-            ),
+          CustomSnackBar.show(
+            context: context,
+            title: 'Error',
+            message: state.errorMessage,
+            contentType: ContentType.failure,
           );
         } else if (state is FetchQuizResultsErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errorMessage),
-              backgroundColor: Colors.red,
-            ),
+          CustomSnackBar.show(
+            context: context,
+            title: 'Error',
+            message: state.errorMessage,
+            contentType: ContentType.failure,
           );
         }
       },
@@ -112,7 +113,6 @@ class _TimedQuizQuestionsScreenState extends State<TimedQuizQuestionsScreen>
                     durationInMinutes: widget.quizTime,
                     onTimerFinished: () {
                       final params = finishAndSubmitQuiz();
-
                       BlocProvider.of<QuizCubit>(context).finishCurrentQuiz(
                         quizId: widget.quizModel.quizId,
                         params: params,
@@ -121,107 +121,109 @@ class _TimedQuizQuestionsScreenState extends State<TimedQuizQuestionsScreen>
                   ),
                 ],
               ),
-              body: PageView.builder(
-                controller: pageController,
+              body: SafeArea(
+                child: PageView.builder(
+                  controller: pageController,
 
-                itemCount: widget.numberOfQuestions,
-                onPageChanged: (index) {
-                  setState(() {
-                    currentQuestionIndex = index;
-                  });
-                },
-                itemBuilder: (context, index) {
-                  return SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.r),
-                      child: Column(
-                        key: ValueKey<int>(index),
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          QuizProgressWidget(
-                            currentQuestion: currentQuestionIndex + 1,
-                            totalQuestions: widget.numberOfQuestions,
-                          ),
-                          SizedBox(height: 16.h),
-                          Card(
-                                color: AppColors.accent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.r),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(16.r),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          widget
-                                              .quizModel
-                                              .questions[index]
-                                              .description,
-                                          style: TextStyle(
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: AppColors.textDark,
+                  itemCount: widget.numberOfQuestions,
+                  onPageChanged: (index) {
+                    setState(() {
+                      currentQuestionIndex = index;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.r),
+                        child: Column(
+                          key: ValueKey<int>(index),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            QuizProgressWidget(
+                              currentQuestion: currentQuestionIndex + 1,
+                              totalQuestions: widget.numberOfQuestions,
+                            ),
+                            SizedBox(height: 16.h),
+                            Card(
+                                  color: AppColors.accent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16.r),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            widget
+                                                .quizModel
+                                                .questions[index]
+                                                .description,
+                                            style: TextStyle(
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.textDark,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(width: 12.w),
-                                    ],
+                                        SizedBox(width: 12.w),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
-                              .animate()
-                              .fade(duration: 400.ms)
-                              .slideY(
-                                begin: -0.2,
-                                duration: 400.ms,
-                                curve: Curves.easeOutBack,
-                              ),
-                          SizedBox(height: 16.h),
-                          AnswerOptionWidget(
-                                answers: [
-                                  widget.quizModel.questions[index].optionA,
-                                  widget.quizModel.questions[index].optionB,
-                                  widget.quizModel.questions[index].optionC,
-                                  widget.quizModel.questions[index].optionD,
-                                ],
-                                selectedAnswer:
-                                    userAnswers[currentQuestionIndex]
-                                        .selectedAnswer,
-                                onOptionSelected: (selectedOption) {
-                                  handleAnswerSelection(
-                                    selectedAnswerOption: selectedOption,
-                                  );
-                                },
-                              )
-                              .animate(delay: 200.ms)
-                              .fade(duration: 400.ms)
-                              .slideY(
-                                begin: 0.1,
-                                duration: 400.ms,
-                                curve: Curves.easeOut,
-                              ),
-                          SizedBox(height: 16.h),
-                          currentQuestionIndex == widget.numberOfQuestions - 1
-                              ? CustomButton(
-                                  onPressed: isSubmitting
-                                      ? () {}
-                                      : () {
-                                          BlocProvider.of<ProfileCubit>(
-                                            context,
-                                          ).fetchProfileHistory();
-                                          showSubmitConfirmationDialog();
-                                        },
-                                  text: 'finish_quiz'.tr(),
-                                  icon: Icons.check,
                                 )
-                              : SizedBox.shrink(),
-                        ],
+                                .animate()
+                                .fade(duration: 400.ms)
+                                .slideY(
+                                  begin: -0.2,
+                                  duration: 400.ms,
+                                  curve: Curves.easeOutBack,
+                                ),
+                            SizedBox(height: 16.h),
+                            AnswerOptionWidget(
+                                  answers: [
+                                    widget.quizModel.questions[index].optionA,
+                                    widget.quizModel.questions[index].optionB,
+                                    widget.quizModel.questions[index].optionC,
+                                    widget.quizModel.questions[index].optionD,
+                                  ],
+                                  selectedAnswer:
+                                      userAnswers[currentQuestionIndex]
+                                          .selectedAnswer,
+                                  onOptionSelected: (selectedOption) {
+                                    handleAnswerSelection(
+                                      selectedAnswerOption: selectedOption,
+                                    );
+                                  },
+                                )
+                                .animate(delay: 200.ms)
+                                .fade(duration: 400.ms)
+                                .slideY(
+                                  begin: 0.1,
+                                  duration: 400.ms,
+                                  curve: Curves.easeOut,
+                                ),
+                            SizedBox(height: 16.h),
+                            currentQuestionIndex == widget.numberOfQuestions - 1
+                                ? CustomButton(
+                                    onPressed: isSubmitting
+                                        ? () {}
+                                        : () {
+                                            BlocProvider.of<ProfileCubit>(
+                                              context,
+                                            ).fetchProfileHistory();
+                                            showSubmitConfirmationDialog();
+                                          },
+                                    text: 'finish_quiz'.tr(),
+                                    icon: Icons.check,
+                                  )
+                                : SizedBox.shrink(),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
             if (isSubmitting)

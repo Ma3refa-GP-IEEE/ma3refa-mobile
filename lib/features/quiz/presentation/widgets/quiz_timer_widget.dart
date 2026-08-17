@@ -2,12 +2,14 @@
 
 import 'dart:async';
 import 'dart:ui';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/custom_snackbar.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 
@@ -127,9 +129,18 @@ class _QuizTimerWidgetState extends State<QuizTimerWidget> {
                             onPressed: () {
                               Navigator.of(context).pop();
                               widget.onTimerFinished();
+                              CustomSnackBar.show(
+                                context: context,
+                                title: 'Quiz Submitted',
+                                message:
+                                    'Your quiz has been submitted successfully.',
+                                contentType: ContentType.success,
+                              );
                             },
                             text: 'view_results'.tr(),
                             icon: Icons.arrow_forward,
+                            buttonColor: Colors.redAccent,
+                            textColor: Colors.white,
                           ),
                         ],
                       ),

@@ -4,6 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 
 class LogOutDialogWidget extends StatefulWidget {
   final VoidCallback onConfirm;
@@ -75,64 +77,25 @@ class _LogOutDialogWidgetState extends State<LogOutDialogWidget> {
                       ),
                       SizedBox(height: 28.h),
 
-                      Row(
+                      Column(
                         children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 54.h,
-                              child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                  side: const BorderSide(
-                                    color: Color(0xFF133F53),
-                                    width: 1.2,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16.r),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  'stay_connected'.tr(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xFF133F53),
-                                    height: 1.2,
-                                  ),
-                                ),
-                              ),
-                            ),
+                          CustomButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            text: 'stay_connected'.tr(),
+                            textColor: AppColors.textDark,
+                            buttonColor: Colors.white,
                           ),
-                          SizedBox(width: 16.w),
-                          Expanded(
-                            child: SizedBox(
-                              height: 54.h,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFB81D18),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16.r),
-                                  ),
-                                  elevation: 0,
-                                ),
-                                onPressed: () {
-                                  widget.onConfirm();
-                                },
-                                child: Text(
-                                  'yes_logout'.tr(),
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
+
+                          SizedBox(height: 6.w),
+                          CustomButton(
+                            onPressed: () {
+                              widget.onConfirm();
+                            },
+                            text: 'yes_logout'.tr(),
+                            textColor: Colors.white,
+                            buttonColor: Colors.red,
                           ),
                         ],
                       ),

@@ -43,12 +43,21 @@ class RecommendationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(24.r), // تطابق مع البوردر
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-        width: 280.w,
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        // تم مسح العرض (width) لأن الكاروسيل بيتولى الموضوع
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20.r),
+          borderRadius: BorderRadius.circular(24.r),
+          // إضافة ظل شيك بيخلي الكارت يبرز لبره
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withOpacity(0.08),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +85,7 @@ class RecommendationWidget extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 10.w,
+                      horizontal: 12.w,
                       vertical: 6.h,
                     ),
                     child: Text(
@@ -99,7 +108,7 @@ class RecommendationWidget extends StatelessWidget {
                 color: AppColors.textLight,
                 height: 1.4,
               ),
-              maxLines: 3,
+              maxLines: 2, // قللت الـ lines عشان المساحة تبقى أريح للزرار
               overflow: TextOverflow.ellipsis,
             ),
             const Spacer(),

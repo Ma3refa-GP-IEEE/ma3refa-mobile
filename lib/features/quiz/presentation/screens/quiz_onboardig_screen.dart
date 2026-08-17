@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, unrelated_type_equality_checks, deprecated_member_use
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/custom_snackbar.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/quiz/cubit/quiz_cubit.dart';
@@ -55,13 +57,13 @@ class _QuizOnBoardingScreenState extends State<QuizOnBoardingScreen> {
     return BlocConsumer<QuizCubit, QuizState>(
       listener: (context, state) {
         if (state is GenerateQuizErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errorMessage),
-              backgroundColor: Colors.red,
-              duration: const Duration(seconds: 2),
-            ),
+          CustomSnackBar.show(
+            context: context,
+            title: 'Error',
+            message: state.errorMessage,
+            contentType: ContentType.failure,
           );
+
           Future.delayed(const Duration(seconds: 2), () {
             if (mounted) {
               Navigator.pop(context);
@@ -72,130 +74,129 @@ class _QuizOnBoardingScreenState extends State<QuizOnBoardingScreen> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.background,
-          body: Padding(
-            padding: EdgeInsets.all(16.r),
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'almost_ready'.tr(),
-                        style: TextStyle(
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textDark,
+          body: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.all(16.r),
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'almost_ready'.tr(),
+                          style: TextStyle(
+                            fontSize: 32.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textDark,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 25.h),
-                    LoadingCardWidget(width: 256.w, height: 288.h),
-                    SizedBox(height: 25.h),
+                      SizedBox(height: 25.h),
+                      LoadingCardWidget(width: 256.w, height: 288.h),
+                      SizedBox(height: 25.h),
 
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'quick_tips'.tr(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.normal,
-                          color: AppColors.textLight,
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'quick_tips'.tr(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.normal,
+                            color: AppColors.textLight,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20.h),
-                    ...[
-                          _buildTipCard(
-                            tip: 'tip_read_questions'.tr(),
-                            icon: Icons.lightbulb_outline,
-                          ),
-                          _buildTipCard(
-                            tip: 'tip_timer'.tr(),
-                            icon: Icons.timer,
-                          ),
-                          _buildTipCard(
-                            tip: 'tip_do_best'.tr(),
-                            icon: Icons.sentiment_satisfied_alt,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 15.h),
-                            child: CustomButton(
-                              onPressed: () {
-                                if (state is GenerateQuizSuccessState) {
-                                  widget.quizTime == 0
-                                      ? Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                UntimedQuizQuestionsScreen(
-                                                  subCategoryId: widget
-                                                      .quizSetupParams
-                                                      .subcategoryId,
-                                                  quizModel: state.quiz,
-                                                  numberOfQuestions: widget
-                                                      .quizSetupParams
-                                                      .numberOfQuestions,
-                                                  quizTitle: widget.quizTitle,
-                                                  quizTime: widget.quizTime,
-                                                  difficultyLevel: widget
-                                                      .quizSetupParams
-                                                      .difficulty,
-                                                ),
-                                          ),
-                                        )
-                                      : Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                TimedQuizQuestionsScreen(
-                                                  subCategoryId: widget
-                                                      .quizSetupParams
-                                                      .subcategoryId,
-                                                  quizModel: state.quiz,
-                                                  numberOfQuestions: widget
-                                                      .quizSetupParams
-                                                      .numberOfQuestions,
-                                                  quizTitle: widget.quizTitle,
-                                                  quizTime: widget.quizTime,
-                                                  difficultyLevel: widget
-                                                      .quizSetupParams
-                                                      .difficulty,
-                                                ),
-                                          ),
-                                        );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Please wait, preparing your quiz...'
-                                            .tr(),
-                                      ),
-                                      backgroundColor: AppColors.primary,
-                                      duration: const Duration(seconds: 1),
-                                    ),
-                                  );
-                                }
-                              },
-                              text: state is GenerateQuizSuccessState
-                                  ? 'get_started'.tr()
-                                  : 'Preparing...'.tr(),
-                              icon: state is GenerateQuizSuccessState
-                                  ? Icons.arrow_forward
-                                  : Icons.hourglass_empty,
+                      SizedBox(height: 20.h),
+                      ...[
+                            _buildTipCard(
+                              tip: 'tip_read_questions'.tr(),
+                              icon: Icons.lightbulb_outline,
                             ),
+                            _buildTipCard(
+                              tip: 'tip_timer'.tr(),
+                              icon: Icons.timer,
+                            ),
+                            _buildTipCard(
+                              tip: 'tip_do_best'.tr(),
+                              icon: Icons.sentiment_satisfied_alt,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 15.h),
+                              child: CustomButton(
+                                onPressed: () {
+                                  if (state is GenerateQuizSuccessState) {
+                                    widget.quizTime == 0
+                                        ? Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UntimedQuizQuestionsScreen(
+                                                    subCategoryId: widget
+                                                        .quizSetupParams
+                                                        .subcategoryId,
+                                                    quizModel: state.quiz,
+                                                    numberOfQuestions: widget
+                                                        .quizSetupParams
+                                                        .numberOfQuestions,
+                                                    quizTitle: widget.quizTitle,
+                                                    quizTime: widget.quizTime,
+                                                    difficultyLevel: widget
+                                                        .quizSetupParams
+                                                        .difficulty,
+                                                  ),
+                                            ),
+                                          )
+                                        : Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TimedQuizQuestionsScreen(
+                                                    subCategoryId: widget
+                                                        .quizSetupParams
+                                                        .subcategoryId,
+                                                    quizModel: state.quiz,
+                                                    numberOfQuestions: widget
+                                                        .quizSetupParams
+                                                        .numberOfQuestions,
+                                                    quizTitle: widget.quizTitle,
+                                                    quizTime: widget.quizTime,
+                                                    difficultyLevel: widget
+                                                        .quizSetupParams
+                                                        .difficulty,
+                                                  ),
+                                            ),
+                                          );
+                                  } else {
+                                    CustomSnackBar.show(
+                                      context: context,
+                                      title: 'Please Wait',
+                                      message:
+                                          'Preparing your quiz, please wait...',
+                                      contentType: ContentType.help,
+                                    );
+                                  }
+                                },
+                                text: state is GenerateQuizSuccessState
+                                    ? 'get_started'.tr()
+                                    : 'Preparing...'.tr(),
+                                icon: state is GenerateQuizSuccessState
+                                    ? Icons.arrow_forward
+                                    : Icons.hourglass_empty,
+                              ),
+                            ),
+                          ]
+                          .animate(interval: 1.seconds)
+                          .fade(duration: 500.ms)
+                          .slideX(
+                            begin: isRtl ? 1.0 : -1.0,
+                            duration: 500.ms,
+                            curve: Curves.easeOutBack,
                           ),
-                        ]
-                        .animate(interval: 1.seconds)
-                        .fade(duration: 500.ms)
-                        .slideX(
-                          begin: isRtl ? 1.0 : -1.0,
-                          duration: 500.ms,
-                          curve: Curves.easeOutBack,
-                        ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -4,12 +4,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class QuizHistoryCard extends StatelessWidget {
   final String difficulty;
   final int score;
   final int totalQuestions;
-  final String createdAt;
+  final DateTime? createdAt;
   final String quizTitle;
   final VoidCallback onTap;
 
@@ -69,23 +70,6 @@ class QuizHistoryCard extends StatelessWidget {
     return Colors.grey;
   }
 
-  Map<String, String> _formatDateTime(String isoString) {
-    try {
-      final dateTime = DateTime.parse(isoString).toLocal();
-      final date =
-          "${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}";
-
-      int hour = dateTime.hour;
-      final period = hour >= 12 ? "PM" : "AM";
-      hour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
-      final minute = dateTime.minute.toString().padLeft(2, '0');
-      final time = "$hour:$minute $period";
-      return {'date': date, 'time': time};
-    } catch (e) {
-      return {'date': '--', 'time': '--'};
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final int difficultyLevel = difficulty.toLowerCase() == 'easy'
@@ -98,7 +82,6 @@ class QuizHistoryCard extends StatelessWidget {
     final Color scoreColor = _getScoreColor(percentage);
 
     final diff = _getDifficultyDetails(difficulty);
-    final dateTimeMap = _formatDateTime(createdAt);
 
     final Color mainTextColor = const Color(0xFF133F53);
 
@@ -199,29 +182,34 @@ class QuizHistoryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      dateTimeMap['date']!,
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w600,
-                        color: mainTextColor.withOpacity(0.8),
+                    if (createdAt != null) ...[
+                      Text(
+                        DateFormat('yyyy-MM-dd').format(createdAt!),
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w600,
+                          color: mainTextColor.withOpacity(0.8),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      dateTimeMap['time']!,
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey.shade600,
+                      SizedBox(height: 4.h),
+                      Text(
+                        "${DateFormat('hh:mm a').format(createdAt!)}\n${timeago.format(createdAt!)}",
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey.shade600,
+                        ),
                       ),
-                    ),
+                    ] else
+                      Text(
+                        'Date unavailable',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
                     SizedBox(height: 4.h),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 14.sp,
-                      color: Colors.grey.shade400,
-                    ),
                   ],
                 ),
               ],

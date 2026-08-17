@@ -16,7 +16,7 @@ class QuizSetupParams {
       'subcategory_id': subcategoryId,
       'difficulty': difficulty,
       'number_of_questions': numberOfQuestions,
-      'allowed_topics': allowedTopics,
+      'topics': allowedTopics,
     };
   }
 }

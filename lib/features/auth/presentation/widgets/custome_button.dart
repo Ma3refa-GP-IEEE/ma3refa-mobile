@@ -4,6 +4,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 
 class CustomButton extends StatefulWidget {
+  final Color? textColor;
+  final Color? buttonColor;
   final VoidCallback onPressed;
   final String text;
   final IconData? icon;
@@ -13,6 +15,8 @@ class CustomButton extends StatefulWidget {
     required this.onPressed,
     required this.text,
     this.icon,
+    this.textColor,
+    this.buttonColor,
   });
 
   @override
@@ -28,12 +32,16 @@ class CustomButtonState extends State<CustomButton> {
 
   @override
   Widget build(BuildContext context) {
+    bool currentIsDialog = false;
+    widget.textColor != null ? currentIsDialog = true : currentIsDialog = false;
     return SizedBox(
           height: 60.h,
           width: 320.w,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+              backgroundColor: currentIsDialog
+                  ? widget.buttonColor
+                  : AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.r),
               ),
@@ -46,7 +54,7 @@ class CustomButtonState extends State<CustomButton> {
                   widget.text,
                   style: TextStyle(
                     fontSize: 22.sp,
-                    color: AppColors.white,
+                    color: currentIsDialog ? widget.textColor : AppColors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

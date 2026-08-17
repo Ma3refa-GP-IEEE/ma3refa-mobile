@@ -57,76 +57,79 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.all(16.r),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children:
-                [
-                      _buildCustomText(
-                        text: 'home.quizSetup.selectDifficulty'.tr(),
-                        fontSize: 18.sp,
-                        color: AppColors.textDark,
-                      ),
-                      SizedBox(height: 10.h),
-                      DifficultySelector(
-                        onDifficultySelected: (difficulty) {
-                          selectedDifficulty = difficulty;
-                        },
-                      ),
-                      SizedBox(height: 20.h),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.all(16.r),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children:
+                  [
+                        _buildCustomText(
+                          text: 'home.quizSetup.selectDifficulty'.tr(),
+                          fontSize: 18.sp,
+                          color: AppColors.textDark,
+                        ),
+                        SizedBox(height: 10.h),
+                        DifficultySelector(
+                          onDifficultySelected: (difficulty) {
+                            selectedDifficulty = difficulty;
+                          },
+                        ),
+                        SizedBox(height: 20.h),
 
-                      NumberOfQuestionWidget(
-                        onNumberOfQuestionsSelected: (int p1) {
-                          selectedNumberOfQuestions = p1;
-                        },
-                      ),
-                      SizedBox(height: 20.h),
-                      _buildCustomText(
-                        text: 'home.quizSetup.timeDuration'.tr(),
-                        fontSize: 18.sp,
-                        color: AppColors.textDark,
-                      ),
-                      SizedBox(height: 10.h),
-                      TimeSelectionCard(
-                        onTimeSelected: (int p1) {
-                          selectedMinutes = p1;
-                        },
-                      ),
-                      SizedBox(height: 100.h),
-                      CustomButton(
-                        onPressed: () {
-                          getIt<AudioService>().playAssetSound(
-                            'sounds/click_at_quiz_setup.mp3',
-                          );
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => QuizOnBoardingScreen(
-                                quizSetupParams: QuizSetupParams(
-                                  subcategoryId: widget.subCategoryId,
-                                  difficulty: selectedDifficulty,
-                                  numberOfQuestions: selectedNumberOfQuestions,
+                        NumberOfQuestionWidget(
+                          onNumberOfQuestionsSelected: (int p1) {
+                            selectedNumberOfQuestions = p1;
+                          },
+                        ),
+                        SizedBox(height: 20.h),
+                        _buildCustomText(
+                          text: 'home.quizSetup.timeDuration'.tr(),
+                          fontSize: 18.sp,
+                          color: AppColors.textDark,
+                        ),
+                        SizedBox(height: 10.h),
+                        TimeSelectionCard(
+                          onTimeSelected: (int p1) {
+                            selectedMinutes = p1;
+                          },
+                        ),
+                        SizedBox(height: 100.h),
+                        CustomButton(
+                          onPressed: () {
+                            getIt<AudioService>().playAssetSound(
+                              'sounds/click_at_quiz_setup.mp3',
+                            );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => QuizOnBoardingScreen(
+                                  quizSetupParams: QuizSetupParams(
+                                    subcategoryId: widget.subCategoryId,
+                                    difficulty: selectedDifficulty,
+                                    numberOfQuestions:
+                                        selectedNumberOfQuestions,
+                                  ),
+                                  quizTitle: widget.quizTitle,
+                                  quizTime: selectedMinutes,
                                 ),
-                                quizTitle: widget.quizTitle,
-                                quizTime: selectedMinutes,
                               ),
-                            ),
-                          );
-                        },
-                        text: 'home.quizSetup.startQuiz'.tr(),
-                        icon: Icons.arrow_forward,
+                            );
+                          },
+                          text: 'home.quizSetup.startQuiz'.tr(),
+                          icon: Icons.arrow_forward,
+                        ),
+                      ]
+                      .animate(interval: 100.ms)
+                      .fade(duration: 400.ms)
+                      .slideY(
+                        begin: 0.1,
+                        duration: 400.ms,
+                        curve: Curves.easeOutQuad,
                       ),
-                    ]
-                    .animate(interval: 100.ms)
-                    .fade(duration: 400.ms)
-                    .slideY(
-                      begin: 0.1,
-                      duration: 400.ms,
-                      curve: Curves.easeOutQuad,
-                    ),
+            ),
           ),
         ),
       ),

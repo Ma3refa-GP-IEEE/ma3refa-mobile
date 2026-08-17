@@ -3,7 +3,7 @@ class HistoryQuizModel {
   final String difficulty;
   final int score;
   final int totalQuestions;
-  final String createdAt;
+  final DateTime? createdAt;
 
   HistoryQuizModel({
     required this.quizId,
@@ -19,7 +19,9 @@ class HistoryQuizModel {
       difficulty: json['difficulty'] ?? 'Easy',
       score: json['score'],
       totalQuestions: json['total_questions'],
-      createdAt: json['created_at'],
+      createdAt: json['created_at'] != null
+          ? DateTime.tryParse(json['created_at'] as String)?.toLocal()
+          : null,
     );
   }
 }

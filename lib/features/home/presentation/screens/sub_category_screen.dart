@@ -1,9 +1,11 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/custom_snackbar.dart';
 import 'package:ma3refa_mobile/core/utils/quiz_data.dart';
 import 'package:ma3refa_mobile/features/home/cubit/home_cubit.dart';
 import 'package:ma3refa_mobile/features/home/cubit/home_states.dart';
@@ -38,12 +40,11 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {
         if (state is SubCategoriesErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.error),
-              backgroundColor: Colors.red,
-              duration: const Duration(seconds: 2),
-            ),
+          CustomSnackBar.show(
+            context: context,
+            title: 'Error',
+            message: state.error,
+            contentType: ContentType.failure,
           );
         }
       },
@@ -80,81 +81,88 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
             ),
           ),
           body: state is SubCategoriesLoadingState
-              ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.only(
-                      start: 8.r,
-                      end: 8.r,
-                      bottom: 16.r,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.all(16.r),
-                            child: Text(
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                              'home.subCategory.selectTopic'.tr(),
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.textDark,
+              ? SafeArea(
+                  child: const Center(child: CircularProgressIndicator()),
+                )
+              : SafeArea(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.only(
+                        start: 8.r,
+                        end: 8.r,
+                        bottom: 16.r,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: EdgeInsets.all(16.r),
+                              child: Text(
+                                maxLines: 2,
+                                textAlign: TextAlign.center,
+                                'home.subCategory.selectTopic'.tr(),
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.textDark,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        if (displayList.isEmpty)
-                          Padding(
-                            padding: EdgeInsets.only(top: 50.h),
-                            child: Text(
-                              "No topics found!",
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                color: AppColors.textLight,
+                          if (displayList.isEmpty)
+                            Padding(
+                              padding: EdgeInsets.only(top: 50.h),
+                              child: Text(
+                                "No topics found!",
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: AppColors.textLight,
+                                ),
                               ),
-                            ),
-                          )
-                        else
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: displayList.length,
-                            itemBuilder: (context, index) {
-                              return CustomListTileWidget(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => QuizSetupScreen(
-                                            subCategoryId: displayList[index]
-                                                .subcategoryId!,
-                                            quizTitle: displayList[index].name,
+                            )
+                          else
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: displayList.length,
+                              itemBuilder: (context, index) {
+                                return CustomListTileWidget(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                QuizSetupScreen(
+                                                  subCategoryId:
+                                                      displayList[index]
+                                                          .subcategoryId!,
+                                                  quizTitle:
+                                                      displayList[index].name,
+                                                ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    subCategory: displayList[index],
-                                  )
-                                  .animate()
-                                  .fade(
-                                    duration: 400.ms,
-                                    delay: (index * 100).ms,
-                                  )
-                                  .slideY(
-                                    begin: 0.2,
-                                    duration: 400.ms,
-                                    delay: (index * 100).ms,
-                                    curve: Curves.easeOutQuad,
-                                  );
-                            },
-                          ),
-                      ],
+                                        );
+                                      },
+                                      subCategory: displayList[index],
+                                    )
+                                    .animate()
+                                    .fade(
+                                      duration: 400.ms,
+                                      delay: (index * 100).ms,
+                                    )
+                                    .slideY(
+                                      begin: 0.2,
+                                      duration: 400.ms,
+                                      delay: (index * 100).ms,
+                                      curve: Curves.easeOutQuad,
+                                    );
+                              },
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
