@@ -147,7 +147,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
                   borderRadius: BorderRadius.circular(16.r),
                   boxShadow: [
                     BoxShadow(
@@ -157,83 +156,87 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     ),
                   ],
                 ),
-                child: Column(
-                  children: [
-                    DrawerItemTile(
-                      icon: getIt<AudioService>().isMuted
-                          ? Icons.volume_off
-                          : Icons.volume_up,
-                      iconBgColor: Colors.blue.shade50,
-                      iconColor: Colors.blue,
-                      title: "Sound",
-                      trailing: Switch.adaptive(
-                        value: !getIt<AudioService>().isMuted,
-                        activeColor: AppColors.primary,
-                        onChanged: (value) {
-                          setState(() {
-                            getIt<AudioService>().toggleMute();
-                          });
-                        },
+                child: Material(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16.r),
+                  child: Column(
+                    children: [
+                      DrawerItemTile(
+                        icon: getIt<AudioService>().isMuted
+                            ? Icons.volume_off
+                            : Icons.volume_up,
+                        iconBgColor: Colors.blue.shade50,
+                        iconColor: Colors.blue,
+                        title: "Sound",
+                        trailing: Switch.adaptive(
+                          value: !getIt<AudioService>().isMuted,
+                          activeColor: AppColors.primary,
+                          onChanged: (value) {
+                            setState(() {
+                              getIt<AudioService>().toggleMute();
+                            });
+                          },
+                        ),
                       ),
-                    ),
 
-                    Divider(
-                      height: 1,
-                      thickness: 0.5,
-                      color: Colors.grey.shade200,
-                      indent: 56.w,
-                    ),
-
-                    DrawerItemTile(
-                      icon: Icons.dark_mode_rounded,
-                      iconBgColor: Colors.deepPurple.shade50,
-                      iconColor: Colors.deepPurple,
-                      title: "Dark Mode",
-                      trailing: Switch.adaptive(
-                        value: isDarkMode,
-                        activeColor: AppColors.primary,
-                        onChanged: (value) {
-                          _showNotAvailableDialog(context, 'Dark Mode');
-                        },
+                      Divider(
+                        height: 1,
+                        thickness: 0.5,
+                        color: Colors.grey.shade200,
+                        indent: 56.w,
                       ),
-                    ),
 
-                    Divider(
-                      height: 1,
-                      thickness: 0.5,
-                      color: Colors.grey.shade200,
-                      indent: 56.w,
-                    ),
+                      DrawerItemTile(
+                        icon: Icons.dark_mode_rounded,
+                        iconBgColor: Colors.deepPurple.shade50,
+                        iconColor: Colors.deepPurple,
+                        title: "Dark Mode",
+                        trailing: Switch.adaptive(
+                          value: isDarkMode,
+                          activeColor: AppColors.primary,
+                          onChanged: (value) {
+                            _showNotAvailableDialog(context, 'Dark Mode');
+                          },
+                        ),
+                      ),
 
-                    DrawerItemTile(
-                      icon: Icons.language_rounded,
-                      iconBgColor: Colors.orange.shade50,
-                      iconColor: Colors.orange,
-                      title: "Language",
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            context.locale.languageCode.toUpperCase(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14.sp,
-                              color: AppColors.textDark,
+                      Divider(
+                        height: 1,
+                        thickness: 0.5,
+                        color: Colors.grey.shade200,
+                        indent: 56.w,
+                      ),
+
+                      DrawerItemTile(
+                        icon: Icons.language_rounded,
+                        iconBgColor: Colors.orange.shade50,
+                        iconColor: Colors.orange,
+                        title: "Language",
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              context.locale.languageCode.toUpperCase(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                                color: AppColors.textDark,
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 4.w),
-                          Icon(
-                            CupertinoIcons.chevron_right,
-                            size: 14.sp,
-                            color: Colors.grey,
-                          ),
-                        ],
+                            SizedBox(width: 4.w),
+                            Icon(
+                              CupertinoIcons.chevron_right,
+                              size: 14.sp,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                        onTap: () {
+                          _showNotAvailableDialog(context, 'Language Change');
+                        },
                       ),
-                      onTap: () {
-                        _showNotAvailableDialog(context, 'Language Change');
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -314,6 +317,8 @@ class DrawerItemTile extends StatelessWidget {
       ),
       title: Text(
         title,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
           fontSize: 15.sp,
           fontWeight: FontWeight.w600,

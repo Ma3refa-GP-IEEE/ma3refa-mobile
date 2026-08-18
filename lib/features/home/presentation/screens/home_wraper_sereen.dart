@@ -79,7 +79,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
       showShadow: true,
       angle: -10.0,
       drawerShadowsBackgroundColor: Colors.grey.shade300,
-      slideWidth: MediaQuery.of(context).size.width * 0.90,
+      slideWidth: MediaQuery.of(context).size.width * 0.80,
       menuBackgroundColor: AppColors.secondaryBackground,
     );
   }

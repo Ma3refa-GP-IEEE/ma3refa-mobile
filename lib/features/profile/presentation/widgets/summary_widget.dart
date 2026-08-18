@@ -8,6 +8,7 @@ import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 class SummaryWidget extends StatelessWidget {
   final int completedQuizzes;
   final int totalPoints;
+
   const SummaryWidget({
     super.key,
     required this.completedQuizzes,
@@ -17,74 +18,74 @@ class SummaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(
-              width: 170.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: AppColors.primary.withOpacity(0.2),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(8.r),
-                child: Column(
-                  children: [
-                    Text(
-                      "Completed Quizzes",
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textDark.withOpacity(0.8),
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      "$completedQuizzes",
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textDark,
-                      ),
-                    ),
-                  ],
-                ),
+            Expanded(
+              child: _buildStatCard(
+                title: "Completed Quizzes",
+                value: completedQuizzes.toString(),
+                icon: Icons.check_circle_outline_rounded,
               ),
             ),
-            Container(
-              width: 170.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: AppColors.secondary.withOpacity(0.2),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(8.r),
-                child: Column(
-                  children: [
-                    Text(
-                      "Total Points",
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textDark.withOpacity(0.8),
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      "$totalPoints",
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textDark,
-                      ),
-                    ),
-                  ],
-                ),
+            SizedBox(width: 16.w),
+            Expanded(
+              child: _buildStatCard(
+                title: "Total Points",
+                value: totalPoints.toString(),
+                icon: Icons.stars_rounded,
               ),
             ),
           ],
         )
         .animate(delay: 200.ms)
-        .fadeIn(duration: 400.ms, curve: Curves.easeInOutCirc);
+        .fadeIn(duration: 400.ms, curve: Curves.easeInOutCirc)
+        .slideY(begin: 0.1, duration: 400.ms, curve: Curves.easeOut);
+  }
+
+  Widget _buildStatCard({
+    required String title,
+    required String value,
+    required IconData icon,
+  }) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 12.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 15,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: AppColors.primary.withOpacity(0.5), size: 24.sp),
+          SizedBox(height: 12.h),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 32.sp,
+              fontWeight: FontWeight.w900,
+              color: AppColors.primary,
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade500,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

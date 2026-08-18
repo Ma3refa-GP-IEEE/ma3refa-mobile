@@ -89,7 +89,7 @@ class QuizHistoryCard extends StatelessWidget {
       onTap: onTap,
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        elevation: 0,
+        elevation: 4,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: Colors.grey.shade200, width: 1.w),
           borderRadius: BorderRadius.circular(24.r),

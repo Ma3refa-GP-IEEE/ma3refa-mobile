@@ -21,96 +21,158 @@ class UserCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String avatarPath = Utils.getAvatarUrl(userName: userName, gender: gender);
-    return Card(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-          color: const Color(0xffA8DADC),
-          child: Padding(
-            padding: EdgeInsets.all(16.r),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                      padding: EdgeInsets.all(2.r),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.blueAccent.withOpacity(0.2),
-                          width: 2,
-                        ),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50.r),
-                        child: Container(
-                          width: 56.w,
-                          height: 56.h,
-                          color: Colors.white,
-                          child: avatarPath.startsWith('http')
-                              ? Image.network(
-                                  avatarPath,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Icon(
-                                        Icons.person,
-                                        color: Colors.grey,
-                                        size: 30.sp,
-                                      ),
-                                )
-                              : Image.asset(avatarPath, fit: BoxFit.cover),
-                        ),
-                      ),
-                    )
-                    .animate(delay: 200.ms)
-                    .scale(duration: 400.ms, curve: Curves.easeOutBack),
 
-                SizedBox(width: 16.w),
+    double avatarRadius = 38.r;
 
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        userName,
-                        style: TextStyle(
-                          color: AppColors.textDark,
-                          fontSize: 22.sp,
-                          fontWeight: FontWeight.bold,
-                          height: 1.2,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        userEmail,
-                        style: TextStyle(
-                          color: AppColors.textLight,
-                          fontSize: 14.sp,
-                          height: 1.2,
-                        ),
-                      ),
-                    ],
-                  ),
+    return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(top: avatarRadius),
+              padding: EdgeInsets.only(
+                left: (avatarRadius * 2) + 24.w,
+                top: 24.h,
+                bottom: 24.h,
+                right: 16.w,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.primary,
+                    AppColors.primary.withOpacity(0.65),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-
-                SizedBox(width: 12.w),
-
-                Container(
-                  decoration: const BoxDecoration(
-                    color: AppColors.accent,
-                    shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withOpacity(0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
                   ),
-                  child: IconButton(
-                    icon: const Icon(Icons.edit, color: AppColors.textDark),
-                    onPressed: () {
-                      // Handle edit profile action
-                    },
+                ],
+              ),
+
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    userName,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
+                      height: 1.2,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ).animate(delay: 600.ms).shake(hz: 3, duration: 400.ms),
-              ],
+                  SizedBox(height: 6.h),
+                  Text(
+                    userEmail,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.85),
+                      fontSize: 14.sp,
+                      height: 1.2,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
-          ),
+
+            Positioned(
+              top: 0,
+              left: 16.w,
+              child:
+                  Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: AppColors.background,
+                                width: 4.w,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.15),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100.r),
+                              child: Container(
+                                width: avatarRadius * 3,
+                                height: avatarRadius * 3,
+                                color: Colors.white,
+                                child: avatarPath.startsWith('http')
+                                    ? Image.network(
+                                        avatarPath,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Icon(
+                                                  Icons.person,
+                                                  color: Colors.grey,
+                                                  size: 35.sp,
+                                                ),
+                                      )
+                                    : Image.asset(
+                                        avatarPath,
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
+                            ),
+                          ),
+
+                          Positioned(
+                            bottom: -4.h,
+                            right: -4.w,
+                            child:
+                                GestureDetector(
+                                      onTap: () {},
+                                      child: Container(
+                                        padding: EdgeInsets.all(8.r),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: AppColors.primary,
+                                            width: 1.5.w,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withOpacity(
+                                                0.15,
+                                              ),
+                                              blurRadius: 6,
+                                              offset: const Offset(0, 3),
+                                            ),
+                                          ],
+                                        ),
+                                        child: Icon(
+                                          Icons.edit_rounded,
+                                          color: AppColors.primary,
+                                          size: 16.sp,
+                                        ),
+                                      ),
+                                    )
+                                    .animate(delay: 600.ms)
+                                    .shake(hz: 3, duration: 400.ms),
+                          ),
+                        ],
+                      )
+                      .animate(delay: 200.ms)
+                      .scale(duration: 400.ms, curve: Curves.easeOutBack),
+            ),
+          ],
         )
         .animate()
         .fade(duration: 400.ms)

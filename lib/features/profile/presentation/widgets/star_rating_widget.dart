@@ -39,7 +39,7 @@ class StarRatingWidget extends StatelessWidget {
     final Color greenBar = const Color(0xFF23974A);
 
     return Card(
-      elevation: 8,
+      elevation: 20,
       shadowColor: Colors.black45,
       color: cardBackground,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
