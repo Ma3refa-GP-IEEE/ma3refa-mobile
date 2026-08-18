@@ -1,10 +1,11 @@
-// ignore_for_file: file_names, deprecated_member_use
+// ignore_for_file: must_be_immutable, file_names, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
 
 class CustomTextFormField extends StatefulWidget {
+  bool? isPasswordField;
   final TextInputType? keyboardType;
   final bool isLabelNeded;
   final String labelText;
@@ -12,7 +13,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final IconData? prefixIcon;
-  const CustomTextFormField({
+  CustomTextFormField({
     super.key,
     required this.controller,
     required this.labelText,
@@ -21,6 +22,7 @@ class CustomTextFormField extends StatefulWidget {
     required this.prefixIcon,
     this.isLabelNeded = true,
     this.keyboardType,
+    this.isPasswordField = false,
   });
 
   @override
@@ -52,6 +54,21 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
           keyboardType: widget.keyboardType,
           decoration: InputDecoration(
+            suffixIcon: widget.isPasswordField!
+                ? IconButton(
+                    icon: Icon(
+                      widget.isPasswordField!
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.blueGrey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        widget.isPasswordField = !widget.isPasswordField!;
+                      });
+                    },
+                  )
+                : null,
             hintText: widget.hintText,
             hintStyle: TextStyle(
               color: Colors.blueGrey.withOpacity(0.6),

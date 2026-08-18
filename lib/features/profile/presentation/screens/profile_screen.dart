@@ -153,31 +153,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             thickness: 1,
                           ),
                           SizedBox(height: 5.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'quiz_history'.tr(),
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.textDark,
-                                ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'quiz_history'.tr(),
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.textDark,
                               ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.replay,
-                                  color: AppColors.textDark,
-                                ),
-                                onPressed: () {
-                                  context
-                                      .read<ProfileCubit>()
-                                      .fetchProfileHistory();
-                                },
-                              ),
-                            ],
+                            ),
                           ),
-
+                          SizedBox(height: 5.h),
                           ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),

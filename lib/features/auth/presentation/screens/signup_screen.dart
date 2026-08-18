@@ -129,6 +129,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ),
                                       SizedBox(height: 15.h),
                                       CustomTextFormField(
+                                        isPasswordField: true,
                                         labelText: 'password'.tr(),
                                         hintText: '••••••••',
                                         controller: passwordController,
@@ -138,6 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ),
                                       SizedBox(height: 15.h),
                                       CustomTextFormField(
+                                        isPasswordField: true,
                                         labelText: 'confirm_password'.tr(),
                                         hintText: '••••••••',
                                         controller: confirmPasswordController,

@@ -121,6 +121,7 @@ class _QuizSetupScreenState extends State<QuizSetupScreen> {
                           text: 'home.quizSetup.startQuiz'.tr(),
                           icon: Icons.arrow_forward,
                         ),
+                        SizedBox(height: 20.h),
                       ]
                       .animate(interval: 100.ms)
                       .fade(duration: 400.ms)

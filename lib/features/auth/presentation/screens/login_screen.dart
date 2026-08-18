@@ -87,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       SizedBox(height: 25.h),
                                       CustomTextFormField(
+                                        isPasswordField: true,
                                         labelText: 'password'.tr(),
                                         hintText: '••••••••',
                                         controller: passwordController,

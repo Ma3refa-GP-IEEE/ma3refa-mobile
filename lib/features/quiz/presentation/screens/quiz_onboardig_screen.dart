@@ -125,68 +125,73 @@ class _QuizOnBoardingScreenState extends State<QuizOnBoardingScreen> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 15.h),
-                              child: CustomButton(
-                                onPressed: () {
-                                  if (state is GenerateQuizSuccessState) {
-                                    widget.quizTime == 0
-                                        ? Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UntimedQuizQuestionsScreen(
-                                                    subCategoryId: widget
-                                                        .quizSetupParams
-                                                        .subcategoryId,
-                                                    quizModel: state.quiz,
-                                                    numberOfQuestions: widget
-                                                        .quizSetupParams
-                                                        .numberOfQuestions,
-                                                    quizTitle: widget.quizTitle,
-                                                    quizTime: widget.quizTime,
-                                                    difficultyLevel: widget
-                                                        .quizSetupParams
-                                                        .difficulty,
-                                                  ),
-                                            ),
-                                          )
-                                        : Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  TimedQuizQuestionsScreen(
-                                                    subCategoryId: widget
-                                                        .quizSetupParams
-                                                        .subcategoryId,
-                                                    quizModel: state.quiz,
-                                                    numberOfQuestions: widget
-                                                        .quizSetupParams
-                                                        .numberOfQuestions,
-                                                    quizTitle: widget.quizTitle,
-                                                    quizTime: widget.quizTime,
-                                                    difficultyLevel: widget
-                                                        .quizSetupParams
-                                                        .difficulty,
-                                                  ),
-                                            ),
-                                          );
-                                  } else {
-                                    CustomSnackBar.show(
-                                      context: context,
-                                      title: 'Please Wait',
-                                      message:
-                                          'Preparing your quiz, please wait...',
-                                      contentType: ContentType.help,
-                                    );
-                                  }
-                                },
-                                text: state is GenerateQuizSuccessState
-                                    ? 'get_started'.tr()
-                                    : 'Preparing...'.tr(),
-                                icon: state is GenerateQuizSuccessState
-                                    ? Icons.arrow_forward
-                                    : Icons.hourglass_empty,
+                              child: Center(
+                                child: CustomButton(
+                                  onPressed: () {
+                                    if (state is GenerateQuizSuccessState) {
+                                      widget.quizTime == 0
+                                          ? Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UntimedQuizQuestionsScreen(
+                                                      subCategoryId: widget
+                                                          .quizSetupParams
+                                                          .subcategoryId,
+                                                      quizModel: state.quiz,
+                                                      numberOfQuestions: widget
+                                                          .quizSetupParams
+                                                          .numberOfQuestions,
+                                                      quizTitle:
+                                                          widget.quizTitle,
+                                                      quizTime: widget.quizTime,
+                                                      difficultyLevel: widget
+                                                          .quizSetupParams
+                                                          .difficulty,
+                                                    ),
+                                              ),
+                                            )
+                                          : Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TimedQuizQuestionsScreen(
+                                                      subCategoryId: widget
+                                                          .quizSetupParams
+                                                          .subcategoryId,
+                                                      quizModel: state.quiz,
+                                                      numberOfQuestions: widget
+                                                          .quizSetupParams
+                                                          .numberOfQuestions,
+                                                      quizTitle:
+                                                          widget.quizTitle,
+                                                      quizTime: widget.quizTime,
+                                                      difficultyLevel: widget
+                                                          .quizSetupParams
+                                                          .difficulty,
+                                                    ),
+                                              ),
+                                            );
+                                    } else {
+                                      CustomSnackBar.show(
+                                        context: context,
+                                        title: 'Please Wait',
+                                        message:
+                                            'Preparing your quiz, please wait...',
+                                        contentType: ContentType.help,
+                                      );
+                                    }
+                                  },
+                                  text: state is GenerateQuizSuccessState
+                                      ? 'get_started'.tr()
+                                      : 'Preparing...'.tr(),
+                                  icon: state is GenerateQuizSuccessState
+                                      ? Icons.arrow_forward
+                                      : Icons.hourglass_bottom_outlined,
+                                ),
                               ),
                             ),
+                            SizedBox(height: 20.h),
                           ]
                           .animate(interval: 1.seconds)
                           .fade(duration: 500.ms)
