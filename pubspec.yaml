@@ -57,7 +57,6 @@ dependencies:
   awesome_snackbar_content: ^0.1.8
   glassmorphism: ^3.0.0
   hidable: ^1.0.6
-  flutter_zoom_drawer: ^3.2.0
   lottie: ^3.5.1
 
 dev_dependencies:
