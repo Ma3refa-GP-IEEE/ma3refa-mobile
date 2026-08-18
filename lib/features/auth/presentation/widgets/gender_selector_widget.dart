@@ -1,21 +1,45 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/audio_service.dart';
+import 'package:ma3refa_mobile/core/utils/custom_snackbar.dart';
 
 class GenderSelector extends StatefulWidget {
   final Function(String) onGenderSelected;
   const GenderSelector({super.key, required this.onGenderSelected});
+
   @override
   State<GenderSelector> createState() => _GenderSelectorState();
 }
 
 class _GenderSelectorState extends State<GenderSelector> {
   final ValueNotifier<String> selectedGenderNotifier = ValueNotifier('Male');
+
   @override
   void dispose() {
     selectedGenderNotifier.dispose();
     super.dispose();
+  }
+
+  void _handleOtherSelection(BuildContext context) async {
+    selectedGenderNotifier.value = 'Other';
+
+    getIt<AudioService>().playAssetSound('sounds/others_sound.mp3');
+
+    CustomSnackBar.show(
+      context: context,
+      title: 'WTF BRO !',
+      message: 'Bro thought we wouldn’t notice 💀',
+      contentType: ContentType.help,
+    );
+
+    await Future.delayed(const Duration(seconds: 3));
+    if (!mounted) return;
+    selectedGenderNotifier.value = 'Male';
+    widget.onGenderSelected('Male');
   }
 
   @override
@@ -46,15 +70,26 @@ class _GenderSelectorState extends State<GenderSelector> {
             builder: (context, currentValue, child) {
               return Row(
                 children: [
-                  buildGenderButton('Male', currentValue, 'male_option'.tr()),
+                  buildGenderButton(
+                    context,
+                    'Male',
+                    currentValue,
+                    'male_option'.tr(),
+                  ),
                   SizedBox(width: 10.w),
                   buildGenderButton(
+                    context,
                     'Female',
                     currentValue,
                     'female_option'.tr(),
                   ),
                   SizedBox(width: 10.w),
-                  buildGenderButton('Other', currentValue, 'other_option'.tr()),
+                  buildGenderButton(
+                    context,
+                    'Other',
+                    currentValue,
+                    'other_option'.tr(),
+                  ),
                 ],
               );
             },
@@ -64,13 +99,22 @@ class _GenderSelectorState extends State<GenderSelector> {
     );
   }
 
-  Widget buildGenderButton(String gender, String currentValue, String label) {
+  Widget buildGenderButton(
+    BuildContext context,
+    String gender,
+    String currentValue,
+    String label,
+  ) {
     bool isSelected = currentValue == gender;
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          selectedGenderNotifier.value = gender;
-          widget.onGenderSelected(gender);
+          if (gender == 'Other') {
+            _handleOtherSelection(context);
+          } else {
+            selectedGenderNotifier.value = gender;
+            widget.onGenderSelected(gender);
+          }
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
