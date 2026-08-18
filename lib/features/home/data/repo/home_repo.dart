@@ -5,7 +5,6 @@ import 'package:ma3refa_mobile/core/utils/api_consts.dart';
 import 'package:ma3refa_mobile/features/auth/data/models/failuer_model.dart';
 import 'package:ma3refa_mobile/features/home/data/models/all_categories_model.dart';
 import 'package:ma3refa_mobile/features/home/data/models/category_model.dart';
-import 'package:ma3refa_mobile/features/home/data/models/sub_category_model.dart';
 
 class HomeRepo {
   final DioServices dioService;

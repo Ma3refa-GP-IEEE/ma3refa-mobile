@@ -39,7 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    getIt<AudioService>().stopSound();
     super.dispose();
   }
 

@@ -1,6 +1,5 @@
 import 'package:ma3refa_mobile/features/home/data/models/all_categories_model.dart';
 import 'package:ma3refa_mobile/features/home/data/models/category_model.dart';
-import 'package:ma3refa_mobile/features/home/data/models/sub_category_model.dart';
 
 abstract class HomeStates {}
 

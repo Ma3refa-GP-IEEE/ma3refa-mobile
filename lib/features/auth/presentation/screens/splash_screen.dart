@@ -11,7 +11,6 @@ import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/on_boarding_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/logo_card_widget.dart';
-import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/home_wraper_sereen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -33,7 +32,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void dispose() {
-    getIt<AudioService>().stopSound();
     super.dispose();
   }
 

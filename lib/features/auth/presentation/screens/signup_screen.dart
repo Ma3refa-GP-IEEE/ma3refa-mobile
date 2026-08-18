@@ -48,7 +48,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
-    getIt<AudioService>().stopSound();
     super.dispose();
   }
 
