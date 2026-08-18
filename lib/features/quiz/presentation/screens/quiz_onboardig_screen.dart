@@ -8,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/audio_service.dart';
 import 'package:ma3refa_mobile/core/utils/custom_snackbar.dart';
-import 'package:ma3refa_mobile/core/utils/utils.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/quiz/cubit/quiz_cubit.dart';
 import 'package:ma3refa_mobile/features/quiz/cubit/quiz_states.dart';
@@ -94,7 +94,7 @@ class _QuizOnBoardingScreenState extends State<QuizOnBoardingScreen> {
                         ),
                       ),
                       SizedBox(height: 25.h),
-                      LoadingCardWidget(width: 256.w, height: 288.h),
+                      LoadingCardWidget(width: 275.w, height: 305.h),
                       SizedBox(height: 25.h),
 
                       Align(

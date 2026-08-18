@@ -109,8 +109,8 @@ class UserCardWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100.r),
                               child: Container(
-                                width: avatarRadius * 3,
-                                height: avatarRadius * 3,
+                                width: avatarRadius * 2.5,
+                                height: avatarRadius * 2.5,
                                 color: Colors.white,
                                 child: avatarPath.startsWith('http')
                                     ? Image.network(
@@ -121,7 +121,7 @@ class UserCardWidget extends StatelessWidget {
                                                 Icon(
                                                   Icons.person,
                                                   color: Colors.grey,
-                                                  size: 35.sp,
+                                                  size: 30.sp,
                                                 ),
                                       )
                                     : Image.asset(

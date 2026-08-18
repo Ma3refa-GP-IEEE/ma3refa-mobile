@@ -1,6 +1,4 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class Utils {
   static String getAvatarUrl({
@@ -18,35 +16,6 @@ class Utils {
         final cleanSeed = Uri.encodeComponent(userName);
         return 'https://api.dicebear.com/7.x/bottts/png?seed=$cleanSeed';
     }
-  }
-}
-
-class AudioService {
-  final AudioPlayer _audioPlayer = AudioPlayer();
-  bool isMuted = false;
-
-  void toggleMute() {
-    isMuted = !isMuted;
-    if (isMuted) {
-      stopSound();
-    }
-  }
-
-  Future<void> playAssetSound(String assetPath) async {
-    if (isMuted) return;
-    try {
-      await _audioPlayer.play(AssetSource(assetPath));
-    } catch (e) {
-      debugPrint('Failed to play sound asset "$assetPath": $e');
-    }
-  }
-
-  Future<void> stopSound() async {
-    await _audioPlayer.stop();
-  }
-
-  void disposeAudioPlayer() {
-    _audioPlayer.dispose();
   }
 }
 

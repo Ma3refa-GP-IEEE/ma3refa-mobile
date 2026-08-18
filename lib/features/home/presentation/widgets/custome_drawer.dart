@@ -1,11 +1,17 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/audio_service.dart';
+import 'package:ma3refa_mobile/core/utils/custom_snackbar.dart';
 import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.dart';
+import 'package:ma3refa_mobile/features/profile/presentation/widgets/logout_dialog_widget.dart';
 
 class CustomDrawer extends StatefulWidget {
   final String userName;
@@ -235,6 +241,22 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           _showNotAvailableDialog(context, 'Language Change');
                         },
                       ),
+
+                      DrawerItemTile(
+                        icon: Icons.logout_rounded,
+                        iconBgColor: Colors.red.shade50,
+                        iconColor: Colors.red,
+                        title: "Logout",
+                        trailing: IconButton(
+                          icon: Icon(Icons.logout, color: AppColors.textDark),
+                          onPressed: () {
+                            _showLogoutConfirmationDialog();
+                          },
+                        ),
+                        onTap: () {
+                          _showLogoutConfirmationDialog();
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -243,6 +265,37 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showLogoutConfirmationDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: Colors.black12,
+      useRootNavigator: true,
+      builder: (dialogContext) {
+        return LogOutDialogWidget(
+          onConfirm: () async {
+            await CacheHelper.clearData();
+            Navigator.of(dialogContext).pop();
+
+            if (context.mounted) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (Route<dynamic> route) => false,
+              );
+              CustomSnackBar.show(
+                context: context,
+                title: 'Logged Out',
+                message: 'You have been logged out successfully.',
+                contentType: ContentType.success,
+              );
+            }
+          },
+        );
+      },
     );
   }
 

@@ -20,7 +20,7 @@ class HistoryQuizModel {
       score: json['score'],
       totalQuestions: json['total_questions'],
       createdAt: json['created_at'] != null
-          ? DateTime.tryParse(json['created_at'] as String)?.toLocal()
+          ? DateTime.tryParse('${json['created_at']}Z')?.toLocal()
           : null,
     );
   }

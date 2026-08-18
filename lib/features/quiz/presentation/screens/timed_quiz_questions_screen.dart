@@ -118,6 +118,18 @@ class _TimedQuizQuestionsScreenState extends State<TimedQuizQuestionsScreen>
                     },
                   ),
                 ],
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    CustomSnackBar.show(
+                      context: context,
+                      title: 'Quiz In Progress',
+                      message:
+                          'You cannot go back while the quiz is in progress.',
+                      contentType: ContentType.warning,
+                    );
+                  },
+                ),
               ),
               body: SafeArea(
                 child: PageView.builder(

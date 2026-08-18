@@ -3,7 +3,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
-import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:ma3refa_mobile/core/utils/audio_service.dart';
 import 'package:ma3refa_mobile/features/quiz/data/models/result_params.dart';
 import 'package:ma3refa_mobile/features/quiz/presentation/screens/untimed_quiz_questions_screen.dart';
 

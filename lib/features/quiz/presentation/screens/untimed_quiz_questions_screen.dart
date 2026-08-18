@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 import 'dart:math';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:confetti/confetti.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
+import 'package:ma3refa_mobile/core/utils/custom_snackbar.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/home/cubit/home_cubit.dart';
 import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
@@ -107,6 +109,18 @@ class _UntimedQuizQuestionsScreenState extends State<UntimedQuizQuestionsScreen>
                 backgroundColor: Colors.white.withOpacity(0.7),
                 title: Text(widget.quizTitle),
                 centerTitle: false,
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    CustomSnackBar.show(
+                      context: context,
+                      title: 'Quiz In Progress',
+                      message:
+                          'You cannot go back while the quiz is in progress.',
+                      contentType: ContentType.warning,
+                    );
+                  },
+                ),
               ),
               body: SafeArea(
                 child: Stack(

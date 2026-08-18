@@ -102,7 +102,7 @@ class _AnswerOptionWidgetState extends State<AnswerOptionWidget> {
             style: ElevatedButton.styleFrom(
               backgroundColor: getBackgroundColor(),
               padding: EdgeInsets.symmetric(vertical: 16.h),
-              elevation: isSelected && !widget.isAnswered ? 4 : 0,
+              elevation: isSelected && !widget.isAnswered ? 6 : 3,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.r),
                 side: getBorderColor() != Colors.transparent
@@ -114,8 +114,8 @@ class _AnswerOptionWidgetState extends State<AnswerOptionWidget> {
               children: [
                 SizedBox(width: 12.w),
                 Container(
-                  height: 24.h,
-                  width: 24.w,
+                  height: 35.h,
+                  width: 35.w,
                   decoration: BoxDecoration(
                     color: getCircleColor(),
                     shape: BoxShape.circle,
@@ -124,9 +124,11 @@ class _AnswerOptionWidgetState extends State<AnswerOptionWidget> {
                 ),
                 SizedBox(width: 12.w),
                 Expanded(
-                  child: Text(
-                    widget.answers[index],
-                    style: TextStyle(fontSize: 16.sp, color: getTextColor()),
+                  child: Center(
+                    child: Text(
+                      widget.answers[index],
+                      style: TextStyle(fontSize: 16.sp, color: getTextColor()),
+                    ),
                   ),
                 ),
                 SizedBox(width: 12.w),

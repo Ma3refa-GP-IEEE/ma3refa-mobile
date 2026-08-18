@@ -6,7 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
-import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:ma3refa_mobile/core/utils/audio_service.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/screens/login_screen.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/logo_card_widget.dart';
@@ -55,16 +55,18 @@ class OnBoardingScreen extends StatelessWidget {
                       .fade(duration: 500.ms)
                       .slideY(begin: 0.2),
 
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 70.h),
 
-                  SizedBox(
-                    height: 60.h,
+                  ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: 80.h),
                     child: Stack(
                       alignment: Alignment.topCenter,
                       children: [
                         Text(
                               'onboarding_subtitle2'.tr(),
                               textAlign: TextAlign.center,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
                               style: subtitleStyle,
                             )
                             .animate()
@@ -74,6 +76,8 @@ class OnBoardingScreen extends StatelessWidget {
                         Text(
                               'onboarding_subtitle3'.tr(),
                               textAlign: TextAlign.center,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
                               style: subtitleStyle,
                             )
                             .animate(delay: 2.5.seconds)
@@ -83,6 +87,8 @@ class OnBoardingScreen extends StatelessWidget {
                         Text(
                           'onboarding_subtitle4'.tr(),
                           textAlign: TextAlign.center,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
                           style: subtitleStyle,
                         ).animate(delay: 5.seconds).fadeIn(duration: 500.ms),
                       ],

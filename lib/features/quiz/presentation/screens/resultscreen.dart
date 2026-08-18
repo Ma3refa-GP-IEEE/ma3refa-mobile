@@ -1,4 +1,5 @@
 // ignore_for_file: deprecated_member_use
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -6,7 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
-import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:ma3refa_mobile/core/utils/audio_service.dart';
+import 'package:ma3refa_mobile/core/utils/custom_snackbar.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/home/presentation/screens/home_screen.dart';
 import 'package:ma3refa_mobile/features/profile/cubit/profile/profile_cubit.dart';
@@ -62,14 +64,22 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   initState() {
     super.initState();
+    final String difficulty = widget.quizDetailsModel.difficulty;
+    final int difficultyLevel = difficulty == 'easy'
+        ? 1
+        : difficulty == 'medium'
+        ? 2
+        : difficulty == 'hard'
+        ? 3
+        : 0;
     !widget.comingFromQuizScreen
         ? null
-        : widget.quizDetailsModel.score ==
+        : widget.quizDetailsModel.score / difficultyLevel ==
               widget.quizDetailsModel.totalQuestions
         ? getIt<AudioService>().playAssetSound(
             'sounds/dexter_if_userscore_equals_100.mp3',
           )
-        : widget.quizDetailsModel.score >=
+        : widget.quizDetailsModel.score / difficultyLevel >=
               widget.quizDetailsModel.totalQuestions / 2
         ? getIt<AudioService>().playAssetSound(
             'sounds/if_userscore_greaterthan_50.mp3',
@@ -77,6 +87,17 @@ class _ResultScreenState extends State<ResultScreen> {
         : getIt<AudioService>().playAssetSound(
             'sounds/under_50_percent_arabic.mp3',
           );
+    if (widget.comingFromQuizScreen &&
+        widget.quizDetailsModel.totalQuestions == numberOfCorrectAnswers()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        CustomSnackBar.show(
+          context: context,
+          title: '10/10! Hacker vibes 💻✨',
+          message: 'We promise not to check your browser history. 😆',
+          contentType: ContentType.success,
+        );
+      });
+    }
   }
 
   @override

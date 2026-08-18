@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
-import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:ma3refa_mobile/core/utils/audio_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class DailyStreakWidget extends StatefulWidget {

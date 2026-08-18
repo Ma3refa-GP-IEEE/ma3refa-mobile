@@ -4,7 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
-import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:ma3refa_mobile/core/utils/audio_service.dart';
 import 'package:ma3refa_mobile/features/auth/presentation/widgets/custome_button.dart';
 import 'package:ma3refa_mobile/features/home/presentation/widgets/difficulty_selector.dart';
 import 'package:ma3refa_mobile/features/home/presentation/widgets/number_of_question_widget.dart';

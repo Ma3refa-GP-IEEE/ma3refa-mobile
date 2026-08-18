@@ -1,14 +1,17 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:hidable/hidable.dart';
 import 'package:ma3refa_mobile/core/cache/cache_helper.dart';
 import 'package:ma3refa_mobile/core/services/get_it_services.dart';
 import 'package:ma3refa_mobile/core/utils/app_colors.dart';
-import 'package:ma3refa_mobile/core/utils/utils.dart';
+import 'package:ma3refa_mobile/core/utils/audio_service.dart';
+import 'package:ma3refa_mobile/core/utils/custom_snackbar.dart';
 import 'package:ma3refa_mobile/features/auth/data/models/user_model.dart';
 import 'package:ma3refa_mobile/features/home/cubit/home_cubit.dart';
 import 'package:ma3refa_mobile/features/home/cubit/home_states.dart';
@@ -81,14 +84,22 @@ class _HomeScreenState extends State<HomeScreen> {
               return Stack(
                 children: [
                   RefreshIndicator(
+                    edgeOffset: 130.h,
                     onRefresh: () async {
                       await BlocProvider.of<HomeCubit>(
                         context,
                       ).getAllHomeCategories();
+                      CustomSnackBar.show(
+                        context: context,
+                        title: "Home Refreshed! 🎉",
+                        message:
+                            "Your home screen has been updated with the latest content.",
+                        contentType: ContentType.success,
+                      );
                     },
                     child: SingleChildScrollView(
                       padding: EdgeInsets.only(
-                        top: 90.h,
+                        top: 150.h,
                         bottom: 20.h,
                         left: 16.w,
                         right: 16.w,
@@ -149,11 +160,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     left: 0,
                     right: 0,
                     child: Hidable(
+                      preferredWidgetSize: Size.fromHeight(100.h),
                       controller: _scrollController,
                       wOpacity: true,
-                      child: HomeHeaderWidget(
-                        userName: currentUserName,
-                        gender: currentGender,
+                      child: InkWell(
+                        onTap: () {
+                          ZoomDrawer.of(context)!.toggle();
+                        },
+                        child: HomeHeaderWidget(
+                          userName: currentUserName,
+                          gender: currentGender,
+                        ),
                       ),
                     ),
                   ),
